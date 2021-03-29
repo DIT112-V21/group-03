@@ -4,9 +4,8 @@
 
 ### What you are going to make? 
 
-Our product is a Smart Pet Buddy based on a smart car platform that provides users with the solution for improving their pet care routine. 
-Smart Pet Buddy will play with your pet while you are busy with your Zoom meetings. 
-Although you could also use it in manual mode while you are relaxing after another hard day at work.
+Our product is a Smart Pet Buddy app based on a smart car platform that provides pet owners with the solution for improving their pet care routine through manual and automatic play sessions. Smart Pet Buddy will play with your pet while you are busy with your Zoom meetings via prescheduled movement patterns that will acivate your pet. 
+You could also use it in manual mode while you are relaxing after another hard day at work by remotely controlling the movement patterns.
 
 ### Why will you make it? 
 
