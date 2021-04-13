@@ -19,6 +19,7 @@ class RegisterPage extends StatefulWidget {
   State<StatefulWidget> createState() => _RegisterPageState();
 }
 
+
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -67,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     alignment: Alignment.center,
                     child: SignInButtonBuilder(
                       icon: Icons.person_add,
-                      backgroundColor: Colors.blueGrey,
+                      backgroundColor: Colors.green.shade300,
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           await _register();
@@ -116,3 +117,5 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 }
+
+

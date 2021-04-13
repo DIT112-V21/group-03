@@ -13,6 +13,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'controlpanel.dart';
+import 'bottomnavbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -161,8 +162,8 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         ),
       );
       //added this to navigate to controlpanel when signed in
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=> Controlpanel()));
-
+      Navigator.of(context).push(
+          MaterialPageRoute(builder: (BuildContext context) => BottomBar()));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(

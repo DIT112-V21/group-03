@@ -27,8 +27,16 @@ class AuthExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Firebase Example App',
-      theme: ThemeData.dark(),
+      title: 'Smart Pet Buddy',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        accentColor: Colors.orangeAccent,
+        textTheme: TextTheme(
+        headline3: TextStyle(
+        fontFamily: 'OpenSans',
+        fontSize: 45.0,
+        color: Colors.orange,
+      ))),
       home: Scaffold(
         body: AuthTypeSelector(),
       ),
