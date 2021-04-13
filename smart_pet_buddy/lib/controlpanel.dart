@@ -1,0 +1,319 @@
+import 'package:flutter/material.dart';
+import 'flutter_mqtt_client.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
+
+class Controlpanel extends StatefulWidget {
+  Controlpanel({Key key}) : super(key: key);
+
+  @override
+  _ControlpanelState createState() => _ControlpanelState();
+}
+
+class _ControlpanelState extends State<Controlpanel> {
+  // MqttClientConnection connection =
+  //     MqttClientConnection("aerostun.dev", "group3App", 1883);
+  MqttServerClient client;
+  int _counter = 0;
+  int currentSpeed = 0;
+  int reverseSpeed = -30;
+  bool isForward = false;
+  bool isReversed = false;
+  bool isLeft = false;
+  bool isRight = false;
+
+  void _backward() {
+    setState(() {
+      isForward = false;
+      isLeft = false;
+      isRight = false;
+      isReversed = !isReversed;
+    });
+    if (isReversed) {
+      _throttle('$reverseSpeed');
+      _steer('0');
+    } else {
+      _throttle('0');
+    }
+  }
+
+  void _forward() {
+    setState(() {
+      isForward = !isForward;
+      isLeft = false;
+      isRight = false;
+      isReversed = false;
+    });
+    if (isForward) {
+      _throttle('$currentSpeed');
+      _steer('0');
+    } else {
+      _throttle('0');
+    }
+  }
+
+  void _left() {
+    setState(() {
+      isLeft = true;
+      isRight = false;
+    });
+
+    _steer('-75');
+    if (isForward) {
+      _throttle('$currentSpeed');
+    }
+    if (isReversed) {
+      _throttle('$reverseSpeed');
+    }
+  }
+
+  void _cancelLeft() {
+    setState(() {
+      isLeft = false;
+    });
+
+    _steer('0');
+    if (isForward) {
+      _throttle('$currentSpeed');
+    }
+    if (isReversed) {
+      _throttle('$reverseSpeed');
+    }
+  }
+
+  void _right() {
+    setState(() {
+      isRight = true;
+      isLeft = false;
+    });
+
+    _steer('75');
+    _throttle('$currentSpeed');
+  }
+
+  void _cancelRight() {
+    setState(() {
+      isRight = false;
+    });
+    _steer('0');
+    if (isForward) {
+      _throttle('$currentSpeed');
+    }
+    if (isReversed) {
+      _throttle('$reverseSpeed');
+    }
+  }
+
+  void _addSpeed() {
+    setState(() {
+      if (_counter < 5) _counter++;
+    });
+    currentSpeed = _counter * 20;
+    if (isForward || isLeft || isRight) {
+      _throttle('$currentSpeed');
+    }
+  }
+
+  void _reduceSpeed() {
+    setState(() {
+      if (_counter > 0) _counter--;
+      if (_counter == 0) {
+        isForward = false;
+        isRight = false;
+        isLeft = false;
+        _throttle('0');
+      }
+    });
+    currentSpeed = _counter * 20;
+    if (isForward || isLeft || isRight) {
+      _throttle('$currentSpeed');
+    }
+  }
+
+  void _stop() {
+    setState(() {
+      _counter = 0;
+      currentSpeed = 0;
+      isForward = false;
+      isReversed = false;
+      isLeft = false;
+      isRight = false;
+    });
+
+    _throttle('$currentSpeed');
+  }
+
+  void _throttle(String message) {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+    client?.publishMessage('/smartcar/group3/control/throttle',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _moreSpeed(String message) {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+    client?.publishMessage('/smartcar/group3/control/moreSpeed',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _lessSpeed(String message) {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+    client?.publishMessage('/smartcar/group3/control/lessSpeed',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _steer(String message) {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+    client?.publishMessage('/smartcar/group3/control/steering',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+                child: TextButton(
+                  child: Text('Connect'),
+                  onPressed: () => {
+                    connect().then((value) {
+                      client = value;
+                    })
+                  },
+                )),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Container(),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                child: TextButton(
+                  onPressed: _forward,
+                  child: Text("forward"),
+                  style: ButtonStyle(
+                      backgroundColor: isForward
+                          ? MaterialStateProperty.all(Colors.red)
+                          : MaterialStateProperty.all(Colors.blue),
+                      foregroundColor: MaterialStateProperty.all(Colors.white)),
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Container(
+                child: Listener(
+                  //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
+                  onPointerDown: (details) {
+                    _left();
+                  },
+                  onPointerUp: (details) {
+                    _cancelLeft();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: isLeft ? Colors.orange : Colors.deepOrange,
+                        border: Border.all()),
+                    padding: EdgeInsets.all(16.0),
+                    child: Text('left'),
+                  ),
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                child: TextButton(onPressed: _stop, child: Text("stop")),
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: Container(
+                  child: Listener(
+                    onPointerDown: (details) {
+                      _right();
+                    },
+                    onPointerUp: (details) {
+                      _cancelRight();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: isRight ? Colors.pink : Colors.pinkAccent,
+                          border: Border.all()),
+                      padding: EdgeInsets.all(16.0),
+                      child: Text('right'),
+                    ),
+                  )),
+            )
+          ],
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Flexible(
+            flex: 1,
+            child: Container(),
+          ),
+          Flexible(
+            flex: 1,
+            child: Container(
+              child: TextButton(
+                onPressed: _backward,
+                child: Text("backward"),
+                style: ButtonStyle(
+                    backgroundColor: isReversed
+                        ? MaterialStateProperty.all(Colors.yellow[300])
+                        : MaterialStateProperty.all(Colors.yellow[100]),
+                    foregroundColor: MaterialStateProperty.all(Colors.black)),
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Container(),
+          ),
+        ]),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Flexible(flex: 1, child: Text("Current speed")),
+        ]),
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Flexible(
+              flex: 1,
+              child: TextButton(
+                child: Text("-"),
+                onPressed: _reduceSpeed,
+              )),
+          Flexible(
+            flex: 1,
+            child: Text("$_counter"),
+          ),
+          Flexible(
+              flex: 1,
+              child: TextButton(
+                child: Text("+"),
+                onPressed: _addSpeed,
+              )),
+        ])
+      ]),
+    );
+  }
+}

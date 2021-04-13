@@ -12,6 +12,8 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'controlpanel.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for various sign-in flows with Firebase.
@@ -158,6 +160,9 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
           content: Text('${user.email} signed in'),
         ),
       );
+      //added this to navigate to controlpanel when signed in
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context)=> Controlpanel()));
+
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(

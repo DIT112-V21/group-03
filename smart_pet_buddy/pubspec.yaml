@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  mqtt_client: ^9.1.0
+  bitmap: ^0.1.2
   firebase_core: ^1.0.3
   firebase_auth: ^1.0.3
   firebase_dynamic_links: ^0.8.0
