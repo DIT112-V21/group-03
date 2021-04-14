@@ -21,6 +21,12 @@ class _ControlpanelState extends State<Controlpanel> {
   bool isReversed = false;
   bool isLeft = false;
   bool isRight = false;
+  String steerNeutral = '0';
+  String steerLeft = '-75';
+  String steerRight = '75';
+  String throttleNeutral = '0';
+  int multiplier = 20;
+  int maxGear = 5;
 
   void _backward() {
     setState(() {
@@ -31,9 +37,9 @@ class _ControlpanelState extends State<Controlpanel> {
     });
     if (isReversed) {
       _throttle('$reverseSpeed');
-      _steer('0');
+      _steer(steerNeutral);
     } else {
-      _throttle('0');
+      _throttle(throttleNeutral);
     }
   }
 
@@ -46,9 +52,9 @@ class _ControlpanelState extends State<Controlpanel> {
     });
     if (isForward) {
       _throttle('$currentSpeed');
-      _steer('0');
+      _steer(steerNeutral);
     } else {
-      _throttle('0');
+      _throttle(throttleNeutral);
     }
   }
 
@@ -58,7 +64,7 @@ class _ControlpanelState extends State<Controlpanel> {
       isRight = false;
     });
 
-    _steer('-75');
+    _steer(steerLeft);
     if (isForward) {
       _throttle('$currentSpeed');
     }
@@ -72,7 +78,7 @@ class _ControlpanelState extends State<Controlpanel> {
       isLeft = false;
     });
 
-    _steer('0');
+    _steer(steerNeutral);
     if (isForward) {
       _throttle('$currentSpeed');
     }
@@ -87,7 +93,7 @@ class _ControlpanelState extends State<Controlpanel> {
       isLeft = false;
     });
 
-    _steer('75');
+    _steer(steerRight);
     _throttle('$currentSpeed');
   }
 
@@ -95,7 +101,7 @@ class _ControlpanelState extends State<Controlpanel> {
     setState(() {
       isRight = false;
     });
-    _steer('0');
+    _steer(steerNeutral);
     if (isForward) {
       _throttle('$currentSpeed');
     }
@@ -106,9 +112,9 @@ class _ControlpanelState extends State<Controlpanel> {
 
   void _addSpeed() {
     setState(() {
-      if (_counter < 5) _counter++;
+      if (_counter < maxGear) _counter++;
     });
-    currentSpeed = _counter * 20;
+    currentSpeed = _counter * multiplier;
     if (isForward || isLeft || isRight) {
       _throttle('$currentSpeed');
     }
@@ -121,10 +127,10 @@ class _ControlpanelState extends State<Controlpanel> {
         isForward = false;
         isRight = false;
         isLeft = false;
-        _throttle('0');
+        _throttle(throttleNeutral);
       }
     });
-    currentSpeed = _counter * 20;
+    currentSpeed = _counter * multiplier;
     if (isForward || isLeft || isRight) {
       _throttle('$currentSpeed');
     }
