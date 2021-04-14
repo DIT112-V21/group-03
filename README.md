@@ -8,7 +8,7 @@ Our product is a Smart Pet Buddy app based on a smart car platform that provides
 
 The app offers two different modes. In the manually controlled mode, you could play with your pet while you are relaxing after another hard day at work as the app allows you to control the car’s movement patterns remotely in real-time. You can adapt the way the car moves by controlling its velocity, steer it in different directions and reverse it.
 
-In the automated mode, Smart Pet Buddy will play with your pet while you are busy with your Zoom meetings, by starting previousley created and saved movement patterns on you command. These automated play sessions can be prescheduled and customized for your pet.
+In the automated mode, Smart Pet Buddy will play with your pet while you are busy with your Zoom meetings, by starting pre-made movement patterns on you command. You choose the automated play sessions from a play list.
 
 ### Why will you make it? 
 
