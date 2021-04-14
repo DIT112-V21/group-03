@@ -27,6 +27,7 @@ BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
 SR04 sensor(arduinoRuntime, triggerPin, echoPin);
+SR04 front(arduinoRuntime, triggerPin, echoPin, maxDistance);
 
 std::vector<char> frameBuffer;
 
