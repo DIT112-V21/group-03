@@ -36,3 +36,6 @@
 *.ipr
 *.iws
 .idea/
+
+
+smart_pet_buddy/ios/Podfile
