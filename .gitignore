@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
