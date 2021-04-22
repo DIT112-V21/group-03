@@ -7,10 +7,10 @@ class Controlpanel extends StatefulWidget {
   Controlpanel({Key key}) : super(key: key);
 
   @override
-  _ControlpanelState createState() => _ControlpanelState();
+  ControlpanelState createState() => ControlpanelState();
 }
 
-class _ControlpanelState extends State<Controlpanel> {
+class ControlpanelState extends State<Controlpanel> {
   // MqttClientConnection connection =
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
   MqttServerClient client;
@@ -211,6 +211,7 @@ class _ControlpanelState extends State<Controlpanel> {
                 child: TextButton(
                   onPressed: _forward,
                   child: Text("forward"),
+                  key: Key('forwards'),
                   style: ButtonStyle(
                       backgroundColor: isForward
                           ? MaterialStateProperty.all(Colors.red)
@@ -245,6 +246,7 @@ class _ControlpanelState extends State<Controlpanel> {
                         border: Border.all()),
                     padding: EdgeInsets.all(16.0),
                     child: Text('left'),
+                    key: Key('left'),
                   ),
                 ),
               ),
@@ -271,6 +273,7 @@ class _ControlpanelState extends State<Controlpanel> {
                           border: Border.all()),
                       padding: EdgeInsets.all(16.0),
                       child: Text('right'),
+                      key: Key('right'),
                     ),
                   )),
             )
@@ -287,6 +290,7 @@ class _ControlpanelState extends State<Controlpanel> {
               child: TextButton(
                 onPressed: _backward,
                 child: Text("backward"),
+                key: Key('backwards'),
                 style: ButtonStyle(
                     backgroundColor: isReversed
                         ? MaterialStateProperty.all(Colors.yellow[300])
