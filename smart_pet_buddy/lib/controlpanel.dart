@@ -156,6 +156,7 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  // ignore: unused_element
   void _moreSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
@@ -163,6 +164,7 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  // ignore: unused_element
   void _lessSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
