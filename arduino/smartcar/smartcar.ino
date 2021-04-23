@@ -123,7 +123,7 @@ void handleInput()
             car.setAngle(0);
             break;
         case 'c' : // cicrle
-            moveCirlce(50, 50, true)
+            moveCircle(50, 50, true);
             break;
         case 's' :
             snake();
