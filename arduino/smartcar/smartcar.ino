@@ -29,6 +29,9 @@ DifferentialControl control(leftMotor, rightMotor);
 SR04 sensor(arduinoRuntime, triggerPin, echoPin);
 SR04 front(arduinoRuntime, triggerPin, echoPin, maxDistance);
 
+const int GYROSCOPE_OFFSET = 37;
+GY50 gyro(arduinoRuntime, GYROSCOPE_OFFSET);
+
 std::vector<char> frameBuffer;
 
 SimpleCar car(control);
@@ -119,6 +122,15 @@ void handleInput()
             car.setSpeed(bSpeed);
             car.setAngle(0);
             break;
+        case 'c' : // cicrle
+            moveCirlce(50, 50, true)
+            break;
+        case 's' :
+            snake();
+            break;
+        case 'bee' :
+            beeDance();
+            break;
         default: // if you receive something that you don't know, just stop
             car.setSpeed(0);
             car.setAngle(0);
@@ -138,4 +150,59 @@ void avoidObstacles()
         car.setAngle(obstacleRotate);
         car.setSpeed(bSpeed);
     }
+}
+
+void moveCircle( int speed, int angle, bool direction)
+{
+
+   gyro.update();
+  const int startingHeading = gyro.getHeading();
+  int currentHeading = -1;
+
+  if(!direction){
+    angle = -angle;
+    }
+  car.setAngle(angle);
+  car.setSpeed(speed);
+  delay(1000);
+  do{
+
+
+         gyro.update();
+         currentHeading = gyro.getHeading();
+
+
+    }while(currentHeading!= startingHeading);
+
+    car.setSpeed(0);
+
+}
+
+void beeDance(){
+
+  moveCircle(50,100, true);
+  moveCircle(50,100, false);
+
+  }
+
+
+void snake(){
+
+int angle = 100;
+int counter = 0;
+    car.setSpeed(100);
+
+while(counter<8){
+
+    car.setAngle(angle);
+    delay(1000);
+    car.setAngle(0);
+    delay(1000);
+    counter++;
+    angle = -angle;
+
+}
+
+ car.setSpeed(0);
+
 }
