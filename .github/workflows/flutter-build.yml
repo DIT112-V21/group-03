@@ -7,7 +7,7 @@ defaults:
     working-directory: smart_pet_buddy
 
 jobs:
-  build-sketch:
+  build-app:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
