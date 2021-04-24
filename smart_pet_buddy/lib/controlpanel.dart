@@ -177,11 +177,30 @@ class _ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  void _beeDance() {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString("beeDance");
+    client?.publishMessage('/smartcar/group3/control/automove',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _zigzag() {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString("snake");
+    client?.publishMessage('/smartcar/group3/control/automove',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _circle() {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString("circle");
+    client?.publishMessage('/smartcar/group3/control/automove',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return
-
-      Container(
+    return Container(
       alignment: Alignment.center,
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Row(
@@ -189,13 +208,28 @@ class _ControlpanelState extends State<Controlpanel> {
           children: [
             Flexible(
                 child: TextButton(
-                  child: Text('Connect'),
-                  onPressed: () => {
-                    connect().then((value) {
-                      client = value;
-                    })
-                  },
-                )),
+              child: Text('Connect'),
+              onPressed: () => {
+                connect().then((value) {
+                  client = value;
+                })
+              },
+            )),
+            Flexible(
+                child: TextButton(
+              child: Text('BeeDance'),
+              onPressed: _beeDance,
+            )),
+            Flexible(
+                child: TextButton(
+              child: Text('Circle'),
+              onPressed: _circle,
+            )),
+            Flexible(
+                child: TextButton(
+              child: Text('Zigzag'),
+              onPressed: _zigzag,
+            )),
           ],
         ),
         Row(
@@ -259,20 +293,20 @@ class _ControlpanelState extends State<Controlpanel> {
               flex: 1,
               child: Container(
                   child: Listener(
-                    onPointerDown: (details) {
-                      _right();
-                    },
-                    onPointerUp: (details) {
-                      _cancelRight();
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: isRight ? Colors.pink : Colors.pinkAccent,
-                          border: Border.all()),
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('right'),
-                    ),
-                  )),
+                onPointerDown: (details) {
+                  _right();
+                },
+                onPointerUp: (details) {
+                  _cancelRight();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: isRight ? Colors.pink : Colors.pinkAccent,
+                      border: Border.all()),
+                  padding: EdgeInsets.all(16.0),
+                  child: Text('right'),
+                ),
+              )),
             )
           ],
         ),
