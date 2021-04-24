@@ -65,15 +65,15 @@ void setup()
             }
             else if (topic == "/smartcar/group3/control/automove")
             {
-                switch (message)
+                switch (message.charAt(0))
                 {
-                case "beeDance":
+                case 'b':
                     beeDance();
                     break;
-                case "circle":
-                    moveCircle();
+                case 'c':
+                    moveCircle(60, 60, true);
                     break;
-                case "zigzag":
+                case 's':
                     snake();
                     break;
                 default:
@@ -156,7 +156,7 @@ void handleInput()
         case 's':
             snake();
             break;
-        case 'bee':
+        case 'd':
             beeDance();
             break;
         default: // if you receive something that you don't know, just stop
