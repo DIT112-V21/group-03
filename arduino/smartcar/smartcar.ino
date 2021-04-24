@@ -36,60 +36,88 @@ std::vector<char> frameBuffer;
 
 SimpleCar car(control);
 
-void setup() {
+void setup()
+{
     Serial.begin(9600);
     Serial.setTimeout(200);
 
 #ifdef __SMCE__
-  Camera.begin(QVGA, RGB888, 15);
-  frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
-//  mqtt.begin("127.0.0.1", 1883, WiFi);
-  mqtt.begin("aerostun.dev", 1883, WiFi);
+    Camera.begin(QVGA, RGB888, 15);
+    frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+    //  mqtt.begin("127.0.0.1", 1883, WiFi);
+    mqtt.begin("aerostun.dev", 1883, WiFi);
 
-  // mqtt.begin(WiFi); // Will connect to localhost
+    // mqtt.begin(WiFi); // Will connect to localhost
 #else
-  mqtt.begin(net);
+    mqtt.begin(net);
 #endif
-  if (mqtt.connect("arduino", "public", "public")) {
-    mqtt.subscribe("/smartcar/group3/control/#", 1);
-    mqtt.onMessage([](String topic, String message) {
-      if (topic == "/smartcar/group3/control/throttle") {
-        car.setSpeed(message.toInt());
-      } else if (topic == "/smartcar/group3/control/steering") {
-        car.setAngle(message.toInt());
-      } else {
-        Serial.println(topic + " " + message);
-      }
-    });
-  }
+    if (mqtt.connect("arduino", "public", "public"))
+    {
+        mqtt.subscribe("/smartcar/group3/control/#", 1);
+        mqtt.onMessage([](String topic, String message) {
+            if (topic == "/smartcar/group3/control/throttle")
+            {
+                car.setSpeed(message.toInt());
+            }
+            else if (topic == "/smartcar/group3/control/steering")
+            {
+                car.setAngle(message.toInt());
+            }
+            else if (topic == "/smartcar/group3/control/automove")
+            {
+                switch (message)
+                {
+                case "beeDance":
+                    beeDance();
+                    break;
+                case "circle":
+                    moveCircle();
+                    break;
+                case "zigzag":
+                    snake();
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                Serial.println(topic + " " + message);
+            }
+        });
+    }
 }
 
-void loop() {
+void loop()
+{
     handleInput();
     avoidObstacles();
 
-  if (mqtt.connected()) {
-    mqtt.loop();
-    const auto currentTime = millis();
+    if (mqtt.connected())
+    {
+        mqtt.loop();
+        const auto currentTime = millis();
 #ifdef __SMCE__
-    static auto previousFrame = 0UL;
-    if (currentTime - previousFrame >= 65) {
-      previousFrame = currentTime;
-      Camera.readFrame(frameBuffer.data());
-      mqtt.publish("/smartcar/group3/camera", frameBuffer.data(), frameBuffer.size(),
-                   false, 0);
-    }
+        static auto previousFrame = 0UL;
+        if (currentTime - previousFrame >= 65)
+        {
+            previousFrame = currentTime;
+            Camera.readFrame(frameBuffer.data());
+            mqtt.publish("/smartcar/group3/camera", frameBuffer.data(), frameBuffer.size(),
+                         false, 0);
+        }
 #endif
-    static auto previousTransmission = 0UL;
-    if (currentTime - previousTransmission >= oneSecond) {
-      previousTransmission = currentTime;
-      const auto distance = String(front.getDistance());
-      mqtt.publish("/smartcar/group3/ultrasound/front", distance);
+        static auto previousTransmission = 0UL;
+        if (currentTime - previousTransmission >= oneSecond)
+        {
+            previousTransmission = currentTime;
+            const auto distance = String(front.getDistance());
+            mqtt.publish("/smartcar/group3/ultrasound/front", distance);
+        }
     }
-  }
 #ifdef __SMCE__
-  // Avoid over-using the CPU if we are running in the emulator
-  delay(35);
+    // Avoid over-using the CPU if we are running in the emulator
+    delay(35);
 #endif
 }
 
@@ -99,7 +127,7 @@ void loop() {
 //* Availability: https://platisd.github.io/smartcar_shield/manual_control_8ino-example.html
 
 void handleInput()
-{ 
+{
     if (Serial.available())
     {
         char input = Serial.read(); // read everything that has been received so far and log down
@@ -122,13 +150,13 @@ void handleInput()
             car.setSpeed(bSpeed);
             car.setAngle(0);
             break;
-        case 'c' : // cicrle
+        case 'c': // cicrle
             moveCircle(50, 50, true);
             break;
-        case 's' :
+        case 's':
             snake();
             break;
-        case 'bee' :
+        case 'bee':
             beeDance();
             break;
         default: // if you receive something that you don't know, just stop
@@ -152,57 +180,55 @@ void avoidObstacles()
     }
 }
 
-void moveCircle( int speed, int angle, bool direction)
+void moveCircle(int speed, int angle, bool direction)
 {
 
-   gyro.update();
-  const int startingHeading = gyro.getHeading();
-  int currentHeading = -1;
+    gyro.update();
+    const int startingHeading = gyro.getHeading();
+    int currentHeading = -1;
 
-  if(!direction){
-    angle = -angle;
+    if (!direction)
+    {
+        angle = -angle;
     }
-  car.setAngle(angle);
-  car.setSpeed(speed);
-  delay(1000);
-  do{
+    car.setAngle(angle);
+    car.setSpeed(speed);
+    delay(1000);
+    do
+    {
 
+        gyro.update();
+        currentHeading = gyro.getHeading();
 
-         gyro.update();
-         currentHeading = gyro.getHeading();
-
-
-    }while(currentHeading!= startingHeading);
+    } while (currentHeading != startingHeading);
 
     car.setSpeed(0);
-
 }
 
-void beeDance(){
+void beeDance()
+{
 
-  moveCircle(50,100, true);
-  moveCircle(50,100, false);
+    moveCircle(50, 100, true);
+    moveCircle(50, 100, false);
+}
 
-  }
+void snake()
+{
 
-
-void snake(){
-
-int angle = 100;
-int counter = 0;
+    int angle = 100;
+    int counter = 0;
     car.setSpeed(100);
 
-while(counter<8){
+    while (counter < 8)
+    {
 
-    car.setAngle(angle);
-    delay(1000);
-    car.setAngle(0);
-    delay(1000);
-    counter++;
-    angle = -angle;
+        car.setAngle(angle);
+        delay(1000);
+        car.setAngle(0);
+        delay(1000);
+        counter++;
+        angle = -angle;
+    }
 
-}
-
- car.setSpeed(0);
-
+    car.setSpeed(0);
 }
