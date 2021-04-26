@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'controlpanel.dart';
-
 
 
 class CustomPage extends StatefulWidget {

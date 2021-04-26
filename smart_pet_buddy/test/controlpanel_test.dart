@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:smart_pet_buddy/bottomnavbar.dart';
 import 'package:smart_pet_buddy/controlpanel.dart';
 
 void main() {
