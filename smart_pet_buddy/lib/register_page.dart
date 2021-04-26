@@ -10,6 +10,8 @@ import 'package:flutter_signin_button/button_builder.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
+
 /// Entrypoint example for registering via Email/Password.
 class RegisterPage extends StatefulWidget {
   /// The page title.
@@ -24,9 +26,11 @@ class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   bool _success;
   String _userEmail = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +46,16 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  TextFormField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(labelText: 'Name'),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(labelText: 'Email'),
@@ -82,8 +96,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Text(_success == null
                         ? ''
                         : (_success
-                            ? 'Successfully registered $_userEmail'
-                            : 'Registration failed')),
+                        ? 'Successfully registered $_userEmail'
+                        : 'Registration failed')),
                   )
                 ],
               ),
@@ -97,6 +111,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // Clean up the controller when the Widget is disposed
     _emailController.dispose();
     _passwordController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
@@ -108,14 +123,18 @@ class _RegisterPageState extends State<RegisterPage> {
     ))
         .user;
     if (user != null) {
+      await user.updateProfile(displayName: _usernameController.text);
+
       setState(() {
         _success = true;
-        _userEmail = user.email;
+        _userEmail = user.displayName;
       });
+
     } else {
       _success = false;
     }
   }
 }
+
 
 
