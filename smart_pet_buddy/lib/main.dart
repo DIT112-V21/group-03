@@ -57,7 +57,7 @@ class AuthTypeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firebase Example App'),
+        title: const Text('Smart Pet Buddy'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
