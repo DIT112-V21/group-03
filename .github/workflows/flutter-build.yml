@@ -21,6 +21,5 @@ jobs:
         run: flutter pub get
       - name: Analyzing ...
         run: flutter analyze .
-      - name: Running tests
       - name: Building app apk
         run: flutter build apk
