@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'flutter_mqtt_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'dart:math';
 
 class Controlpanel extends StatefulWidget {
   Controlpanel({Key key}) : super(key: key);
@@ -234,6 +236,7 @@ class ControlpanelState extends State<Controlpanel> {
             )),
           ],
         ),
+        Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -244,15 +247,19 @@ class ControlpanelState extends State<Controlpanel> {
             Flexible(
               flex: 1,
               child: Container(
-                child: TextButton(
-                  onPressed: _forward,
-                  child: Text("forward"),
-                  key: Key('forwards'),
-                  style: ButtonStyle(
-                      backgroundColor: isForward
-                          ? MaterialStateProperty.all(Colors.red)
-                          : MaterialStateProperty.all(Colors.blue),
-                      foregroundColor: MaterialStateProperty.all(Colors.white)),
+                height: 120,
+                child: Transform.rotate(
+                  angle: 270 * pi / 180,
+                  child: IconButton(
+                    key: Key('forwards'),
+                    onPressed: _forward,
+                    splashRadius: 1.0,
+                    iconSize: 90,
+                    color: isForward ? HexColor("809ec2") : HexColor("aebccb"),
+                    icon: Icon(
+                      Icons.play_circle_fill,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -267,52 +274,70 @@ class ControlpanelState extends State<Controlpanel> {
           children: [
             Flexible(
               flex: 1,
-              child: Container(
-                child: Listener(
-                  //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
-                  onPointerDown: (details) {
-                    _left();
-                  },
-                  onPointerUp: (details) {
-                    _cancelLeft();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: isLeft ? Colors.orange : Colors.deepOrange,
-                        border: Border.all()),
-                    padding: EdgeInsets.all(16.0),
-                    child: Text('left'),
-                    key: Key('left'),
+              child: Transform.rotate(
+                angle: 180 * pi / 180,
+                child: Container(
+                  key: Key('left'),
+                  margin: EdgeInsetsDirectional.only(start: 15),
+                  child: Listener(
+                    //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
+                    onPointerDown: (details) {
+                      _left();
+                    },
+                    onPointerUp: (details) {
+                      _cancelLeft();
+                    },
+                    child: Icon(
+                      Icons.play_circle_fill,
+                      color: isLeft ? HexColor("809ec2") : HexColor("aebccb"),
+                      size: 90,
+                    ),
                   ),
                 ),
               ),
             ),
             Flexible(
               flex: 1,
-              child: Container(
-                child: TextButton(onPressed: _stop, child: Text("stop")),
+              child: TextButton(
+                onPressed: _stop,
+                child: Text(
+                  "S",
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+                  shape: MaterialStateProperty.all<CircleBorder>(
+                    CircleBorder(
+                      //borderRadius: BorderRadius.circular(18.0),
+                    ),
+                  ),
+                ),
               ),
             ),
             Flexible(
               flex: 1,
-              child: Container(
+              child: Transform.rotate(
+                angle: 0 * pi / 180,
+                child: Container(
+                  key: Key('right'),
+                  margin: EdgeInsetsDirectional.only(start: 15),
                   child: Listener(
+                    //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
                     onPointerDown: (details) {
                       _right();
                     },
                     onPointerUp: (details) {
                       _cancelRight();
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: isRight ? Colors.pink : Colors.pinkAccent,
-                          border: Border.all()),
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('right'),
-                      key: Key('right'),
+                    child: Icon(
+                      Icons.play_circle_fill,
+                      color: isRight ? HexColor("809ec2") : HexColor("aebccb"),
+                      size: 90,
                     ),
-                  )),
-            )
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -323,15 +348,18 @@ class ControlpanelState extends State<Controlpanel> {
           Flexible(
             flex: 1,
             child: Container(
-              child: TextButton(
-                onPressed: _backward,
-                child: Text("backward"),
-                key: Key('backwards'),
-                style: ButtonStyle(
-                    backgroundColor: isReversed
-                        ? MaterialStateProperty.all(Colors.yellow[300])
-                        : MaterialStateProperty.all(Colors.yellow[100]),
-                    foregroundColor: MaterialStateProperty.all(Colors.black)),
+              child: Transform.rotate(
+                angle: 90 * pi / 180,
+                child: IconButton(
+                  key: Key('backwards'),
+                  onPressed: _backward,
+                  splashRadius: 1.0,
+                  iconSize: 90,
+                  color: isReversed ? HexColor("809ec2") : HexColor("aebccb"),
+                  icon: Icon(
+                    Icons.play_circle_fill,
+                  ),
+                ),
               ),
             ),
           ),
@@ -340,6 +368,7 @@ class ControlpanelState extends State<Controlpanel> {
             child: Container(),
           ),
         ]),
+        Spacer(),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Flexible(flex: 1, child: Text("Current speed")),
         ]),
