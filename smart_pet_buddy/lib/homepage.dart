@@ -17,29 +17,29 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Home'),
         backgroundColor:Colors.green.shade400,
-          actions: <Widget>[
-            Builder(builder: (BuildContext context) {
-              return FlatButton(
-                textColor: Theme.of(context).buttonColor,
-                onPressed: () async {
-                  final User user = _auth.currentUser;
-                  if (user == null) {
-                    Scaffold.of(context).showSnackBar(const SnackBar(
-                      content: Text('No one has signed in.'),
-                    ));
-                    return;
-                  }
-                  await _signOut();
-
-                  final String uid = user.uid;
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text('$uid has successfully signed out.'),
+        actions: <Widget>[
+          Builder(builder: (BuildContext context) {
+            return TextButton(
+              style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).buttonColor)),
+              onPressed: () async {
+                final User user = _auth.currentUser;
+                if (user == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('No one has signed in.'),
                   ));
-                },
-                child: const Text('Sign out'),
-              );
-            })
-          ],
+                  return;
+                }
+                await _signOut();
+
+                final String uid = user.uid;
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('$uid has successfully signed out.'),
+                ));
+              },
+              child: const Text('Sign out'),
+            );
+          })
+        ],
       ),
       body: Controlpanel(),
     );
