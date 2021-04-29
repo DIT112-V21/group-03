@@ -207,39 +207,154 @@ class ControlpanelState extends State<Controlpanel> {
     return Container(
       alignment: Alignment.center,
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-                child: TextButton(
-              child: Text('Connect'),
-              onPressed: () => {
-                connect().then((value) {
-                  widget.client = value;
-                })
-              },
-            )),
-            Flexible(
-                child: TextButton(
-              child: Text('BeeDance'),
-              onPressed: _beeDance,
-            )),
-            Flexible(
-                child: TextButton(
-              child: Text('Circle'),
-              onPressed: _circle,
-            )),
-            Flexible(
-                child: TextButton(
-              child: Text('Zigzag'),
-              onPressed: _zigzag,
-            )),
-          ],
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                  child: TextButton(
+                child: Text('Connect'),
+                onPressed: () => {
+                  connect().then((value) {
+                    widget.client = value;
+                  })
+                },
+              )),
+              Flexible(
+                  child: TextButton(
+                child: Text('BeeDance'),
+                onPressed: _beeDance,
+              )),
+              Flexible(
+                  child: TextButton(
+                child: Text('Circle'),
+                onPressed: _circle,
+              )),
+              Flexible(
+                  child: TextButton(
+                child: Text('Zigzag'),
+                onPressed: _zigzag,
+              )),
+            ],
+          ),
         ),
         Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+        Expanded(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                flex: 1,
+                child: Container(),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  height: 120,
+                  child: Transform.rotate(
+                    angle: 270 * pi / 180,
+                    child: IconButton(
+                      key: Key('forwards'),
+                      onPressed: _forward,
+                      splashRadius: 1.0,
+                      iconSize: 90,
+                      color:
+                          isForward ? HexColor("809ec2") : HexColor("aebccb"),
+                      icon: Icon(
+                        Icons.play_circle_fill,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                flex: 1,
+                child: Transform.rotate(
+                  angle: 180 * pi / 180,
+                  child: Container(
+                    key: Key('left'),
+                    margin: EdgeInsetsDirectional.only(start: 15),
+                    child: Listener(
+                      //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
+                      onPointerDown: (details) {
+                        _left();
+                      },
+                      onPointerUp: (details) {
+                        _cancelLeft();
+                      },
+                      child: Icon(
+                        Icons.play_circle_fill,
+                        color: isLeft ? HexColor("809ec2") : HexColor("aebccb"),
+                        size: 90,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: TextButton(
+                  onPressed: _stop,
+                  child: Text(
+                    "S",
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.red),
+                    shape: MaterialStateProperty.all<CircleBorder>(
+                      CircleBorder(
+                          //borderRadius: BorderRadius.circular(18.0),
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Transform.rotate(
+                  angle: 0 * pi / 180,
+                  child: Container(
+                    key: Key('right'),
+                    margin: EdgeInsetsDirectional.only(start: 15),
+                    child: Listener(
+                      //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
+                      onPointerDown: (details) {
+                        _right();
+                      },
+                      onPointerUp: (details) {
+                        _cancelRight();
+                      },
+                      child: Icon(
+                        Icons.play_circle_fill,
+                        color:
+                            isRight ? HexColor("809ec2") : HexColor("aebccb"),
+                        size: 90,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Flexible(
               flex: 1,
               child: Container(),
@@ -247,15 +362,14 @@ class ControlpanelState extends State<Controlpanel> {
             Flexible(
               flex: 1,
               child: Container(
-                height: 120,
                 child: Transform.rotate(
-                  angle: 270 * pi / 180,
+                  angle: 90 * pi / 180,
                   child: IconButton(
-                    key: Key('forwards'),
-                    onPressed: _forward,
+                    key: Key('backwards'),
+                    onPressed: _backward,
                     splashRadius: 1.0,
                     iconSize: 90,
-                    color: isForward ? HexColor("809ec2") : HexColor("aebccb"),
+                    color: isReversed ? HexColor("809ec2") : HexColor("aebccb"),
                     icon: Icon(
                       Icons.play_circle_fill,
                     ),
@@ -267,112 +381,16 @@ class ControlpanelState extends State<Controlpanel> {
               flex: 1,
               child: Container(),
             ),
-          ],
+          ]),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Flexible(
-              flex: 1,
-              child: Transform.rotate(
-                angle: 180 * pi / 180,
-                child: Container(
-                  key: Key('left'),
-                  margin: EdgeInsetsDirectional.only(start: 15),
-                  child: Listener(
-                    //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
-                    onPointerDown: (details) {
-                      _left();
-                    },
-                    onPointerUp: (details) {
-                      _cancelLeft();
-                    },
-                    child: Icon(
-                      Icons.play_circle_fill,
-                      color: isLeft ? HexColor("809ec2") : HexColor("aebccb"),
-                      size: 90,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: TextButton(
-                onPressed: _stop,
-                child: Text(
-                  "S",
-                  style: TextStyle(color: Colors.white, fontSize: 30),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                  shape: MaterialStateProperty.all<CircleBorder>(
-                    CircleBorder(
-                      //borderRadius: BorderRadius.circular(18.0),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Transform.rotate(
-                angle: 0 * pi / 180,
-                child: Container(
-                  key: Key('right'),
-                  margin: EdgeInsetsDirectional.only(start: 15),
-                  child: Listener(
-                    //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
-                    onPointerDown: (details) {
-                      _right();
-                    },
-                    onPointerUp: (details) {
-                      _cancelRight();
-                    },
-                    child: Icon(
-                      Icons.play_circle_fill,
-                      color: isRight ? HexColor("809ec2") : HexColor("aebccb"),
-                      size: 90,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Flexible(
-            flex: 1,
-            child: Container(),
-          ),
-          Flexible(
-            flex: 1,
-            child: Container(
-              child: Transform.rotate(
-                angle: 90 * pi / 180,
-                child: IconButton(
-                  key: Key('backwards'),
-                  onPressed: _backward,
-                  splashRadius: 1.0,
-                  iconSize: 90,
-                  color: isReversed ? HexColor("809ec2") : HexColor("aebccb"),
-                  icon: Icon(
-                    Icons.play_circle_fill,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Flexible(
-            flex: 1,
-            child: Container(),
-          ),
-        ]),
         Spacer(),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Flexible(flex: 1, child: Text("Current speed")),
-        ]),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Expanded(
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Flexible(flex: 1, child: Text("Current speed")),
+          ]),
+        ),
+        Expanded(
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Flexible(
               flex: 1,
               child: TextButton(
@@ -389,7 +407,7 @@ class ControlpanelState extends State<Controlpanel> {
                 child: Text("+"),
                 onPressed: _addSpeed,
               )),
-        ])
+        ])),
       ]),
     );
   }
