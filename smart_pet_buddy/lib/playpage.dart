@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'controlpanel.dart';
-
-
 
 class PlayPage extends StatefulWidget {
   @override

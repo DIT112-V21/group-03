@@ -62,7 +62,7 @@ Future<MqttClient> connect() async {
         //   int b = picData[3 * i + 2];
         //   colors[i]= Color.fromARGB(255, r, g, b);
         // }
-
+        // ignore: unused_local_variable
         Bitmap bm = Bitmap.fromHeadless(320, 240, picData);
       } else {
         print('Received message:$payload from topic: ${c[0].topic}>');
