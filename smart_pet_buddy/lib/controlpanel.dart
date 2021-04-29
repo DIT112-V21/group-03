@@ -96,7 +96,12 @@ class ControlpanelState extends State<Controlpanel> {
     });
 
     _steer(steerRight);
-    _throttle('$currentSpeed');
+    if (isForward) {
+      _throttle('$currentSpeed');
+    }
+    if (isReversed) {
+      _throttle('$reverseSpeed');
+    }
   }
 
   void _cancelRight() {
@@ -204,9 +209,9 @@ class ControlpanelState extends State<Controlpanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+    return Scaffold( //Container
+      //alignment: Alignment.center,
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [ //child
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
