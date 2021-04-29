@@ -10,24 +10,30 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 
 
 class CustomPage extends StatefulWidget {
-  CustomPage({Key key}) : super(key: key);
+  CustomPage({Key key, this.client}) : super(key: key);
+  MqttServerClient client;
 
   @override
   _CustomPageState createState() => _CustomPageState();
 }
 
 class _CustomPageState extends State<CustomPage> {
-  MqttServerClient client = Controlpanel.client;
+  //MqttServerClient client;
   static String imageUrl = 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&dl=alexander-london-mJaD10XeD7w-unsplash.jpg';
   static MovementInfo beeDance = MovementInfo('beeDance', imageUrl, 'beeDance');
   static MovementInfo circle = MovementInfo('circle', imageUrl, 'circle');
   static MovementInfo zigzag = MovementInfo('zigzag', imageUrl, 'zigzag');
   List <MovementInfo> movementList = <MovementInfo> [beeDance, circle, zigzag];
 
+  @override
+  void initState(){
+    super.initState();
+    //client = Controlpanel.client;
+  }
   void _command(String command) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(command);
-    client?.publishMessage('/smartcar/group3/control/automove',
+    widget.client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
 

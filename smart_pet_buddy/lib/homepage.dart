@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 import 'controlpanel.dart';
 import 'main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
+  MqttServerClient client;
+
+  HomePage({Key key, this.client}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -41,7 +46,7 @@ class _HomePageState extends State<HomePage> {
             })
           ],
       ),
-      body: Controlpanel(),
+      body: Controlpanel(client: widget.client),
     );
   }
 

@@ -3,6 +3,9 @@ import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
 import 'package:smart_pet_buddy/profilepage.dart';
+import 'flutter_mqtt_client.dart';
+import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt_client/mqtt_server_client.dart';
 
 class BottomBar extends StatefulWidget {
   @override
@@ -11,9 +14,18 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   int _currentIndex = 0;
+  MqttServerClient client;
 
-  final tabs = [HomePage(), PlayPage(), CustomPage(), ProfilePage()];
-
+  List <Widget> tabs = <Widget>[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    connect().then((value) {
+      client = value;
+    });
+    tabs = [HomePage(client: client), PlayPage(), CustomPage(client: client), ProfilePage()];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

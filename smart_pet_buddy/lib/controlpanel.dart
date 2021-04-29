@@ -4,8 +4,8 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key}) : super(key: key);
-  static MqttServerClient client;
+  Controlpanel({Key key, this.client}) : super(key: key);
+  MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
 }
@@ -13,7 +13,7 @@ class Controlpanel extends StatefulWidget {
 class ControlpanelState extends State<Controlpanel> {
   // MqttClientConnection connection =
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
-  MqttServerClient client = Controlpanel.client;
+  // MqttServerClient client = Controlpanel.client;
   int _counter = 0;
   int currentSpeed = 0;
   int reverseSpeed = -30;
@@ -152,49 +152,49 @@ class ControlpanelState extends State<Controlpanel> {
   void _throttle(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/throttle',
+    widget.client?.publishMessage('/smartcar/group3/control/throttle',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _moreSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/moreSpeed',
+    widget.client?.publishMessage('/smartcar/group3/control/moreSpeed',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _lessSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/lessSpeed',
+    widget.client?.publishMessage('/smartcar/group3/control/lessSpeed',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _steer(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/steering',
+    widget.client?.publishMessage('/smartcar/group3/control/steering',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _beeDance() {
     final builder = MqttClientPayloadBuilder();
     builder.addString("beeDance");
-    client?.publishMessage('/smartcar/group3/control/automove',
+    widget.client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _zigzag() {
     final builder = MqttClientPayloadBuilder();
     builder.addString("snake");
-    client?.publishMessage('/smartcar/group3/control/automove',
+    widget.client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _circle() {
     final builder = MqttClientPayloadBuilder();
     builder.addString("circle");
-    client?.publishMessage('/smartcar/group3/control/automove',
+    widget.client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
 
@@ -211,7 +211,7 @@ class ControlpanelState extends State<Controlpanel> {
               child: Text('Connect'),
               onPressed: () => {
                 connect().then((value) {
-                  client = value;
+                  widget.client = value;
                 })
               },
             )),
