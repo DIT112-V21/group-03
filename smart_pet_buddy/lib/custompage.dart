@@ -19,10 +19,12 @@ class CustomPage extends StatefulWidget {
 
 class _CustomPageState extends State<CustomPage> {
   //MqttServerClient client;
-  static String imageUrl = 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&dl=alexander-london-mJaD10XeD7w-unsplash.jpg';
-  static MovementInfo beeDance = MovementInfo('beeDance', imageUrl, 'beeDance');
-  static MovementInfo circle = MovementInfo('circle', imageUrl, 'circle');
-  static MovementInfo zigzag = MovementInfo('zigzag', imageUrl, 'zigzag');
+  static String imageUrlBee = 'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80';
+  static String imageUrlCircle = 'https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2001&q=80';
+  static String imageUrlZigzag = 'https://images.unsplash.com/photo-1562119464-eaa5ff353ead?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80';
+  static MovementInfo beeDance = MovementInfo('beeDance', imageUrlBee, 'beeDance');
+  static MovementInfo circle = MovementInfo('circle', imageUrlCircle, 'circle');
+  static MovementInfo zigzag = MovementInfo('zigzag', imageUrlZigzag, 'zigzag');
   List <MovementInfo> movementList = <MovementInfo> [beeDance, circle, zigzag];
 
   @override
