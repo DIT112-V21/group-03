@@ -234,7 +234,8 @@ class ControlpanelState extends State<Controlpanel> {
                             child: Text('Connect'),
                             onPressed: () => {
                                 connect().then((value) {
-                                  SpbMqttClient.client = value;
+                                  client = value;
+                                  SpbMqttClient.client = client;
                                   setState(() {});
                                    })
                                     },
