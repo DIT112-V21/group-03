@@ -6,9 +6,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
+//ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key}) : super(key: key);
-
+  Controlpanel({Key key, this.client}) : super(key: key);
+  MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
 }
@@ -16,7 +17,9 @@ class Controlpanel extends StatefulWidget {
 class ControlpanelState extends State<Controlpanel> {
   // MqttClientConnection connection =
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
+
   MqttServerClient client = SpbMqttClient.client;
+
   int _counter = 0;
   int currentSpeed = 0;
   int reverseSpeed = -30;
@@ -160,7 +163,7 @@ class ControlpanelState extends State<Controlpanel> {
   void _throttle(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/throttle',
+    widget.client?.publishMessage('/smartcar/group3/control/throttle',
         MqttQos.atLeastOnce, builder.payload);
   }
 
@@ -168,7 +171,7 @@ class ControlpanelState extends State<Controlpanel> {
   void _moreSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/moreSpeed',
+    widget.client?.publishMessage('/smartcar/group3/control/moreSpeed',
         MqttQos.atLeastOnce, builder.payload);
   }
 
@@ -176,14 +179,14 @@ class ControlpanelState extends State<Controlpanel> {
   void _lessSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/lessSpeed',
+    widget.client?.publishMessage('/smartcar/group3/control/lessSpeed',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _steer(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/steering',
+    widget.client?.publishMessage('/smartcar/group3/control/steering',
         MqttQos.atLeastOnce, builder.payload);
   }
 

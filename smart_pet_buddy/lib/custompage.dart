@@ -71,6 +71,7 @@ class _CustomPageState extends State<CustomPage> {
         ),
         body: Container(
           //child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+     
           child: ListView.separated(
             itemCount: movementList.length,
             itemBuilder: (BuildContext context, int index) {
@@ -124,5 +125,6 @@ class _CustomPageState extends State<CustomPage> {
           //]
           //),
         ));
+
   }
 }

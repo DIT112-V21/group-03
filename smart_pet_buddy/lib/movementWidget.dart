@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/movementInfo.dart';
 
+
 class MovementWidget extends StatefulWidget {
   final MovementInfo info;
   final GestureTapCallback onPressed;
