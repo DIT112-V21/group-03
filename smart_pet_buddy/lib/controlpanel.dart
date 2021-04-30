@@ -5,6 +5,7 @@ import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 
+//ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
   Controlpanel({Key key, this.client}) : super(key: key);
   MqttServerClient client;

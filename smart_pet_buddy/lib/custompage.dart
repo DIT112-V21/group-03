@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/movementInfo.dart';
 import 'package:smart_pet_buddy/movementWidget.dart';
-import 'controlpanel.dart';
-import 'flutter_mqtt_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 
-
+//ignore: must_be_immutable
 class CustomPage extends StatefulWidget {
   CustomPage({Key key, this.client}) : super(key: key);
   MqttServerClient client;
