@@ -189,9 +189,9 @@ class ControlpanelState extends State<Controlpanel> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+    return Scaffold(
+      //alignment: Alignment.center,
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
           flex: 1,
           child: Row(
