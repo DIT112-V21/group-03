@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/movementInfo.dart';
 import 'package:smart_pet_buddy/movementWidget.dart';
-import 'package:smart_pet_buddy/mqttClient.dart';
+import 'package:smart_pet_buddy/spbMqttClient.dart';
 import 'controlpanel.dart';
 import 'flutter_mqtt_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -16,7 +16,7 @@ class CustomPage extends StatefulWidget {
 }
 
 class _CustomPageState extends State<CustomPage> {
-  MqttServerClient client = SPBMqttClient.client;
+  MqttServerClient client = SpbMqttClient.client;
   static String imageUrlBee =
       'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80';
   static String imageUrlCircle =
