@@ -201,7 +201,7 @@ class ControlpanelState extends State<Controlpanel> {
                   child: SpbMqttClient.isConnected
                       ?
                        TextButton(
-                          child: Text('Disconnect'),
+                          child: Text('Disconnect',style: TextStyle(color: Colors.red)),
                           onPressed: () => {(){
                             client.disconnect();
                             setState(() {});
@@ -210,7 +210,7 @@ class ControlpanelState extends State<Controlpanel> {
 
                           },
                         ):TextButton(
-                            child: Text('Connect'),
+                            child: Text('Connect',style: TextStyle(color: Colors.green)),
                             onPressed: () => {
                                 connect().then((value) {
                                   client = value;
