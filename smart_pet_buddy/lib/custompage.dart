@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/movementInfo.dart';
 import 'package:smart_pet_buddy/movementWidget.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
-import 'controlpanel.dart';
-import 'flutter_mqtt_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
@@ -25,9 +23,10 @@ class _CustomPageState extends State<CustomPage> {
       'https://images.unsplash.com/photo-1562119464-eaa5ff353ead?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80';
   static MovementInfo beeDance =
       MovementInfo('BeeDance', imageUrlBee, 'beeDance');
+  static MovementInfo stop = MovementInfo('Stop', imageUrlBee, 'stop');
   static MovementInfo circle = MovementInfo('Circle', imageUrlCircle, 'circle');
-  static MovementInfo zigzag = MovementInfo('Snake', imageUrlZigzag, 'snake');
-  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag];
+  static MovementInfo zigzag = MovementInfo('Zigzag', imageUrlZigzag, 'zigzag');
+  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag, stop];
 
   @override
   void initState() {

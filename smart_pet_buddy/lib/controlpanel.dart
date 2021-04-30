@@ -182,27 +182,6 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
-  void _beeDance() {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString("beeDance");
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
-  void _zigzag() {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString("snake");
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
-  void _circle() {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString("circle");
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -215,23 +194,26 @@ class ControlpanelState extends State<Controlpanel> {
             children: [
               Flexible(
                   child: SpbMqttClient.isConnected
-                      ? TextButton(
-                          child: Text('Connect'),
-                          onPressed: () => {
-                            connect().then((value) {
-                              SpbMqttClient.client = value;
-                              setState(() {});
-                            })
-                          },
-                        )
-                      : TextButton(
-                          child: Text('Disconnected'),
-                          onPressed: () => {
-                            SpbMqttClient.client.disconnect();
+                      ?
+                       TextButton(
+                          child: Text('Disconnect'),
+                          onPressed: () => {(){
+                            client.disconnect();
                             setState(() {});
 
+                          }
+
                           },
-                        )),
+                        ):TextButton(
+                            child: Text('Connect'),
+                            onPressed: () => {
+                                connect().then((value) {
+                                  SpbMqttClient.client = value;
+                                  setState(() {});
+                                   })
+                                    },
+                              )
+              ),
             ],
           ),
         ),
