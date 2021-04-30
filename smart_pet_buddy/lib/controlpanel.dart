@@ -222,21 +222,6 @@ class ControlpanelState extends State<Controlpanel> {
                   })
                 },
               )),
-              Flexible(
-                  child: TextButton(
-                child: Text('BeeDance'),
-                onPressed: _beeDance,
-              )),
-              Flexible(
-                  child: TextButton(
-                child: Text('Circle'),
-                onPressed: _circle,
-              )),
-              Flexible(
-                  child: TextButton(
-                child: Text('Zigzag'),
-                onPressed: _zigzag,
-              )),
             ],
           ),
         ),
