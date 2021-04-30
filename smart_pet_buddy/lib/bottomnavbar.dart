@@ -16,7 +16,7 @@ class _BottomBarState extends State<BottomBar> {
   int _currentIndex = 0;
   MqttServerClient client;
 
-  List <Widget> tabs = <Widget>[];
+  List<Widget> tabs = <Widget>[];
   @override
   void initState() {
     // TODO: implement initState
@@ -24,8 +24,9 @@ class _BottomBarState extends State<BottomBar> {
     connect().then((value) {
       client = value;
     });
-    tabs = [HomePage(client: client), PlayPage(), CustomPage(client: client), ProfilePage()];
+    tabs = [HomePage(), PlayPage(), CustomPage(), ProfilePage()];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
