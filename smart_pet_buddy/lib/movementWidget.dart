@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/movementInfo.dart';
-import 'flutter_mqtt_client.dart';
-import 'package:mqtt_client/mqtt_client.dart';
-import 'package:mqtt_client/mqtt_server_client.dart';
 
 class MovementWidget extends StatefulWidget {
   final MovementInfo info;
