@@ -8,7 +8,7 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 class Controlpanel extends StatefulWidget {
   Controlpanel({Key key}) : super(key: key);
-  // MqttServerClient client;
+
   @override
   ControlpanelState createState() => ControlpanelState();
 }
@@ -97,7 +97,12 @@ class ControlpanelState extends State<Controlpanel> {
     });
 
     _steer(steerRight);
-    _throttle('$currentSpeed');
+    if (isForward) {
+      _throttle('$currentSpeed');
+    }
+    if (isReversed) {
+      _throttle('$reverseSpeed');
+    }
   }
 
   void _cancelRight() {
@@ -179,6 +184,27 @@ class ControlpanelState extends State<Controlpanel> {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
     client?.publishMessage('/smartcar/group3/control/steering',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _beeDance() {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString("beeDance");
+    client?.publishMessage('/smartcar/group3/control/automove',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _zigzag() {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString("snake");
+    client?.publishMessage('/smartcar/group3/control/automove',
+        MqttQos.atLeastOnce, builder.payload);
+  }
+
+  void _circle() {
+    final builder = MqttClientPayloadBuilder();
+    builder.addString("circle");
+    client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
 
