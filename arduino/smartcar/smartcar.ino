@@ -73,8 +73,11 @@ void setup()
                 case 'c':
                     moveCircle(60, 60, true);
                     break;
-                case 's':
+                case 'z':
                     snake();
+                    break;
+                case 's':
+                    car.setSpeed(0);
                     break;
                 default:
                     break;

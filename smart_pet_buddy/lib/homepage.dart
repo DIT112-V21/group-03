@@ -6,6 +6,10 @@ import 'main.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
+  // MqttServerClient client;
+
+  HomePage({Key key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -13,14 +17,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
-        backgroundColor:Colors.green.shade400,
+        backgroundColor: Colors.green.shade400,
         actions: <Widget>[
           Builder(builder: (BuildContext context) {
             return TextButton(
-              style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).buttonColor)),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).buttonColor)),
               onPressed: () async {
                 final User user = _auth.currentUser;
                 if (user == null) {
@@ -47,7 +53,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _signOut() async {
     await _auth.signOut();
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (BuildContext context) => AuthTypeSelector()));
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => AuthTypeSelector()));
   }
 }
