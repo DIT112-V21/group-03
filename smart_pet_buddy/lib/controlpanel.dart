@@ -8,8 +8,8 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 //ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key, this.client}) : super(key: key);
-  MqttServerClient client;
+  Controlpanel({Key key,}) : super(key: key);
+  //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
 }
@@ -163,7 +163,7 @@ class ControlpanelState extends State<Controlpanel> {
   void _throttle(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    widget.client?.publishMessage('/smartcar/group3/control/throttle',
+    client?.publishMessage('/smartcar/group3/control/throttle',
         MqttQos.atLeastOnce, builder.payload);
   }
 
@@ -171,7 +171,7 @@ class ControlpanelState extends State<Controlpanel> {
   void _moreSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    widget.client?.publishMessage('/smartcar/group3/control/moreSpeed',
+    client?.publishMessage('/smartcar/group3/control/moreSpeed',
         MqttQos.atLeastOnce, builder.payload);
   }
 
@@ -179,14 +179,14 @@ class ControlpanelState extends State<Controlpanel> {
   void _lessSpeed(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    widget.client?.publishMessage('/smartcar/group3/control/lessSpeed',
+    client?.publishMessage('/smartcar/group3/control/lessSpeed',
         MqttQos.atLeastOnce, builder.payload);
   }
 
   void _steer(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
-    widget.client?.publishMessage('/smartcar/group3/control/steering',
+    client?.publishMessage('/smartcar/group3/control/steering',
         MqttQos.atLeastOnce, builder.payload);
   }
 
