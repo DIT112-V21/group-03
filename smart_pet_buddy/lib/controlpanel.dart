@@ -214,14 +214,24 @@ class ControlpanelState extends State<Controlpanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                  child: TextButton(
-                child: Text('Connect'),
-                onPressed: () => {
-                  connect().then((value) {
-                    SpbMqttClient.client = value;
-                  })
-                },
-              )),
+                  child: SpbMqttClient.isConnected
+                      ? TextButton(
+                          child: Text('Connect'),
+                          onPressed: () => {
+                            connect().then((value) {
+                              SpbMqttClient.client = value;
+                              setState(() {});
+                            })
+                          },
+                        )
+                      : TextButton(
+                          child: Text('Disconnected'),
+                          onPressed: () => {
+                            SpbMqttClient.client.disconnect();
+                            setState(() {});
+
+                          },
+                        )),
             ],
           ),
         ),
