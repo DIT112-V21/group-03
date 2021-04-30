@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/profile_widget.dart';
 import 'package:smart_pet_buddy/user.dart';
 import 'package:smart_pet_buddy/user_preferences.dart';
-
 import 'appbar_widget.dart';
+
 
 
 class ProfilePage extends StatefulWidget {

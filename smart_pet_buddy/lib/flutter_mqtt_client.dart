@@ -5,6 +5,8 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'dart:io';
 
+import 'package:smart_pet_buddy/spbMqttClient.dart';
+
 Future<MqttClient> connect() async {
   // MqttServerClient client = MqttServerClient('127.0.0.1', 'group3');
   MqttServerClient client = MqttServerClient('aerostun.dev', 'group3');
@@ -38,7 +40,7 @@ Future<MqttClient> connect() async {
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage message = c[0].payload;
       final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
+          MqttPublishPayload.bytesToStringAsString(message.payload.message);
       if (c[0].topic == '/smartcar/group3/camera') {
         // final Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
 
@@ -72,7 +74,7 @@ Future<MqttClient> connect() async {
     client.published.listen((MqttPublishMessage message) {
       print('published');
       final payload =
-      MqttPublishPayload.bytesToStringAsString(message.payload.message);
+          MqttPublishPayload.bytesToStringAsString(message.payload.message);
       print(
           'Published message: $payload to topic: ${message.variableHeader.topicName}');
     });
@@ -87,10 +89,13 @@ Future<MqttClient> connect() async {
 }
 
 void onConnected() {
+  SpbMqttClient.isConnected = true;
   print('Connected');
 }
 
 void onDisconnected() {
+  SpbMqttClient.isConnected = false;
+
   print('Disconnected');
 }
 
