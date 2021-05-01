@@ -31,6 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
 
   bool registration = false;
+
   //String _userEmail = '';
 
 
