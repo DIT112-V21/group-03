@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
 
+import 'bottomnavbar.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
@@ -28,12 +30,14 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
-  bool _success;
+  bool registration = false;
   String _userEmail = '';
 
 
   @override
   Widget build(BuildContext context) {
+    _usernameController.addListener(() {print(_usernameController.text);});
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -85,20 +89,33 @@ class _RegisterPageState extends State<RegisterPage> {
                       backgroundColor: Colors.green.shade300,
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          await _register();
+                          setState(() {
+                            registration = true;
+                          });
                         }
                       },
                       text: 'Register',
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(_success == null
-                        ? ''
-                        : (_success
-                        ? 'Successfully registered $_userEmail'
-                        : 'Registration failed')),
-                  )
+                  registration ? FutureBuilder(
+                      future: _register(),
+                      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) Future.delayed(Duration(milliseconds: 500), () {
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (BuildContext context) => BottomBar()));
+                            // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
+                          });
+
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text(snapshot.hasData ? 'Successfully registered ${snapshot.data.displayName}' : 'Registration failed'),
+                          );
+                        }
+                        return Center(child: CircularProgressIndicator(),);
+                        // : 'Registration failed')),
+                      }
+                  ) : Container(),
                 ],
               ),
             ),
@@ -116,23 +133,35 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   // Example code for registration.
-  Future<void> _register() async {
-    final User user = (await _auth.createUserWithEmailAndPassword(
+  Future<User> _register() async {
+    User user = (await _auth.createUserWithEmailAndPassword(
       email: _emailController.text,
       password: _passwordController.text,
-    ))
-        .user;
+    )).user;
+
     if (user != null) {
       await user.updateProfile(displayName: _usernameController.text);
-
-      setState(() {
-        _success = true;
-        _userEmail = user.displayName;
-      });
-
-    } else {
-      _success = false;
+      user = _auth.currentUser;
     }
+
+    print(user.toString());
+    return user;
+    //   final User user = (await _auth.createUserWithEmailAndPassword(
+    //     email: _emailController.text,
+    //     password: _passwordController.text,
+    //   )).user;
+    //   if (user != null) {
+    //     await user.updateProfile(displayName: _usernameController.text);
+    //
+    //     // print('${user.displayName}');
+    //     setState(() {
+    //       _success = true;
+    //       _userEmail = user.displayName;
+    //     });
+    //
+    //   } else {
+    //     _success = false;
+    //   }
   }
 }
 
