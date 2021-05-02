@@ -14,31 +14,36 @@ import './signin_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  FirebaseApp app = await Firebase.initializeApp();
   // Uncomment this to use the auth emulator for testing
   // await FirebaseAuth.instance.useEmulator('http://localhost:9099');
-  runApp(AuthExampleApp());
+  runApp(AuthExampleApp(app));
 }
 
 /// The entry point of the application.
 ///
 /// Returns a [MaterialApp].
 class AuthExampleApp extends StatelessWidget {
+  final FirebaseApp app;
+
+  AuthExampleApp(this.app);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Smart Pet Buddy',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        accentColor: Colors.orangeAccent,
-        textTheme: TextTheme(
-        headline3: TextStyle(
-        fontFamily: 'OpenSans',
-        fontSize: 45.0,
-        color: Colors.orange,
-      ))),
+          primarySwatch: Colors.green,
+          accentColor: Colors.orangeAccent,
+          textTheme: TextTheme(
+              headline3: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 45.0,
+                color: Colors.orange,
+              ))),
       home: Scaffold(
-        body: AuthTypeSelector(),
+        body: AuthTypeSelector(app),
       ),
     );
   }
@@ -46,7 +51,10 @@ class AuthExampleApp extends StatelessWidget {
 
 /// Provides a UI to select a authentication type page
 class AuthTypeSelector extends StatelessWidget {
-  // Navigates to a new page
+  final FirebaseApp app;
+
+  AuthTypeSelector(this.app); // Navigates to a new page
+
   void _pushPage(BuildContext context, Widget page) {
     Navigator.of(context) /*!*/ .push(
       MaterialPageRoute<void>(builder: (_) => page),
@@ -74,7 +82,7 @@ class AuthTypeSelector extends StatelessWidget {
               icon: Icons.person_add,
               backgroundColor: Colors.indigo,
               text: 'Registration',
-              onPressed: () => _pushPage(context, RegisterPage()),
+              onPressed: () => _pushPage(context, RegisterPage(app)),
             ),
           ),
           Container(
@@ -88,7 +96,7 @@ class AuthTypeSelector extends StatelessWidget {
               icon: Icons.verified_user,
               backgroundColor: Colors.orange,
               text: 'Sign In',
-              onPressed: () => _pushPage(context, SignInPage()),
+              onPressed: () => _pushPage(context, SignInPage(app)),
             ),
           ),
         ],

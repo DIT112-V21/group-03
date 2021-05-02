@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'controlpanel.dart';
@@ -7,8 +8,9 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 //ignore: must_be_immutable
 class HomePage extends StatefulWidget {
+  final FirebaseApp app;
 
-  HomePage({Key key}) : super(key: key);
+  HomePage({Key key, this.app}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -54,6 +56,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> _signOut() async {
     await _auth.signOut();
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => AuthTypeSelector()));
+        builder: (BuildContext context) => AuthTypeSelector(widget.app)));
   }
 }
