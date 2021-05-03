@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'controlpanel.dart';
+
 
 class PlayPage extends StatefulWidget {
   @override
@@ -14,9 +16,8 @@ class _PlayPageState extends State<PlayPage> {
           title: Text('Play'),
         backgroundColor:Colors.green.shade400,
       ),
-      body: Center(
-        child: Text('Soon Play'),
-      ),
+      body: Controlpanel(),
+
     );
   }
 }
