@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 //import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     nameController.text = user.displayName;
     emailController.text = user.email;
     // FirebaseDatabase.instance.reference().child('users').child(user.uid).once().then((value) => locationController.text = value.value['location']);
-    FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((value) => locationController.text = value.data()['location']);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get()
+        .then((value) => locationController.text = value.data()['location']);
 
     return Scaffold(
       appBar: AppBar(
@@ -82,24 +87,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 offset: Offset(0, 10))
                           ],
                           shape: BoxShape.circle,
-                          image: user.photoURL != null ? DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                user.photoURL,
-                              )) : null,
-                        )
-                    ),
+                          image: user.photoURL != null
+                              ? DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    user.photoURL,
+                                  ))
+                              : null,
+                        )),
                     Positioned(
                         bottom: 0,
                         right: 0,
                         child: GestureDetector(
                           onTap: () async {
-                            PickedFile image = await ImagePicker().getImage(source: ImageSource.gallery);
+                            PickedFile image = await ImagePicker()
+                                .getImage(source: ImageSource.gallery);
                             print(image.toString());
-                            TaskSnapshot snapshot = await FirebaseStorage.instance.ref().child('user_image/${user.uid}').putFile(File(image.path));
+                            TaskSnapshot snapshot = await FirebaseStorage
+                                .instance
+                                .ref()
+                                .child('user_image/${user.uid}')
+                                .putFile(File(image.path));
                             String url = await snapshot.ref.getDownloadURL();
 
-                            user.updateProfile(photoURL: url).whenComplete(() async {
+                            user
+                                .updateProfile(photoURL: url)
+                                .whenComplete(() async {
                               print('Successful photo change');
                               user = FirebaseAuth.instance.currentUser;
                               setState(() {});
@@ -112,7 +125,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               shape: BoxShape.circle,
                               border: Border.all(
                                 width: 4,
-                                color: Theme.of(context).scaffoldBackgroundColor,
+                                color:
+                                    Theme.of(context).scaffoldBackgroundColor,
                               ),
                               color: Colors.green,
                             ),
@@ -128,9 +142,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", "Dor Alex", nameController),
-              buildTextField("E-mail", "alexd@gmail.com", emailController),
-              PasswordInput(labelText: "Password", placeholder: "********", textController: passwordController,),
+              buildTextField("Full Name", "", nameController),
+              buildTextField("E-mail", "", emailController),
+              PasswordInput(
+                labelText: "Password",
+                placeholder: "********",
+                textController: passwordController,
+              ),
               buildTextField("Location", "", locationController),
               SizedBox(
                 height: 35,
@@ -138,34 +156,104 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OutlineButton(
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                  ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                    },
+                    }
+                    ,
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))
+                      ),
                     child: Text("CANCEL",
                         style: TextStyle(
                             fontSize: 14,
                             letterSpacing: 2.2,
                             color: Colors.black)),
-                  ),
-                  RaisedButton(
+                    ),
+                  // OutlineButton(
+                  //   padding: EdgeInsets.symmetric(horizontal: 50),
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(20)),
+                  //   onPressed: () {
+                  //     Navigator.of(context).pop();
+                  //   },
+                  //   child: Text("CANCEL",
+                  //       style: TextStyle(
+                  //           fontSize: 14,
+                  //           letterSpacing: 2.2,
+                  //           color: Colors.black)),
+                  // ),
+                  // RaisedButton(
+                  //   onPressed: () async {
+                  //     if (user.displayName != nameController.text) {
+                  //       await user
+                  //           .updateProfile(displayName: nameController.text)
+                  //           .whenComplete(() => print('success name change'));
+                  //     }
+                  //     if (user.email != emailController.text) {
+                  //       await user
+                  //           .updateEmail(emailController.text)
+                  //           .whenComplete(() => print('success email change'));
+                  //     }
+                  //     if (passwordController.text.length >= 8) {
+                  //       await user
+                  //           .updatePassword(passwordController.text)
+                  //           .whenComplete(() => print('success pass change'));
+                  //     }
+                  //     if (userLocation != locationController.text) {
+                  //       //   FirebaseDatabase(app: widget.app).reference().child('users').once().then((value) => print(value.value));
+                  //       // .push().set({'data':'data'});
+                  //       await FirebaseFirestore.instance
+                  //           .collection('users')
+                  //           .doc(user.uid)
+                  //           .set({'location': locationController.text});
+                  //       // await FirebaseDatabase.instance.reference()
+                  //       //     .child('users').child(user.uid).push().set({'location': locationController.text}).whenComplete(() => print('complete'));
+                  //
+                  //       print('success location change');
+                  //     }
+                  //
+                  //     user = FirebaseAuth.instance.currentUser;
+                  //   },
+                  //   color: Colors.green,
+                  //   padding: EdgeInsets.symmetric(horizontal: 50),
+                  //   elevation: 2,
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(20)),
+                  //   child: Text(
+                  //     "SAVE",
+                  //     style: TextStyle(
+                  //         fontSize: 14,
+                  //         letterSpacing: 2.2,
+                  //         color: Colors.white),
+                  //   ),
+                  // ),
+                  ElevatedButton(
                     onPressed: () async {
                       if (user.displayName != nameController.text) {
-                        await user.updateProfile(displayName: nameController.text).whenComplete(() => print('success name change'));
+                        await user
+                            .updateProfile(displayName: nameController.text)
+                            .whenComplete(() => print('success name change'));
                       }
                       if (user.email != emailController.text) {
-                        await user.updateEmail(emailController.text).whenComplete(() => print('success email change'));
+                        await user
+                            .updateEmail(emailController.text)
+                            .whenComplete(() => print('success email change'));
                       }
                       if (passwordController.text.length >= 8) {
-                        await user.updatePassword(passwordController.text).whenComplete(() => print('success pass change'));
+                        await user
+                            .updatePassword(passwordController.text)
+                            .whenComplete(() => print('success pass change'));
                       }
                       if (userLocation != locationController.text) {
                         //   FirebaseDatabase(app: widget.app).reference().child('users').once().then((value) => print(value.value));
                         // .push().set({'data':'data'});
-                        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({'location': locationController.text});
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user.uid)
+                            .set({'location': locationController.text});
                         // await FirebaseDatabase.instance.reference()
                         //     .child('users').child(user.uid).push().set({'location': locationController.text}).whenComplete(() => print('complete'));
 
@@ -174,11 +262,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                       user = FirebaseAuth.instance.currentUser;
                     },
-                    color: Colors.green,
-                    padding: EdgeInsets.symmetric(horizontal: 50),
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    style: ElevatedButton.styleFrom(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0),
+                      ),
+                    ),
                     child: Text(
                       "SAVE",
                       style: TextStyle(
@@ -196,7 +286,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  buildTextField(String label, String placeholder, TextEditingController textEditingController) {
+  buildTextField(String label, String placeholder,
+      TextEditingController textEditingController) {
     return Padding(
       padding: EdgeInsets.only(bottom: 35.0),
       child: TextField(
