@@ -19,12 +19,12 @@ class _BottomBarState extends State<BottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     //connect().then((value) {
       //client = value;
     //});
     tabs = [HomePage(), PlayPage(), CustomPage(), ProfilePage()];
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
