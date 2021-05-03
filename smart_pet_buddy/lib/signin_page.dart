@@ -6,6 +6,7 @@
 
 // ignore_for_file: deprecated_member_use
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -18,8 +19,11 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for various sign-in flows with Firebase.
 class SignInPage extends StatefulWidget {
+  final FirebaseApp app;
   /// The page title.
   final String title = 'Sign In & Out';
+
+  SignInPage(this.app);
 
   @override
   State<StatefulWidget> createState() => _SignInPageState();
@@ -59,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
         return ListView(
           padding: const EdgeInsets.all(8),
           children: <Widget>[
-            _EmailPasswordForm(),
+            _EmailPasswordForm(widget.app),
             _EmailLinkSignInSection(),
             _AnonymouslySignInSection(),
             _PhoneSignInSection(Scaffold.of(context)),
@@ -77,6 +81,10 @@ class _SignInPageState extends State<SignInPage> {
 }
 
 class _EmailPasswordForm extends StatefulWidget {
+  final FirebaseApp app;
+
+  _EmailPasswordForm(this.app);
+
   @override
   State<StatefulWidget> createState() => _EmailPasswordFormState();
 }
@@ -162,7 +170,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
       );
       //added this to navigate to controlpanel when signed in
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => BottomBar()));
+          MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -190,40 +198,40 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
         key: _formKey,
         child: Card(
             child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                child: const Text(
-                  'Test sign in with email and link',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Test sign in with email and link',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (String value) {
+                      if (value.isEmpty) return 'Please enter your email.';
+                      return null;
+                    },
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 16),
+                    alignment: Alignment.center,
+                    child: SignInButtonBuilder(
+                      icon: Icons.insert_link,
+                      text: 'Sign In',
+                      backgroundColor: Colors.blueGrey[700],
+                      onPressed: () async {
+                        await _signInWithEmailAndLink();
+                      },
+                    ),
+                  ),
+                ],
               ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (String value) {
-                  if (value.isEmpty) return 'Please enter your email.';
-                  return null;
-                },
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                alignment: Alignment.center,
-                child: SignInButtonBuilder(
-                  icon: Icons.insert_link,
-                  text: 'Sign In',
-                  backgroundColor: Colors.blueGrey[700],
-                  onPressed: () async {
-                    await _signInWithEmailAndLink();
-                  },
-                ),
-              ),
-            ],
-          ),
-        )));
+            )));
   }
 
   @override
@@ -240,7 +248,7 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
           email: _userEmail,
           actionCodeSettings: ActionCodeSettings(
               url:
-                  'https://react-native-firebase-testing.firebaseapp.com/emailSignin',
+              'https://react-native-firebase-testing.firebaseapp.com/emailSignin',
               handleCodeInApp: true,
               iOSBundleId: 'io.flutter.plugins.firebaseAuthExample',
               androidPackageName: 'io.flutter.plugins.firebaseauthexample'));
@@ -302,8 +310,8 @@ class _AnonymouslySignInSectionState extends State<_AnonymouslySignInSection> {
                   _success == null
                       ? ''
                       : (_success
-                          ? 'Successfully signed in, uid: $_userID'
-                          : 'Sign in failed'),
+                      ? 'Successfully signed in, uid: $_userID'
+                      : 'Sign in failed'),
                   style: const TextStyle(color: Colors.red),
                 ),
               ),
@@ -461,7 +469,7 @@ class _PhoneSignInSectionState extends State<_PhoneSignInSection> {
         (FirebaseAuthException authException) {
       setState(() {
         _message =
-            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}';
+        'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}';
       });
     };
 
@@ -551,9 +559,9 @@ class _OtherProvidersSignInSectionState
                 alignment: Alignment.center,
                 child: kIsWeb
                     ? const Text(
-                        'When using Flutter Web, API keys are configured through the Firebase Console. The below providers demonstrate how this works')
+                    'When using Flutter Web, API keys are configured through the Firebase Console. The below providers demonstrate how this works')
                     : const Text(
-                        'We do not provide an API to obtain the token for below providers apart from Google '
+                    'We do not provide an API to obtain the token for below providers apart from Google '
                         'Please use a third party service to obtain token for other providers.'),
               ),
               Container(
@@ -623,10 +631,10 @@ class _OtherProvidersSignInSectionState
                   _provider == 'GitHub'
                       ? Buttons.GitHub
                       : (_provider == 'Facebook'
-                          ? Buttons.Facebook
-                          : (_provider == 'Twitter'
-                              ? Buttons.Twitter
-                              : Buttons.GoogleDark)),
+                      ? Buttons.Facebook
+                      : (_provider == 'Twitter'
+                      ? Buttons.Twitter
+                      : Buttons.GoogleDark)),
                   text: 'Sign In',
                   onPressed: () async {
                     _signInWithOtherProvider();
@@ -786,9 +794,9 @@ class _OtherProvidersSignInSectionState
       } else {
         final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
         final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
+        await googleUser.authentication;
         final GoogleAuthCredential googleAuthCredential =
-            GoogleAuthProvider.credential(
+        GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
