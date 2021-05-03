@@ -31,7 +31,6 @@ class _CustomPageState extends State<CustomPage> {
   @override
   void initState() {
     super.initState();
-    //client = Controlpanel.client;
   }
 
   void _command(String command) {
@@ -40,27 +39,6 @@ class _CustomPageState extends State<CustomPage> {
     client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
-
-  /* void _beeDance() {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString("beeDance");
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
-  void _zigzag() {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString("snake");
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
-  void _circle() {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString("circle");
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -81,50 +59,8 @@ class _CustomPageState extends State<CustomPage> {
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
 
-            //mainAxisAlignment: MainAxisAlignment.center,
-            // children: [
-            /*   Container(*/
-            /*       child: TextButton(*/
-            /*         child: Text('Connect'),*/
-            /*         onPressed: () =>*/
-            /*         {*/
-            /*           connect().then((value) {*/
-            /*             client = value;*/
-            /*           })*/
-            /*         },*/
-            /*       )),*/
-            /*   Container(*/
-            /*     decoration: BoxDecoration(*/
-            /*       color: Colors.green,*/
-            /*       image: DecorationImage(*/
-            /*         image: NetworkImage('https://images.unsplash.com/photo-1495360010541-f48722b34f7d?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&dl=alexander-london-mJaD10XeD7w-unsplash.jpg'),*/
-            /*         fit: BoxFit.cover,*/
-            /*         ),*/
-            /*           border: Border.all(*/
-            /*             color: Colors.black12,*/
-            /*             width: 8,*/
-            /*         ),*/
-            /*       borderRadius: BorderRadius.circular(12),*/
-            /*     ),*/
-            /*       child: TextButton(*/
-            /*         child: Text('BeeDance'),*/
-            /*         onPressed: _beeDance,*/
-            /*       )),*/
-            /*   Container(*/
-            /*       child: TextButton(*/
-            /*         child: Text('Circle'),*/
-            /*         onPressed: _circle,*/
-            /*       )),*/
-            /*   Container(*/
-            /*       child: TextButton(*/
-            /*         child: Text('Zigzag'),*/
-            /*         onPressed: _zigzag,*/
-            // )),
-            //],
-          ),
-          //]
-          //),
-        ));
 
+          ),
+        ));
   }
 }
