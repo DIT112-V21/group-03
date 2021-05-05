@@ -213,6 +213,7 @@ void beeDance()
 
     moveCircle(50, 100, true);
     moveCircle(50, 100, false);
+    mqtt.publish("/smartcar/group3/control/automove/complete", "done");
 }
 
 void snake()

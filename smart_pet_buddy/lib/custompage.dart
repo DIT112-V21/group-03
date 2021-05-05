@@ -14,6 +14,7 @@ class CustomPage extends StatefulWidget {
 }
 
 class _CustomPageState extends State<CustomPage> {
+  bool commandRunning = false;
   MqttServerClient client = SpbMqttClient.client;
   static String imageUrlBee =
       'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80';
@@ -35,13 +36,28 @@ class _CustomPageState extends State<CustomPage> {
 
   void _command(String command) {
     final builder = MqttClientPayloadBuilder();
+    setState(() {
+      commandRunning = true;
+    });
     builder.addString(command);
     client?.publishMessage('/smartcar/group3/control/automove',
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  void _initCommandStatusListener() {
+    client?.subscribe("/smartcar/group3/control/automove/complete", MqttQos.atLeastOnce);
+    client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      if(c[0].topic == "/smartcar/group3/control/automove/complete") {
+        setState(() {
+          commandRunning = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _initCommandStatusListener();
     return Scaffold(
         appBar: AppBar(
           title: Text('Custom'),
@@ -49,12 +65,17 @@ class _CustomPageState extends State<CustomPage> {
         ),
         body: Container(
           //child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-     
           child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
             itemCount: movementList.length,
             itemBuilder: (BuildContext context, int index) {
-              return MovementWidget(movementList[index],
-                  () => {_command(movementList[index].command)});
+              return MovementWidget(
+                  movementList[index],
+                  commandRunning,
+                  () => {
+                    _command(movementList[index].command)
+                  }
+              );
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
