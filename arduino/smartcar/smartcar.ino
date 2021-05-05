@@ -196,16 +196,19 @@ void moveCircle(int speed, int angle, bool direction)
     }
     car.setAngle(angle);
     car.setSpeed(speed);
-    delay(1000);
-    do
-    {
+    while(millis() < 0 + 1000){
+        do
+        {
 
-        gyro.update();
-        currentHeading = gyro.getHeading();
+            gyro.update();
+            currentHeading = gyro.getHeading();
 
-    } while (currentHeading != startingHeading);
+        } while (currentHeading != startingHeading);
 
-    car.setSpeed(0);
+        car.setSpeed(0);
+        mqtt.publish("/smartcar/group3/control/automove/complete", "circle");
+        return;
+    }
 }
 
 void beeDance()
@@ -213,19 +216,19 @@ void beeDance()
 
     moveCircle(50, 100, true);
     moveCircle(50, 100, false);
-    mqtt.publish("/smartcar/group3/control/automove/complete", "done");
+    while(millis() < 0 + 1000){
+        mqtt.publish("/smartcar/group3/control/automove/complete", "beeDancing");
+    }
 }
 
 void snake()
 {
-
     int angle = 100;
     int counter = 0;
     car.setSpeed(100);
-
+    // TODO: use while(millis() < 0 + 1000) instead of delay
     while (counter < 8)
     {
-
         car.setAngle(angle);
         delay(1000);
         car.setAngle(0);
@@ -233,6 +236,4 @@ void snake()
         counter++;
         angle = -angle;
     }
-
-    car.setSpeed(0);
 }

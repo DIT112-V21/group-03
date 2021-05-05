@@ -14,7 +14,7 @@ class CustomPage extends StatefulWidget {
 }
 
 class _CustomPageState extends State<CustomPage> {
-  bool commandRunning = false;
+  String commandRunning = "";
   MqttServerClient client = SpbMqttClient.client;
   static String imageUrlBee =
       'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80';
@@ -24,10 +24,9 @@ class _CustomPageState extends State<CustomPage> {
       'https://images.unsplash.com/photo-1562119464-eaa5ff353ead?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80';
   static MovementInfo beeDance =
       MovementInfo('BeeDance', imageUrlBee, 'beeDance');
-  static MovementInfo stop = MovementInfo('Stop', imageUrlBee, 'stop');
   static MovementInfo circle = MovementInfo('Circle', imageUrlCircle, 'circle');
   static MovementInfo zigzag = MovementInfo('Zigzag', imageUrlZigzag, 'zigzag');
-  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag, stop];
+  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag];
 
   @override
   void initState() {
@@ -36,20 +35,31 @@ class _CustomPageState extends State<CustomPage> {
 
   void _command(String command) {
     final builder = MqttClientPayloadBuilder();
-    setState(() {
-      commandRunning = true;
-    });
-    builder.addString(command);
-    client?.publishMessage('/smartcar/group3/control/automove',
-        MqttQos.atLeastOnce, builder.payload);
+    if (commandRunning != ""){
+      setState(() {
+        commandRunning = "";
+      });
+      builder.addString('stop');
+      client?.publishMessage('/smartcar/group3/control/automove',
+          MqttQos.atLeastOnce, builder.payload);
+    } else {
+      setState(() {
+        commandRunning = command;
+      });
+      builder.addString(command);
+      client?.publishMessage('/smartcar/group3/control/automove',
+          MqttQos.atLeastOnce, builder.payload);
+    }
   }
 
   void _initCommandStatusListener() {
     client?.subscribe("/smartcar/group3/control/automove/complete", MqttQos.atLeastOnce);
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      // only care about the first message
       if(c[0].topic == "/smartcar/group3/control/automove/complete") {
         setState(() {
-          commandRunning = false;
+          // reset commandRunning when auto car movement is complete
+          commandRunning = "";
         });
       }
     });

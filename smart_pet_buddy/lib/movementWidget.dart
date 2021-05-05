@@ -5,7 +5,7 @@ import 'package:smart_pet_buddy/movementInfo.dart';
 class MovementWidget extends StatefulWidget {
   final MovementInfo info;
   final GestureTapCallback onPressed;
-  final bool commandRunning;
+  final String commandRunning;
 
   MovementWidget(this.info, this.commandRunning, this.onPressed);
 
@@ -27,7 +27,7 @@ class _MovementWidgetState extends State<MovementWidget> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(
-          onPressed: widget.commandRunning ? null : widget.onPressed,
+          onPressed: widget.commandRunning == "" || widget.commandRunning == widget.info.command ? widget.onPressed : null, //null means that nothing happens when on pressed (button disabled)
           child: Ink(
             decoration: BoxDecoration(
               /*gradient: LinearGradient(
@@ -41,7 +41,7 @@ class _MovementWidgetState extends State<MovementWidget> {
             ),
             child: Align(
               alignment: Alignment.bottomLeft,
-              child: Text(widget.commandRunning ? "Busy driving..." : widget.info.title, textAlign: TextAlign.left, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+              child: Text(widget.commandRunning == widget.info.command ? "Busy driving..." : widget.info.title, textAlign: TextAlign.left, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
               ),
             ),
           ),
