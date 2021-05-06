@@ -53,7 +53,14 @@ class _HomePageState extends State<HomePage> {
             })
           ],
         ),
-        body: Column(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/homepage.jpg'),
+              fit: BoxFit.cover,
+            )
+          ),
+          child: Column(
           children: [
             Flexible(
               flex: 1,
@@ -65,11 +72,11 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       'Welcome!',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 40,
                       ),
                     ),
                     Text(
-                      'To start please connect to the car :)',
+                      'To start playing please connect to the car :)',
                     ),
                   ],
                 ),
@@ -78,8 +85,11 @@ class _HomePageState extends State<HomePage> {
             Flexible(
                 child: SpbMqttClient.isConnected
                     ? TextButton(
-                        child: Text('Disconnect',
-                            style: TextStyle(color: Colors.red)),
+                        child: Text('Disconnect'),
+                        style: TextButton.styleFrom(
+                          primary: Colors.red,
+                          side: BorderSide(color: Colors.red)
+                        ),
                         onPressed: () => {
                           () {
                             client.disconnect();
@@ -88,8 +98,11 @@ class _HomePageState extends State<HomePage> {
                         },
                       )
                     : TextButton(
-                        child: Text('Connect',
-                            style: TextStyle(color: Colors.green)),
+                        child: Text('Connect'),
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: Colors.green,
+                        ),
                         onPressed: () => {
                           connect().then((value) {
                             client = value;
@@ -99,7 +112,9 @@ class _HomePageState extends State<HomePage> {
                         },
                       )),
           ],
-        ));
+        ),
+        ),
+    );
   }
 
   Future<void> _signOut() async {
