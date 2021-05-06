@@ -213,7 +213,6 @@ void moveCircle(int speed, int angle, bool direction)
 
 void beeDance()
 {
-
     moveCircle(50, 100, true);
     moveCircle(50, 100, false);
     while(millis() < 0 + 1000){
@@ -222,13 +221,16 @@ void beeDance()
 }
 
 void snake()
+// TODO: use while(millis() < 0 + 1000) instead of delay
 {
+
     int angle = 100;
     int counter = 0;
     car.setSpeed(100);
-    // TODO: use while(millis() < 0 + 1000) instead of delay
+
     while (counter < 8)
     {
+
         car.setAngle(angle);
         delay(1000);
         car.setAngle(0);
@@ -236,4 +238,7 @@ void snake()
         counter++;
         angle = -angle;
     }
+
+    car.setSpeed(0);
 }
+

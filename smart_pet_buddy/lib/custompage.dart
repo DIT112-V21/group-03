@@ -27,6 +27,7 @@ class _CustomPageState extends State<CustomPage> {
   static MovementInfo circle = MovementInfo('Circle', imageUrlCircle, 'circle');
   static MovementInfo zigzag = MovementInfo('Zigzag', imageUrlZigzag, 'zigzag');
   List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag];
+  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
 
   @override
   void initState() {
@@ -53,21 +54,27 @@ class _CustomPageState extends State<CustomPage> {
   }
 
   void _initCommandStatusListener() {
-    client?.subscribe("/smartcar/group3/control/automove/complete", MqttQos.atLeastOnce);
-    client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-      // only care about the first message
-      if(c[0].topic == "/smartcar/group3/control/automove/complete") {
-        setState(() {
-          // reset commandRunning when auto car movement is complete
-          commandRunning = "";
-        });
-      }
-    });
+    if (client != null && client.connectionStatus.state == MqttConnectionState.connected){
+      client?.subscribe("/smartcar/group3/control/automove/complete", MqttQos.atLeastOnce);
+      client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+        // only care about the first message
+        if(c[0].topic == "/smartcar/group3/control/automove/complete") {
+          setState(() {
+            // reset commandRunning when auto car movement is complete
+            commandRunning = "";
+          });
+        }
+      });
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    _initCommandStatusListener();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initCommandStatusListener();
+    });
     return Scaffold(
         appBar: AppBar(
           title: Text('Custom'),
@@ -89,8 +96,6 @@ class _CustomPageState extends State<CustomPage> {
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),
-
-
           ),
         ));
   }
