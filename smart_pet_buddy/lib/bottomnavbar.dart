@@ -12,11 +12,11 @@ class BottomBar extends StatefulWidget {
   BottomBar(this.app);
 
   @override
-  _BottomBarState createState() => _BottomBarState();
+  BottomBarState createState() => BottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
-  int _currentIndex = 0;
+class BottomBarState extends State<BottomBar> {
+  int currentIndex = 0;
   MqttServerClient client;
 
   List<Widget> tabs = <Widget>[];
@@ -36,9 +36,9 @@ class _BottomBarState extends State<BottomBar> {
       // appBar: AppBar(
       //   title: Text('Bottom Bar'),
       // ),
-      body: tabs[_currentIndex],
+      body: tabs[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
+          currentIndex: currentIndex,
           type: BottomNavigationBarType.fixed,
           iconSize: 40,
           selectedFontSize: 10,
@@ -65,7 +65,7 @@ class _BottomBarState extends State<BottomBar> {
           ],
           onTap: (index) {
             setState(() {
-              _currentIndex = index;
+              currentIndex = index;
             });
           }),
     );
