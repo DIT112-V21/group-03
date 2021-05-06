@@ -11,7 +11,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'bottomnavbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,29 +30,7 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          Builder(builder: (BuildContext context) {
-            return FlatButton(
-              textColor: Theme.of(context).buttonColor,
-              onPressed: () async {
-                final User user = _auth.currentUser;
-                if (user == null) {
-                  Scaffold.of(context).showSnackBar(const SnackBar(
-                    content: Text('No one has signed in.'),
-                  ));
-                  return;
-                }
-                await _signOut();
 
-                final String uid = user.uid;
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('$uid has successfully signed out.'),
-                ));
-              },
-              child: const Text('Sign out'),
-            );
-          })
-        ],
       ),
       body: Builder(builder: (BuildContext context) {
         return ListView(
@@ -123,8 +100,9 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 Container(
                   padding: const EdgeInsets.only(top: 16),
                   alignment: Alignment.center,
-                  child: SignInButton(
-                    Buttons.Email,
+                  child: SignInButtonBuilder(
+                      icon: Icons.email,
+                     backgroundColor: Colors.green,
                     text: 'Sign In',
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
@@ -215,7 +193,7 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
                 child: SignInButtonBuilder(
                   icon: Icons.insert_link,
                   text: 'Sign In',
-                  backgroundColor: Colors.blueGrey[700],
+                  backgroundColor: Colors.green,
                   onPressed: () async {
                     await _signInWithEmailAndLink();
                   },
