@@ -46,11 +46,6 @@ class _SignInPageState extends State<SignInPage> {
       }),
     );
   }
-
-  // Example code for sign out.
-  Future<void> _signOut() async {
-    await _auth.signOut();
-  }
 }
 
 class _EmailPasswordForm extends StatefulWidget {
