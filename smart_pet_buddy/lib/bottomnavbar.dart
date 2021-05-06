@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
@@ -6,6 +7,10 @@ import 'package:smart_pet_buddy/profilepage.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
 class BottomBar extends StatefulWidget {
+  final FirebaseApp app;
+
+  BottomBar(this.app);
+
   @override
   _BottomBarState createState() => _BottomBarState();
 }
@@ -19,12 +24,12 @@ class _BottomBarState extends State<BottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //connect().then((value) {
-      //client = value;
-    //});
-    tabs = [HomePage(), PlayPage(), CustomPage(), ProfilePage()];
-  }
 
+    //connect().then((value) {
+    //client = value;
+    //});
+    tabs = [HomePage(), PlayPage(), CustomPage(), ProfilePage(widget.app)];
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

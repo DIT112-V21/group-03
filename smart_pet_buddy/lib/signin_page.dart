@@ -6,19 +6,24 @@
 
 // ignore_for_file: deprecated_member_use
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'bottomnavbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for various sign-in flows with Firebase.
 class SignInPage extends StatefulWidget {
+  final FirebaseApp app;
   /// The page title.
   final String title = 'Sign In & Out';
+
+  SignInPage(this.app);
 
   @override
   State<StatefulWidget> createState() => _SignInPageState();
@@ -49,6 +54,10 @@ class _SignInPageState extends State<SignInPage> {
 }
 
 class _EmailPasswordForm extends StatefulWidget {
+  final FirebaseApp app;
+
+  _EmailPasswordForm(this.app);
+
   @override
   State<StatefulWidget> createState() => _EmailPasswordFormState();
 }
@@ -135,7 +144,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
       );
       //added this to navigate to controlpanel when signed in
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => BottomBar()));
+          MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -759,9 +768,9 @@ class _OtherProvidersSignInSectionState
       } else {
         final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
         final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
+        await googleUser.authentication;
         final GoogleAuthCredential googleAuthCredential =
-            GoogleAuthProvider.credential(
+        GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
