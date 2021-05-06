@@ -41,7 +41,7 @@ class _SignInPageState extends State<SignInPage> {
         return ListView(
           padding: const EdgeInsets.all(8),
           children: <Widget>[
-            _EmailPasswordForm(),
+            _EmailPasswordForm(widget.app),
             //_EmailLinkSignInSection(),
             //_AnonymouslySignInSection(),
             //_PhoneSignInSection(Scaffold.of(context)),
