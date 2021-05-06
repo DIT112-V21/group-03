@@ -60,10 +60,10 @@ class _SignInPageState extends State<SignInPage> {
           padding: const EdgeInsets.all(8),
           children: <Widget>[
             _EmailPasswordForm(),
-            _EmailLinkSignInSection(),
-            _AnonymouslySignInSection(),
-            _PhoneSignInSection(Scaffold.of(context)),
-            _OtherProvidersSignInSection(),
+            //_EmailLinkSignInSection(),
+            //_AnonymouslySignInSection(),
+            //_PhoneSignInSection(Scaffold.of(context)),
+            //_OtherProvidersSignInSection(),
           ],
         );
       }),
