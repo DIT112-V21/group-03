@@ -6,9 +6,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
+//ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key}) : super(key: key);
-
+  Controlpanel({Key key,}) : super(key: key);
+  //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
 }
@@ -16,7 +17,9 @@ class Controlpanel extends StatefulWidget {
 class ControlpanelState extends State<Controlpanel> {
   // MqttClientConnection connection =
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
+
   MqttServerClient client = SpbMqttClient.client;
+
   int _counter = 0;
   int currentSpeed = 0;
   int reverseSpeed = -30;

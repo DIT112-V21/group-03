@@ -4,6 +4,7 @@
 
 // @dart=2.9
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
@@ -16,8 +17,11 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for registering via Email/Password.
 class RegisterPage extends StatefulWidget {
+  final FirebaseApp app;
   /// The page title.
   final String title = 'Registration';
+
+  RegisterPage(this.app);
 
   @override
   State<StatefulWidget> createState() => _RegisterPageState();
@@ -31,7 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
 
   bool registration = false;
-
   //String _userEmail = '';
 
 
@@ -104,7 +107,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) Future.delayed(Duration(milliseconds: 500), () {
                             Navigator.of(context).push(
-                                MaterialPageRoute(builder: (BuildContext context) => BottomBar()));
+                                MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
                             // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
                           });
 

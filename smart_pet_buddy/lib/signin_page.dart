@@ -6,6 +6,7 @@
 
 // ignore_for_file: deprecated_member_use
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -18,8 +19,11 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for various sign-in flows with Firebase.
 class SignInPage extends StatefulWidget {
+  final FirebaseApp app;
   /// The page title.
   final String title = 'Sign In & Out';
+
+  SignInPage(this.app);
 
   @override
   State<StatefulWidget> createState() => _SignInPageState();
@@ -31,52 +35,29 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: <Widget>[
-          Builder(builder: (BuildContext context) {
-            return FlatButton(
-              textColor: Theme.of(context).buttonColor,
-              onPressed: () async {
-                final User user = _auth.currentUser;
-                if (user == null) {
-                  Scaffold.of(context).showSnackBar(const SnackBar(
-                    content: Text('No one has signed in.'),
-                  ));
-                  return;
-                }
-                await _signOut();
 
-                final String uid = user.uid;
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('$uid has successfully signed out.'),
-                ));
-              },
-              child: const Text('Sign out'),
-            );
-          })
-        ],
       ),
       body: Builder(builder: (BuildContext context) {
         return ListView(
           padding: const EdgeInsets.all(8),
           children: <Widget>[
-            _EmailPasswordForm(),
-            _EmailLinkSignInSection(),
-            _AnonymouslySignInSection(),
-            _PhoneSignInSection(Scaffold.of(context)),
-            _OtherProvidersSignInSection(),
+            _EmailPasswordForm(widget.app),
+            //_EmailLinkSignInSection(),
+            //_AnonymouslySignInSection(),
+            //_PhoneSignInSection(Scaffold.of(context)),
+            //_OtherProvidersSignInSection(),
           ],
         );
       }),
     );
   }
-
-  // Example code for sign out.
-  Future<void> _signOut() async {
-    await _auth.signOut();
-  }
 }
 
 class _EmailPasswordForm extends StatefulWidget {
+  final FirebaseApp app;
+
+  _EmailPasswordForm(this.app);
+
   @override
   State<StatefulWidget> createState() => _EmailPasswordFormState();
 }
@@ -123,8 +104,9 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 Container(
                   padding: const EdgeInsets.only(top: 16),
                   alignment: Alignment.center,
-                  child: SignInButton(
-                    Buttons.Email,
+                  child: SignInButtonBuilder(
+                      icon: Icons.email,
+                     backgroundColor: Colors.green,
                     text: 'Sign In',
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
@@ -162,7 +144,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
       );
       //added this to navigate to controlpanel when signed in
       Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => BottomBar()));
+          MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -215,7 +197,7 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
                 child: SignInButtonBuilder(
                   icon: Icons.insert_link,
                   text: 'Sign In',
-                  backgroundColor: Colors.blueGrey[700],
+                  backgroundColor: Colors.green,
                   onPressed: () async {
                     await _signInWithEmailAndLink();
                   },
@@ -786,9 +768,9 @@ class _OtherProvidersSignInSectionState
       } else {
         final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
         final GoogleSignInAuthentication googleAuth =
-            await googleUser.authentication;
+        await googleUser.authentication;
         final GoogleAuthCredential googleAuthCredential =
-            GoogleAuthProvider.credential(
+        GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
