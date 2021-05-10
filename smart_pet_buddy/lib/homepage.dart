@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                     ));
                     return;
                   }
-                  await _signOut();
+                  await signOut();
 
                   final String uid = user.uid;
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -73,10 +73,14 @@ class _HomePageState extends State<HomePage> {
                       'Welcome!',
                       style: TextStyle(
                         fontSize: 40,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
                     Text(
-                      'To start playing please connect to the car :)',
+                      'To start playing please connect to the car :)',style: TextStyle(
+                      fontSize: 20,
+                        fontWeight: FontWeight.bold
+                    ),
                     ),
                   ],
                 ),
@@ -84,40 +88,76 @@ class _HomePageState extends State<HomePage> {
             ),
             Flexible(
                 child: SpbMqttClient.isConnected
-                    ? TextButton(
-                        child: Text('Disconnect'),
-                        style: TextButton.styleFrom(
-                          primary: Colors.red,
-                          side: BorderSide(color: Colors.red)
-                        ),
-                        onPressed: () => {
-                          () {
-                            client.disconnect();
-                            setState(() {});
-                          }
-                        },
-                      )
-                    : TextButton(
-                        child: Text('Connect'),
-                        style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: Colors.green,
-                        ),
-                        onPressed: () => {
-                          connect().then((value) {
-                            client = value;
-                            SpbMqttClient.client = client;
-                            setState(() {});
-                          })
-                        },
-                      )),
+                    ? ElevatedButton(
+                  onPressed: () => {
+                        () {
+                      client.disconnect();
+                      setState(() {});
+                    }
+                  },
+                  child: Icon(
+                    Icons.stop,
+                    color: Colors.white,
+                    size: 60.0,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                      shape: CircleBorder(), primary: Colors.red, ),
+                  )
+                    : ElevatedButton(
+                  onPressed: () => {
+                    connect().then((value) {
+                      client = value;
+                      SpbMqttClient.client = client;
+                      setState(() {});
+                    })
+                  },
+                  child: Icon(
+                    Icons.online_prediction_outlined,
+                    color: Colors.white,
+                    size: 60.0,
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
+                      shape: CircleBorder(), primary: Colors.green),
+
+                )),
+            // Flexible(
+            //     child: SpbMqttClient.isConnected
+            //         ? TextButton(
+            //             child: Text('Disconnect'),
+            //             style: TextButton.styleFrom(
+            //               primary: Colors.red,
+            //               side: BorderSide(color: Colors.red)
+            //             ),
+            //             onPressed: () => {
+            //               () {
+            //                 client.disconnect();
+            //                 setState(() {});
+            //               }
+            //             },
+            //           )
+            //         : TextButton(
+            //             child: Text('Connect'),
+            //             style: TextButton.styleFrom(
+            //               primary: Colors.white,
+            //               backgroundColor: Colors.green,
+            //             ),
+            //             onPressed: () => {
+            //               connect().then((value) {
+            //                 client = value;
+            //                 SpbMqttClient.client = client;
+            //                 setState(() {});
+            //               })
+            //             },
+            //           )),
           ],
         ),
         ),
     );
   }
 
-  Future<void> _signOut() async {
+  Future<void> signOut() async {
     await _auth.signOut();
     Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => AuthTypeSelector(widget.app)));

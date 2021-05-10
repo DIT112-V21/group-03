@@ -16,7 +16,15 @@ class _PlayPageState extends State<PlayPage> {
           title: Text('Play'),
         backgroundColor:Colors.green.shade400,
       ),
-      body: Controlpanel(),
+      body:Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/homepage.jpg'),
+              fit: BoxFit.cover,
+            )
+        ),
+        child: Controlpanel(),
+      )
 
     );
   }

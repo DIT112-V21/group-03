@@ -43,25 +43,25 @@ class _BottomBarState extends State<BottomBar> {
           iconSize: 40,
           selectedFontSize: 10,
           unselectedFontSize: 10,
-          backgroundColor: Colors.green.shade400,
+          backgroundColor: Colors.white,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: 'Home',
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.green.shade400,
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.directions_car_outlined),
                 label: 'Play',
-                backgroundColor: Colors.white),
+                backgroundColor: Colors.green.shade400),
             BottomNavigationBarItem(
                 icon: Icon(Icons.play_circle_outline),
                 label: 'Custom',
-                backgroundColor: Colors.white),
+                backgroundColor: Colors.green.shade400),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle_outlined),
                 label: 'Profile',
-                backgroundColor: Colors.white)
+                backgroundColor: Colors.green.shade400)
           ],
           onTap: (index) {
             setState(() {
