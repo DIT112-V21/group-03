@@ -7,11 +7,11 @@
 //import 'package:firebase_auth/firebase_auth.dart'; // Only needed if you configure the Auth Emulator below
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_builder.dart';
+//import 'package:flutter_signin_button/button_builder.dart';
 import 'package:smart_pet_buddy/signin_page_new.dart';
 
 import './register_page.dart';
-import './signin_page.dart';
+//import './signin_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
