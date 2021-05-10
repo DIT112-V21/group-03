@@ -196,7 +196,8 @@ void moveCircle(int speed, int angle, bool direction)
     }
     car.setAngle(angle);
     car.setSpeed(speed);
-    while(millis() < 0 + 1000){
+    while (millis() < 0 + 1000)
+    {
         do
         {
 
@@ -215,7 +216,8 @@ void beeDance()
 {
     moveCircle(50, 100, true);
     moveCircle(50, 100, false);
-    while(millis() < 0 + 1000){
+    while (millis() < 0 + 1000)
+    {
         mqtt.publish("/smartcar/group3/control/automove/complete", "beeDancing");
     }
 }
@@ -227,18 +229,26 @@ void snake()
     int angle = 100;
     int counter = 0;
     car.setSpeed(100);
+    bool isForward = true;
 
     while (counter < 8)
     {
+        while (millis() < 0 + 1000)
+        {
 
-        car.setAngle(angle);
-        delay(1000);
-        car.setAngle(0);
-        delay(1000);
+            if (isForward)
+            {
+                car.setAngle(angle);
+            }
+            else
+            {
+                car.setAngle(0);
+            }
+        }
+
         counter++;
         angle = -angle;
     }
 
     car.setSpeed(0);
 }
-
