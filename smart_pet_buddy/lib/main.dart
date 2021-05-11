@@ -25,7 +25,6 @@ Future<void> main() async {
 /// Returns a [MaterialApp].
 class AuthExampleApp extends StatelessWidget {
   final FirebaseApp app;
-
   AuthExampleApp(this.app);
 
   @override
