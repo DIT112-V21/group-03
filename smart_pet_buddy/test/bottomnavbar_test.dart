@@ -14,10 +14,10 @@ void main() {
     await tester.pumpWidget(testWidget);
     BottomBarState state =
     tester.state<BottomBarState>(find.byType(BottomBar));
-    expect(state.currentIndex, state.currentIndex = 0);
+    expect(state.currentIndex, 0); // Needs mqtt mock?
 
     await tester.tap(find.byIcon(Icons.home_outlined));
-    expect(state.currentIndex, state.currentIndex = 0);
+    expect(state.currentIndex, 0);
 
        });
 
@@ -30,10 +30,10 @@ void main() {
         await tester.pumpWidget(testWidget);
         BottomBarState state =
         tester.state<BottomBarState>(find.byType(BottomBar));
-        expect(state.currentIndex, state.currentIndex = 0);
+        expect(state.currentIndex, 0);
 
         await tester.tap(find.byIcon(Icons.directions_car_outlined));
-        expect(state.currentIndex, state.currentIndex = 1);
+        expect(state.currentIndex, 1);
 
       });
 
@@ -46,10 +46,10 @@ void main() {
         await tester.pumpWidget(testWidget);
         BottomBarState state =
         tester.state<BottomBarState>(find.byType(BottomBar));
-        expect(state.currentIndex, state.currentIndex = 0);
+        expect(state.currentIndex, 0);
 
         await tester.tap(find.byIcon(Icons.play_circle_outline));
-        expect(state.currentIndex, state.currentIndex = 2);
+        expect(state.currentIndex, 2);
 
 
       });
@@ -63,10 +63,10 @@ void main() {
         await tester.pumpWidget(testWidget);
         BottomBarState state =
         tester.state<BottomBarState>(find.byType(BottomBar));
-        expect(state.currentIndex, state.currentIndex = 0);
+        expect(state.currentIndex, 0);
 
         await tester.tap(find.byIcon(Icons.account_circle_outlined));
-        expect(state.currentIndex, state.currentIndex = 3);
+        expect(state.currentIndex, 3);
 
 
       });
