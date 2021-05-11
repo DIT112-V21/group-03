@@ -148,6 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
       user = _auth.currentUser;
     }
 
+    print(user.toString());
     return user;
     //   final User user = (await _auth.createUserWithEmailAndPassword(
     //     email: _emailController.text,
