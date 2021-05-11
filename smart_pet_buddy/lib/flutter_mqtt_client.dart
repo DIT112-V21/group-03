@@ -42,30 +42,15 @@ Future<MqttClient> connect() async {
       final payload =
           MqttPublishPayload.bytesToStringAsString(message.payload.message);
       if (c[0].topic == '/smartcar/group3/camera') {
-        // final Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
-
-        //                 final byte[] payload = message.getPayload();
-        //                 final int[] colors = new int[IMAGE_WIDTH * IMAGE_HEIGHT];
-        //                 for (int ci = 0; ci < colors.length; ++ci) {
-        //                     final byte r = payload[3 * ci];
-        //                     final byte g = payload[3 * ci + 1];
-        //                     final byte b = payload[3 * ci + 2];
-        //                     colors[ci] = Color.rgb(r, g, b);
-        //                 }
-        //                 bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-
-        //                 mCameraView.setImageBitmap(bm);
-        //
-        Uint8List picData = message.payload.message as Uint8List;
-        // var colors = Uint8List(320*240);
-        // for (var i = 0; i < picData.length; i++) {
-        //   int r = picData[3 * i];
-        //   int g = picData[3 * i + 1];
-        //   int b = picData[3 * i + 2];
-        //   colors[i]= Color.fromARGB(255, r, g, b);
-        // }
-        // ignore: unused_local_variable
-        Bitmap bm = Bitmap.fromHeadless(320, 240, picData);
+        Uint8List incomingData = message.payload.message as Uint8List;
+        Uint8List picData;
+        for (var i = 0; i < incomingData.length; i++) {
+          picData.add(incomingData[i]);
+          if (i % 3 == 2) {
+            picData.add(255);
+          }
+        }
+        Bitmap bm = Bitmap.fromHeadful(320, 240, picData);
       } else {
         print('Received message:$payload from topic: ${c[0].topic}>');
       }
