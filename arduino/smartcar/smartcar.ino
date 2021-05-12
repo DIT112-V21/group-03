@@ -1,9 +1,5 @@
 #include <Smartcar.h>
 
-#include <Smartcar.h>
-
-#include <Smartcar.h>
-
 #include <vector>
 
 #include <MQTT.h>
@@ -28,6 +24,7 @@ const auto triggerPin = 6;
 const auto echoPin = 7;
 const auto maxDistance = 400;
 const long distanceToTravel = 40;
+const char noop = 'x';
 
 ArduinoRuntime arduinoRuntime;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
@@ -55,6 +52,7 @@ GY50 gyro(arduinoRuntime, GYROSCOPE_OFFSET);
 std::vector<char> frameBuffer;
 
 SmartCar car(arduinoRuntime, control, gyro, leftOdometer, rightOdometer);
+char carOp = noop;
 
 void setup()
 {
@@ -77,40 +75,47 @@ void setup()
         mqtt.onMessage([](String topic, String message) {
             if (topic == "/smartcar/group3/control/throttle")
             {
+                carOp = noop;
                 car.setSpeed(message.toInt());
             }
             else if (topic == "/smartcar/group3/control/steering")
             {
+                carOp = noop;
                 car.setAngle(message.toInt());
             }
             else if (topic == "/smartcar/group3/control/automove")
             {
-                switch (message.charAt(0))
-                {
-                case 'b':
-                    beeDance();
-                    break;
-                case 'c':
-                    moveCircle(60, 60, true);
-                    break;
-                case 'z':
-                    snake();
-                    break;
-                case 's':
-                    car.setSpeed(0);
-                    break;
-                case 'f':
-                    backAndForth();
-                    break;
-                default:
-                    break;
-                }
+                carOp = message.charAt(0);
             }
             else
             {
-                Serial.println(topic + " " + message);
+                // Serial.println(topic + " " + message);
             }
         });
+    }
+}
+
+void handleCarOp()
+{
+    switch (carOp)
+    {
+    case 'b':
+        beeDance();
+        break;
+    case 'c':
+        moveCircle(60, 60, true);
+        break;
+    case 'z':
+        snake();
+        break;
+    case 's':
+        car.setSpeed(0);
+        break;
+    case 'f':
+        backAndForth();
+        break;
+    default:
+        break;
     }
 }
 
@@ -118,6 +123,7 @@ void loop()
 {
     handleInput();
     avoidObstacles();
+    handleCarOp();
 
     if (mqtt.connected())
     {
@@ -245,136 +251,93 @@ void beeDance()
     }
 }
 
+int snakeState = 0;
+bool snakeBusy = false;
+int snakeStartTime = 0;
+int snakeStepTime = 3000;
+int degreesToTurn = 45;
 void snake()
 {
-    int degreesToTurn = 180;
+    if (!snakeBusy)
+    {
+        snakeStartTime = millis();
+        snakeState = 0;
+        snakeBusy = true;
+    }
+    snakeState = nextDelayedGoState(snakeStartTime, 0, snakeState, 0, 50, &go);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime, snakeState, 1, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 2, snakeState, 2, -degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 3, snakeState, 3, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 4, snakeState, 4, -degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 5, snakeState, 5, degreesToTurn, 50, &rotate);
 
-    go(distanceToTravel, fSpeed);
-    rotate(degreesToTurn, fSpeed);
-
-    go(distanceToTravel, fSpeed);
-    rotate(-180, fSpeed);
-
-    go(distanceToTravel, fSpeed);
-    rotate(degreesToTurn, fSpeed);
-
-    go(distanceToTravel, fSpeed);
-    rotate(-180, fSpeed);
-    mqtt.publish("/smartcar/group3/control/automove/complete", "snake");
+    if (snakeState == 6)
+    {
+        car.setSpeed(0);
+        snakeBusy = false;
+        snakeState = 0;
+        carOp = noop;
+        mqtt.publish("/smartcar/group3/control/automove/complete", "snake");
+    }
 }
-
-//*Title: smartCar shield automatedMovements
-//* Author: Dimitrios Platis
-//* Date: 2021-05-12
-//* Availability: https://platisd.github.io/smartcar_shield/automated_movements_8ino-example.html
 
 void rotate(int degrees, int fSpeed)
 {
-    int speed = smartcarlib::utils::getAbsolute(30);
-    degrees %= 360; // Put degrees in a (-360,360) scale
-    if (degrees == 0)
-    {
-        return;
-    }
-
-    car.setSpeed(speed);
-    if (degrees > 0)
-    {
-        car.setAngle(90);
-    }
-    else
-    {
-        car.setAngle(-90);
-    }
-
-    const auto initialHeading = car.getHeading();
-    bool hasReachedTargetDegrees = false;
-    while (!hasReachedTargetDegrees)
-    {
-        car.update();
-        auto currentHeading = car.getHeading();
-        if (degrees < 0 && currentHeading > initialHeading)
-        {
-            // If we are turning left and the current heading is larger than the
-            // initial one (e.g. started at 10 degrees and now we are at 350), we need to substract
-            // 360 so to eventually get a signed displacement from the initial heading (-20)
-            currentHeading -= 360;
-        }
-        else if (degrees > 0 && currentHeading < initialHeading)
-        {
-            // If we are turning right and the heading is smaller than the
-            // initial one (e.g. started at 350 degrees and now we are at 20), so to get a signed
-            // displacement (+30)
-            currentHeading += 360;
-        }
-        // Degrees turned so far is initial heading minus current (initial heading
-        // is at least 0 and at most 360. To handle the "edge" cases we substracted or added 360 to
-        // currentHeading)
-        int degreesTurnedSoFar = initialHeading - currentHeading;
-        hasReachedTargetDegrees = smartcarlib::utils::getAbsolute(degreesTurnedSoFar) >= smartcarlib::utils::getAbsolute(degrees);
-    }
-
-    car.setSpeed(0);
+    car.setSpeed(fSpeed);
+    car.setAngle(degrees);
 }
 
-/**
-   Makes the car travel at the specified distance with a certain speed
-   @param centimeters   How far to travel in centimeters, positive for
-                        forward and negative values for backward
-   @param speed         The speed to travel
-*/
-void go(long centimeters, int fSpeed)
+void go(int fSpeed)
 {
-    if (centimeters == 0)
-    {
-        return;
-    }
-    // Ensure the speed is towards the correct direction
-    fSpeed = smartcarlib::utils::getAbsolute(fSpeed) * ((centimeters < 0) ? -1 : 1);
     car.setAngle(0);
     car.setSpeed(fSpeed);
-    long initialDistance = car.getDistance();
-    bool hasReachedTargetDistance = false;
-    while (!hasReachedTargetDistance)
-    {
-        car.update();
-        auto currentDistance = car.getDistance();
-        auto travelledDistance = initialDistance > currentDistance
-                                     ? initialDistance - currentDistance
-                                     : currentDistance - initialDistance;
-        hasReachedTargetDistance = travelledDistance >= smartcarlib::utils::getAbsolute(centimeters);
-    }
-    car.setSpeed(0);
 }
 
-void back(long centimeters)
-{
-
-    int speed = smartcarlib::utils::getAbsolute(bSpeed) * ((centimeters < 0) ? -1 : 1);
-
-    car.setSpeed(speed);
-    long initialDistance = car.getDistance();
-    bool hasReachedTargetDistance = false;
-    while (!hasReachedTargetDistance)
-    {
-        car.update();
-        auto currentDistance = car.getDistance();
-        auto travelledDistance = initialDistance > currentDistance
-                                     ? initialDistance - currentDistance
-                                     : currentDistance - initialDistance;
-        hasReachedTargetDistance = travelledDistance >= smartcarlib::utils::getAbsolute(centimeters);
-    }
-    car.setSpeed(0);
-}
-
+int backAndForthState = 0;
+bool backAndForthBusy = false;
+int backAndForthStartTime = 0;
+int backAndForthStepTime = 3000;
 void backAndForth()
 {
-    go(distanceToTravel, fSpeed);
-    back(-distanceToTravel);
-    go(distanceToTravel, fSpeed);
-    back(-distanceToTravel);
-    go(distanceToTravel, fSpeed);
-    back(-distanceToTravel);
-    go(distanceToTravel, fSpeed);
-    mqtt.publish("/smartcar/group3/control/automove/complete", "forthBack");
+    if (!backAndForthBusy)
+    {
+        backAndForthStartTime = millis();
+        backAndForthState = 0;
+        backAndForthBusy = true;
+    }
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, 0, backAndForthState, 0, 50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime, backAndForthState, 1, -50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 2, backAndForthState, 2, 50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 3, backAndForthState, 3, -50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 4, backAndForthState, 4, 50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 5, backAndForthState, 5, -50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 6, backAndForthState, 6, 50, &go);
+    if (backAndForthState == 7)
+    {
+        car.setSpeed(0);
+        backAndForthState = 0;
+        backAndForthBusy = false;
+        carOp = noop;
+        mqtt.publish("/smartcar/group3/control/automove/complete", "forthBack");
+    }
+}
+
+int nextDelayedGoState(int startTime, int delay, int currentState, int targetState, int speed, void (*callback)(int))
+{
+    if (millis() - startTime >= delay && currentState == targetState)
+    {
+        callback(speed);
+        return currentState + 1;
+    }
+    return currentState;
+}
+
+int nextDelayedRotateState(int startTime, int delay, int currentState, int targetState, int angle, int speed, void (*callback)(int, int))
+{
+    if (millis() - startTime >= delay && currentState == targetState)
+    {
+        callback(angle, speed);
+        return currentState + 1;
+    }
+    return currentState;
 }
