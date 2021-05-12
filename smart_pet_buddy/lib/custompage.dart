@@ -21,12 +21,16 @@ class _CustomPageState extends State<CustomPage> {
   static String imageUrlCircle =
       'https://images.unsplash.com/photo-1494256997604-768d1f608cac?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2001&q=80';
   static String imageUrlZigzag =
-      'https://images.unsplash.com/photo-1562119464-eaa5ff353ead?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80';
+      'https://images.unsplash.com/photo-1596854307943-279e29c90c14?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&dl=kabo-bg9jOHUtmBs-unsplash.jpg';
+  static String imageUrlBackForth =
+      'https://images.unsplash.com/photo-1529257414772-1960b7bea4eb?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&dl=james-sutton-dQ5G0h7sLno-unsplash.jpg';
+
   static MovementInfo beeDance =
       MovementInfo('BeeDance', imageUrlBee, 'beeDance');
   static MovementInfo circle = MovementInfo('Circle', imageUrlCircle, 'circle');
   static MovementInfo zigzag = MovementInfo('Zigzag', imageUrlZigzag, 'zigzag');
-  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag];
+  static MovementInfo backForth = MovementInfo('BackForth', imageUrlBackForth, 'forthBack');
+  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, backForth, zigzag];
   final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
 
   @override

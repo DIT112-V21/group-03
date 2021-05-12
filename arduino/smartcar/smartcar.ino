@@ -1,3 +1,9 @@
+#include <Smartcar.h>
+
+#include <Smartcar.h>
+
+#include <Smartcar.h>
+
 #include <vector>
 
 #include <MQTT.h>
@@ -21,6 +27,7 @@ const auto oneSecond = 1000UL;
 const auto triggerPin = 6;
 const auto echoPin = 7;
 const auto maxDistance = 400;
+const long distanceToTravel = 40;
 
 ArduinoRuntime arduinoRuntime;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
@@ -29,12 +36,25 @@ DifferentialControl control(leftMotor, rightMotor);
 SR04 sensor(arduinoRuntime, triggerPin, echoPin);
 SR04 front(arduinoRuntime, triggerPin, echoPin, maxDistance);
 
+const auto pulsesPerMeter = 600;
+
+DirectionlessOdometer leftOdometer(
+    arduinoRuntime,
+    smartcarlib::pins::v2::leftOdometerPin,
+    []() { leftOdometer.update(); },
+    pulsesPerMeter);
+DirectionlessOdometer rightOdometer(
+    arduinoRuntime,
+    smartcarlib::pins::v2::rightOdometerPin,
+    []() { rightOdometer.update(); },
+    pulsesPerMeter);
+
 const int GYROSCOPE_OFFSET = 37;
 GY50 gyro(arduinoRuntime, GYROSCOPE_OFFSET);
 
 std::vector<char> frameBuffer;
 
-SimpleCar car(control);
+SmartCar car(arduinoRuntime, control, gyro, leftOdometer, rightOdometer);
 
 void setup()
 {
@@ -78,6 +98,9 @@ void setup()
                     break;
                 case 's':
                     car.setSpeed(0);
+                    break;
+                case 'f':
+                    backAndForth();
                     break;
                 default:
                     break;
@@ -223,32 +246,135 @@ void beeDance()
 }
 
 void snake()
-// TODO: use while(millis() < 0 + 1000) instead of delay
 {
+    int degreesToTurn = 180;
 
-    int angle = 100;
-    int counter = 0;
-    car.setSpeed(100);
-    bool isForward = true;
+    go(distanceToTravel, fSpeed);
+    rotate(degreesToTurn, fSpeed);
 
-    while (counter < 8)
+    go(distanceToTravel, fSpeed);
+    rotate(-180, fSpeed);
+
+    go(distanceToTravel, fSpeed);
+    rotate(degreesToTurn, fSpeed);
+
+    go(distanceToTravel, fSpeed);
+    rotate(-180, fSpeed);
+    mqtt.publish("/smartcar/group3/control/automove/complete", "snake");
+}
+
+//*Title: smartCar shield automatedMovements
+//* Author: Dimitrios Platis
+//* Date: 2021-05-12
+//* Availability: https://platisd.github.io/smartcar_shield/automated_movements_8ino-example.html
+
+void rotate(int degrees, int fSpeed)
+{
+    int speed = smartcarlib::utils::getAbsolute(30);
+    degrees %= 360; // Put degrees in a (-360,360) scale
+    if (degrees == 0)
     {
-        while (millis() < 0 + 1000)
+        return;
+    }
+
+    car.setSpeed(speed);
+    if (degrees > 0)
+    {
+        car.setAngle(90);
+    }
+    else
+    {
+        car.setAngle(-90);
+    }
+
+    const auto initialHeading = car.getHeading();
+    bool hasReachedTargetDegrees = false;
+    while (!hasReachedTargetDegrees)
+    {
+        car.update();
+        auto currentHeading = car.getHeading();
+        if (degrees < 0 && currentHeading > initialHeading)
         {
-
-            if (isForward)
-            {
-                car.setAngle(angle);
-            }
-            else
-            {
-                car.setAngle(0);
-            }
+            // If we are turning left and the current heading is larger than the
+            // initial one (e.g. started at 10 degrees and now we are at 350), we need to substract
+            // 360 so to eventually get a signed displacement from the initial heading (-20)
+            currentHeading -= 360;
         }
-
-        counter++;
-        angle = -angle;
+        else if (degrees > 0 && currentHeading < initialHeading)
+        {
+            // If we are turning right and the heading is smaller than the
+            // initial one (e.g. started at 350 degrees and now we are at 20), so to get a signed
+            // displacement (+30)
+            currentHeading += 360;
+        }
+        // Degrees turned so far is initial heading minus current (initial heading
+        // is at least 0 and at most 360. To handle the "edge" cases we substracted or added 360 to
+        // currentHeading)
+        int degreesTurnedSoFar = initialHeading - currentHeading;
+        hasReachedTargetDegrees = smartcarlib::utils::getAbsolute(degreesTurnedSoFar) >= smartcarlib::utils::getAbsolute(degrees);
     }
 
     car.setSpeed(0);
+}
+
+/**
+   Makes the car travel at the specified distance with a certain speed
+   @param centimeters   How far to travel in centimeters, positive for
+                        forward and negative values for backward
+   @param speed         The speed to travel
+*/
+void go(long centimeters, int fSpeed)
+{
+    if (centimeters == 0)
+    {
+        return;
+    }
+    // Ensure the speed is towards the correct direction
+    fSpeed = smartcarlib::utils::getAbsolute(fSpeed) * ((centimeters < 0) ? -1 : 1);
+    car.setAngle(0);
+    car.setSpeed(fSpeed);
+    long initialDistance = car.getDistance();
+    bool hasReachedTargetDistance = false;
+    while (!hasReachedTargetDistance)
+    {
+        car.update();
+        auto currentDistance = car.getDistance();
+        auto travelledDistance = initialDistance > currentDistance
+                                     ? initialDistance - currentDistance
+                                     : currentDistance - initialDistance;
+        hasReachedTargetDistance = travelledDistance >= smartcarlib::utils::getAbsolute(centimeters);
+    }
+    car.setSpeed(0);
+}
+
+void back(long centimeters)
+{
+
+    int speed = smartcarlib::utils::getAbsolute(bSpeed) * ((centimeters < 0) ? -1 : 1);
+
+    car.setSpeed(speed);
+    long initialDistance = car.getDistance();
+    bool hasReachedTargetDistance = false;
+    while (!hasReachedTargetDistance)
+    {
+        car.update();
+        auto currentDistance = car.getDistance();
+        auto travelledDistance = initialDistance > currentDistance
+                                     ? initialDistance - currentDistance
+                                     : currentDistance - initialDistance;
+        hasReachedTargetDistance = travelledDistance >= smartcarlib::utils::getAbsolute(centimeters);
+    }
+    car.setSpeed(0);
+}
+
+void backAndForth()
+{
+    go(distanceToTravel, fSpeed);
+    back(-distanceToTravel);
+    go(distanceToTravel, fSpeed);
+    back(-distanceToTravel);
+    go(distanceToTravel, fSpeed);
+    back(-distanceToTravel);
+    go(distanceToTravel, fSpeed);
+    mqtt.publish("/smartcar/group3/control/automove/complete", "forthBack");
 }
