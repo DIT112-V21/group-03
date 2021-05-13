@@ -8,11 +8,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/register_page.dart';
-//import 'package:flutter_signin_button/button_builder.dart';
 import 'package:smart_pet_buddy/signin_page.dart';
+import 'package:flutter_signin_button/button_builder.dart';
+import './register_page.dart';
+import './signin_page.dart';
 
-//import 'old/register_page_old.dart';
-//import './signin_page_old.dart';
+  
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
