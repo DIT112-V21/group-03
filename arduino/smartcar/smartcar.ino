@@ -89,7 +89,7 @@ void setup()
             }
             else
             {
-                // Serial.println(topic + " " + message);
+                Serial.println(topic + " " + message);
             }
         });
     }
@@ -255,14 +255,9 @@ void beeDance()
         beeBusy = true;
     }
 
-    //beeState = nextDelayedGoState(beeStartTime, 0, beeState, 0, 50, &go);
     beeState = nextDelayedRotateState(beeStartTime, 0, beeState, 0, degreesToTurnBee, 50, &rotate);
-    //beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 2, beeState, 1, 0, 20, &rotate);
     beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 3, beeState, 1, -degreesToTurnBee, 50, &rotate);
     beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 5, beeState, 2, 0, 0, &rotate);
-    //moveCircle(50, 100, true);
-    //moveCircle(50, 100, false);
-    //while (millis() < 0 + 1000)
 
     if (beeState == 3)
     {
