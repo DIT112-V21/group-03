@@ -37,12 +37,13 @@ Future<MqttClient> connect() async {
 
   if (client.connectionStatus.state == MqttConnectionState.connected) {
     print('EMQX client connected');
+    client.subscribe("/smartcar/group3/camera", MqttQos.atMostOnce);
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
       final MqttPublishMessage message = c[0].payload;
       final payload =
           MqttPublishPayload.bytesToStringAsString(message.payload.message);
       if (c[0].topic == '/smartcar/group3/camera') {
-        Uint8List incomingData = message.payload.message as Uint8List;
+        Uint8List incomingData = message.payload.message.toList();
         Uint8List picData;
         for (var i = 0; i < incomingData.length; i++) {
           picData.add(incomingData[i]);
@@ -51,6 +52,7 @@ Future<MqttClient> connect() async {
           }
         }
         Bitmap bm = Bitmap.fromHeadful(320, 240, picData);
+        SpbMqttClient.imageValueNotifier.value = bm;
       } else {
         print('Received message:$payload from topic: ${c[0].topic}>');
       }
@@ -75,6 +77,7 @@ Future<MqttClient> connect() async {
 
 void onConnected() {
   SpbMqttClient.isConnected = true;
+
   print('Connected');
 }
 

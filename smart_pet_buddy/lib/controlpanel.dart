@@ -1,3 +1,4 @@
+import 'package:bitmap/bitmap.dart';
 import 'package:flutter/material.dart';
 import 'flutter_mqtt_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -8,7 +9,9 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 //ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key,}) : super(key: key);
+  Controlpanel({
+    Key key,
+  }) : super(key: key);
   //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
@@ -19,6 +22,7 @@ class ControlpanelState extends State<Controlpanel> {
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
 
   MqttServerClient client = SpbMqttClient.client;
+  ValueNotifier<Bitmap> imageValueNotifier;
 
   int _counter = 0;
   int currentSpeed = 0;
@@ -191,6 +195,19 @@ class ControlpanelState extends State<Controlpanel> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    imageValueNotifier = SpbMqttClient.imageValueNotifier;
+  }
+
+  @override
+  void dispose() {
+    imageValueNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       //alignment: Alignment.center,
@@ -201,28 +218,40 @@ class ControlpanelState extends State<Controlpanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
+                  child: ValueListenableBuilder<Bitmap>(
+                valueListenable: SpbMqttClient.imageValueNotifier,
+                builder: (BuildContext context, Bitmap bitmap, Widget child) {
+                  if (bitmap == null) {
+                    return const CircularProgressIndicator();
+                  }
+                  return Center(
+                    child: Image.memory(bitmap.buildHeaded()),
+                  );
+                },
+              )),
+              Flexible(
                   child: SpbMqttClient.isConnected
-                      ?
-                       TextButton(
-                          child: Text('Disconnect',style: TextStyle(color: Colors.red)),
-                          onPressed: () => {(){
-                            client.disconnect();
-                            setState(() {});
-
-                          }
-
+                      ? TextButton(
+                          child: Text('Disconnect',
+                              style: TextStyle(color: Colors.red)),
+                          onPressed: () => {
+                            () {
+                              client.disconnect();
+                              setState(() {});
+                            }
                           },
-                        ):TextButton(
-                            child: Text('Connect',style: TextStyle(color: Colors.green)),
-                            onPressed: () => {
-                                connect().then((value) {
-                                  client = value;
-                                  SpbMqttClient.client = client;
-                                  setState(() {});
-                                   })
-                                    },
-                              )
-              ),
+                        )
+                      : TextButton(
+                          child: Text('Connect',
+                              style: TextStyle(color: Colors.green)),
+                          onPressed: () => {
+                            connect().then((value) {
+                              client = value;
+                              SpbMqttClient.client = client;
+                              setState(() {});
+                            })
+                          },
+                        )),
             ],
           ),
         ),
