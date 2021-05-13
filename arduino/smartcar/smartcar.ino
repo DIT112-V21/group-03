@@ -103,7 +103,7 @@ void handleCarOp()
         beeDance();
         break;
     case 'c':
-        moveCircle(60, 60, true);
+        moveCircle();
         break;
     case 'z':
         snake();
@@ -183,7 +183,7 @@ void handleInput()
             car.setAngle(0);
             break;
         case 'c': // cicrle
-            moveCircle(50, 50, true);
+            moveCircle();
             break;
         case 's':
             snake();
@@ -212,41 +212,64 @@ void avoidObstacles()
     }
 }
 
-void moveCircle(int speed, int angle, bool direction)
+int circleState = 0;
+bool circleBusy = false;
+int circleStartTime = 0;
+int circleStepTime = 3000;
+int degreesToTurnCircle = 45;
+
+void moveCircle()
 {
-
-    gyro.update();
-    const int startingHeading = gyro.getHeading();
-    int currentHeading = -1;
-
-    if (!direction)
+    if (!circleBusy)
     {
-        angle = -angle;
+        circleStartTime = millis();
+        circleState = 0;
+        circleBusy = true;
     }
-    car.setAngle(angle);
-    car.setSpeed(speed);
-    while (millis() < 0 + 1000)
+
+    circleState = nextDelayedRotateState(circleStartTime, 0, circleState, 0, degreesToTurnCircle, 50, &rotate);
+    circleState = nextDelayedRotateState(circleStartTime, circleStepTime * 3, circleState, 1, 0, 0, &rotate);
+
+    if (circleState == 2)
     {
-        do
-        {
-
-            gyro.update();
-            currentHeading = gyro.getHeading();
-
-        } while (currentHeading != startingHeading);
-
         car.setSpeed(0);
+        circleBusy = false;
+        circleState = 0;
+        carOp = noop;
         mqtt.publish("/smartcar/group3/control/automove/complete", "circle");
-        return;
     }
 }
 
+int beeState = 0;
+bool beeBusy = false;
+int beeStartTime = 0;
+int beeStepTime = 3000;
+int degreesToTurnBee = 45;
+
 void beeDance()
 {
-    moveCircle(50, 100, true);
-    moveCircle(50, 100, false);
-    while (millis() < 0 + 1000)
+    if (!beeBusy)
     {
+        beeStartTime = millis();
+        beeState = 0;
+        beeBusy = true;
+    }
+
+    //beeState = nextDelayedGoState(beeStartTime, 0, beeState, 0, 50, &go);
+    beeState = nextDelayedRotateState(beeStartTime, 0, beeState, 0, degreesToTurnBee, 50, &rotate);
+    //beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 2, beeState, 1, 0, 20, &rotate);
+    beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 3, beeState, 1, -degreesToTurnBee, 50, &rotate);
+    beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 5, beeState, 2, 0, 0, &rotate);
+    //moveCircle(50, 100, true);
+    //moveCircle(50, 100, false);
+    //while (millis() < 0 + 1000)
+
+    if (beeState == 3)
+    {
+        car.setSpeed(0);
+        beeBusy = false;
+        beeState = 0;
+        carOp = noop;
         mqtt.publish("/smartcar/group3/control/automove/complete", "beeDancing");
     }
 }
@@ -265,11 +288,11 @@ void snake()
         snakeBusy = true;
     }
     snakeState = nextDelayedGoState(snakeStartTime, 0, snakeState, 0, 50, &go);
-    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime, snakeState, 1, degreesToTurn, 50, &rotate);
-    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 2, snakeState, 2, -degreesToTurn, 50, &rotate);
-    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 3, snakeState, 3, degreesToTurn, 50, &rotate);
-    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 4, snakeState, 4, -degreesToTurn, 50, &rotate);
-    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 5, snakeState, 5, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime / 2, snakeState, 1, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 1, snakeState, 2, -degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 2, snakeState, 3, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 3, snakeState, 4, -degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 4, snakeState, 5, degreesToTurn, 50, &rotate);
 
     if (snakeState == 6)
     {
