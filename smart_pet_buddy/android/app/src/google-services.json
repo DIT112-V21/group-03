@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "785346127254",
+    "firebase_url": "https://smartpetbuddy-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "smartpetbuddy",
+    "storage_bucket": "smartpetbuddy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785346127254:android:c9e12ed85da62259ca69b7",
+        "android_client_info": {
+          "package_name": "com.group3.smart_pet_buddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785346127254-hea76nodofshk2fd0v6oqpsab42027dh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.group3.smart_pet_buddy",
+            "certificate_hash": "772cda468318883f523c16c1538d37d6abcfe41f"
+          }
+        },
+        {
+          "client_id": "785346127254-0jot1npso1ok7nm5m4sahg1a5uek5h26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlQ4aB3TudCZH4a8Z-aMbTK7MP1Y5jvrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785346127254-0jot1npso1ok7nm5m4sahg1a5uek5h26.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "785346127254-lv8lf5j09sth90fkarl35uq5jf7uqr1k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.group3.smartPetBuddy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

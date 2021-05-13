@@ -192,6 +192,8 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -228,6 +230,7 @@ class ControlpanelState extends State<Controlpanel> {
         //     ],
         //   ),
         // ),
+
         Spacer(),
         Expanded(
           flex: 2,
@@ -394,6 +397,7 @@ class ControlpanelState extends State<Controlpanel> {
               flex: 1,
               child: TextButton(
                 child: Text("+"),
+
                 onPressed: _addSpeed,
               )),
         ])),
