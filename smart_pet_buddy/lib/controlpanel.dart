@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/racemode.dart';
-import 'flutter_mqtt_client.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:hexcolor/hexcolor.dart';

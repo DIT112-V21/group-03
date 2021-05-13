@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_pet_buddy/racemode.dart';
-
 import 'controlpanel.dart';
 
 
