@@ -5,15 +5,16 @@
 // @dart=2.9
 
 //import 'package:firebase_auth/firebase_auth.dart'; // Only needed if you configure the Auth Emulator below
+//import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/register_page.dart';
 import 'package:smart_pet_buddy/signin_page.dart';
+
 //import 'package:flutter_signin_button/button_builder.dart';
 import './register_page.dart';
 import './signin_page.dart';
-
-  
+import 'constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +27,6 @@ Future<void> main() async {
   ));
 }
 
-
-
 /// The entry point of the application.
 ///
 /// Returns a [MaterialApp].
@@ -39,54 +38,73 @@ class SmartPetBuddy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: lightGreen,
+      // decoration: BoxDecoration(
+      //     image: DecorationImage(
+      //       image: AssetImage('assets/images/homepage.jpg'),
+      //       fit: BoxFit.cover,
+      //     )
+      // ),
       body: SafeArea(
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //       image: AssetImage('assets/images/homepage.jpg'),
-          //       fit: BoxFit.cover,
-          //     )
-          // ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  Text(
-                    "Smart Pet Buddy",
-                    style: TextStyle(
-                      color: Colors.green.shade500,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
                   SizedBox(
-                    height: 30,
+                    height: 50,
                   ),
-                  Text(
-                    "We Love Your Pet",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  )
+                  // Text(
+                  //   "SMART PET BUDDY",
+                  //   style: TextStyle(
+                  //     color: Colors.black,
+                  //     fontFamily: 'Lato',
+                  //     fontWeight: FontWeight.w800,
+                  //     fontSize: 30,
+                  //   ),
+                  // ),
+
+                  // Text(
+                  //   "We Love Your Pet",
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(
+                  //     color: Colors.grey,
+                  //     fontWeight: FontWeight.bold,
+                  //     fontSize: 20,
+                  //   ),
                 ],
               ),
               Container(
-                height: MediaQuery.of(context).size.height / 3,
+                height: MediaQuery.of(context).size.height / 2,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://media1.tenor.com/images/fad0fe04b7ca06b8924bda17af7cf571/tenor.gif')
-                        // image: AssetImage("")
-                        )),
+                  // image: NetworkImage(
+                  //  'https://media1.tenor.com/images/fad0fe04b7ca06b8924bda17af7cf571/tenor.gif')
+                  image: AssetImage("assets/images/landing_page_logo.png"),
+                  fit: BoxFit.cover,
+                )),
               ),
+              // SizedBox(
+              //   width: 300.0,
+              //   child: AnimatedTextKit(
+              //     animatedTexts: [
+              //       ColorizeAnimatedText(
+              //         'We Love Your Pet',
+              //         textStyle: colorizeTextStyle,
+              //         colors: colorizeColors,
+              //       ),
+              //     ],
+              //     isRepeatingAnimation: true,
+              //     onTap: () {
+              //       print("Tap Event");
+              //     },
+              //   ),
+              // ),
               Column(
                 children: <Widget>[
                   // the login button
@@ -99,14 +117,17 @@ class SmartPetBuddy extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => SignInPageNew(app)));
                     },
+                    color: lightYellow,
                     // defining the shape
                     shape: RoundedRectangleBorder(
                         side: BorderSide(color: Colors.black),
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(
                       "Login",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 25,
+                          fontFamily: 'GoodDog New'),
                     ),
                   ),
                   // creating the signup button
@@ -120,15 +141,16 @@ class SmartPetBuddy extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => RegisterPageNew(app)));
                     },
-                    color: Colors.green,
+                    color: midGreen,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(
                       "Sign up",
                       style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 25,
+                          fontFamily: 'GoodDog New'),
                     ),
                   )
                 ],

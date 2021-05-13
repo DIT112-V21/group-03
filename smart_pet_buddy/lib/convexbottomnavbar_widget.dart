@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_pet_buddy/constants.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
@@ -41,8 +42,8 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
       bottomNavigationBar: StyleProvider(
         style: Style(),
         child: ConvexAppBar(
-            backgroundColor: Colors.green,
-            activeColor: Colors.amberAccent,
+            backgroundColor: midGreen,
+            activeColor: lightYellow,
             height: 50,
             top: -30,
             curveSize: 100,

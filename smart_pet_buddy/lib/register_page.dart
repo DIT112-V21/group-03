@@ -8,8 +8,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
+import 'package:smart_pet_buddy/convexbottomnavbar_widget.dart';
 
-import 'bottomnavbar.dart';
+//import 'bottomnavbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -157,7 +158,7 @@ class _RegisterPageNewState extends State<RegisterPageNew> {
                                 Future.delayed(Duration(milliseconds: 500), () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          BottomBar(widget.app)));
+                                          ConvexBottomBar(widget.app)));
                                   // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
                                 });
 

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:smart_pet_buddy/main.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
+import 'constants.dart';
 import 'flutter_mqtt_client.dart';
 
 
@@ -25,9 +26,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
           title: Text('Home'),
-          backgroundColor: Colors.green.shade400,
+          backgroundColor: midGreen,
           actions: <Widget>[
             Builder(builder: (BuildContext context) {
               return TextButton(

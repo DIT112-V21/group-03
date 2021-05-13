@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
 import 'controlpanel.dart';
 
 
@@ -14,7 +15,7 @@ class _PlayPageState extends State<PlayPage> {
     return  Scaffold(
       appBar: AppBar(
           title: Text('Play'),
-        backgroundColor:Colors.green.shade400,
+        backgroundColor: midGreen,
       ),
       body:Container(
         decoration: BoxDecoration(
