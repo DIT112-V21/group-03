@@ -54,11 +54,6 @@ Future<MqttClient> connect() async {
           }
         }
         Uint8List picBm = Uint8List.fromList(picData);
-        print('payload');
-        print(incomingData);
-        print('result:');
-        print(picBm);
-
         Bitmap bm = Bitmap.fromHeadless(320, 240, picBm);
         SpbMqttClient.bmValueNotifier.value = bm;
         // Image image = Image.memory(bm.buildHeaded());
@@ -67,17 +62,7 @@ Future<MqttClient> connect() async {
         print('Received message:$payload from topic: ${c[0].topic}>');
       }
     });
-
-    client.published.listen((MqttPublishMessage message) {
-      print('published');
-      final payload =
-          MqttPublishPayload.bytesToStringAsString(message.payload.message);
-      print(
-          'Published message: $payload to topic: ${message.variableHeader.topicName}');
-    });
   } else {
-    print(
-        'EMQX client connection failed - disconnecting, status is ${client.connectionStatus}');
     client.disconnect();
     exit(-1);
   }
