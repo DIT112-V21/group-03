@@ -214,7 +214,7 @@ class ControlpanelState extends State<Controlpanel> {
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
             flex: 2,
-            child: Flexible(
+            child: Container(
                 child: ValueListenableBuilder<Bitmap>(
               valueListenable: SpbMqttClient.bmValueNotifier,
               builder: (BuildContext context, Bitmap bitmap, Widget child) {
