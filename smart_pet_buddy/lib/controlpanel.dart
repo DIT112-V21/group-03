@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'flutter_mqtt_client.dart';
+import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,7 +8,9 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 //ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key,}) : super(key: key);
+  Controlpanel({
+    Key key,
+  }) : super(key: key);
   //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
@@ -201,28 +203,17 @@ class ControlpanelState extends State<Controlpanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                  child: SpbMqttClient.isConnected
-                      ?
-                       TextButton(
-                          child: Text('Disconnect',style: TextStyle(color: Colors.red)),
-                          onPressed: () => {(){
-                            client.disconnect();
-                            setState(() {});
-
-                          }
-
-                          },
-                        ):TextButton(
-                            child: Text('Connect',style: TextStyle(color: Colors.green)),
-                            onPressed: () => {
-                                connect().then((value) {
-                                  client = value;
-                                  SpbMqttClient.client = client;
-                                  setState(() {});
-                                   })
-                                    },
-                              )
-              ),
+                child: TextButton(
+                  child: Text('Try the race mode!'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RaceMode()
+                        //       )
+                        //       ),),
+                        ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
