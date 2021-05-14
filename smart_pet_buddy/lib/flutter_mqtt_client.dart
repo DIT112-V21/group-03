@@ -1,8 +1,6 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:bitmap/bitmap.dart';
-import 'package:flutter/src/widgets/image.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'dart:io';
