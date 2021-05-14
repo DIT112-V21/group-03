@@ -2,11 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:smart_pet_buddy/main.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
-import 'constants.dart';
 import 'flutter_mqtt_client.dart';
-
+import 'main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -26,10 +24,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
           title: Text('Home'),
-          backgroundColor: midPrimary,
+          backgroundColor: Colors.green.shade400,
           actions: <Widget>[
             Builder(builder: (BuildContext context) {
               return TextButton(
@@ -163,6 +160,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> signOut() async {
     await _auth.signOut();
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => SmartPetBuddy(widget.app)));
+        builder: (BuildContext context) => AuthTypeSelector(widget.app)));
   }
 }

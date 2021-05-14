@@ -8,7 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:smart_pet_buddy/constants.dart';
 import 'package:smart_pet_buddy/password_input.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -42,15 +41,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
         .then((value) => locationController.text = value.data()['location']);
 
     return Scaffold(
-      backgroundColor: lightPrimary,
       appBar: AppBar(
-        //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        backgroundColor: lightPrimary,
-        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 1,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: strongPrimary,
+            color: Colors.green,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -167,8 +164,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                      shadowColor: strongShade
+                            borderRadius: BorderRadius.circular(20))
                       ),
                     child: Text("CANCEL",
                         style: TextStyle(
@@ -272,7 +268,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
-                        shadowColor: strongPrimary
                     ),
                     child: Text(
                       "SAVE",
