@@ -76,7 +76,7 @@ class SmartPetBuddy extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => SignInPage(app)));
                     },
-                    color: lightShade,
+                    color: midShade,
                     // defining the shape
                     shape: RoundedRectangleBorder(
                         side: BorderSide(color: textColor),

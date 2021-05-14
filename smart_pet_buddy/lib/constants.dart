@@ -21,8 +21,9 @@ const lightPrimary = Color(0xFF9FDBE7);
 const strongPrimary = Color(0xFF005263);
 const textColor = Color(0xFF020122);
 const midPrimary = Color(0xFF62A8AC);
-const lightShade = Color(0xFFFFC65C);
+const midShade = Color(0xFFFFC65C);
 const strongShade = Color(0xFFE57F17);
+const lightShade = Color(0xFFF5DFA0);
 
 //text
 const primaryTextFont = TextStyle(fontFamily: 'Nexa Rust');

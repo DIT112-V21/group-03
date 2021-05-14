@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
 import 'controlpanel.dart';
 
 
@@ -12,7 +13,8 @@ class _PlayPageState extends State<PlayPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-          title: Text('Play'),
+        backgroundColor: strongPrimary,
+          title: Text(''),
         //   actions: [
         //   IconButton(
         //       onPressed: () => Navigator.push( context, MaterialPageRoute(builder: (context) => RaceMode()
@@ -21,8 +23,7 @@ class _PlayPageState extends State<PlayPage> {
         //       icon: Icon(Icons.speed),
         //   )
         // ],
-        backgroundColor:Colors.green.shade400,
-      ),
+     ),
       body:Container(
         decoration: BoxDecoration(
             image: DecorationImage(

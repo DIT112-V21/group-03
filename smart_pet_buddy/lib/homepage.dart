@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
+import 'constants.dart';
 import 'flutter_mqtt_client.dart';
 import 'main.dart';
 
@@ -25,8 +26,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Home'),
-          backgroundColor: Colors.green.shade400,
+          title: Text(''),
+          backgroundColor: strongPrimary,
           actions: <Widget>[
             Builder(builder: (BuildContext context) {
               return TextButton(
@@ -102,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-                      shape: CircleBorder(), primary: Colors.red, ),
+                      shape: CircleBorder(), primary: Colors.red.shade700, ),
                   )
                     : ElevatedButton(
                   onPressed: () => {
@@ -119,7 +120,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
-                      shape: CircleBorder(), primary: Colors.green),
+                      shape: CircleBorder(), primary: Colors.green.shade700),
 
                 )),
             // Flexible(
