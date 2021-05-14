@@ -160,6 +160,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> signOut() async {
     await _auth.signOut();
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => AuthTypeSelector(widget.app)));
+        builder: (BuildContext context) => SmartPetBuddy(widget.app)));
   }
 }
