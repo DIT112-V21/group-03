@@ -71,7 +71,9 @@ class _RegisterPageNewState extends State<RegisterPageNew> {
                     height: 40,
                   ),
                   TextFormField(
+
                     controller: _usernameController,
+
                     decoration: const InputDecoration(
                       labelText: 'Name',
                       filled: true,
@@ -83,6 +85,9 @@ class _RegisterPageNewState extends State<RegisterPageNew> {
                         color: Colors.black,
                       )),
                     ),
+
+                  //  decoration: const InputDecoration(labelText: 'Name',),
+
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';

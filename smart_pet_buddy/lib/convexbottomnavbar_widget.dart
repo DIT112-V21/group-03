@@ -61,7 +61,6 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
               });
             }),
       )
-
     );
   }
 }

@@ -38,6 +38,7 @@ dependencies:
   camera: ^0.8.1
   convex_bottom_bar: ^3.0.0
   flutter_radio_slider: ^0.0.2
+
   image: ^3.0.2
   animated_text_kit: ^4.2.1
   # The following adds the Cupertino Icons font to your application.
