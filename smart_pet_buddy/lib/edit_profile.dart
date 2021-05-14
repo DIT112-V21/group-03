@@ -42,15 +42,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
         .then((value) => locationController.text = value.data()['location']);
 
     return Scaffold(
-      backgroundColor: lightGreen,
+      backgroundColor: lightPrimary,
       appBar: AppBar(
         //backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        backgroundColor: lightGreen,
+        backgroundColor: lightPrimary,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
-            color: strongGreen,
+            color: strongPrimary,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -168,7 +168,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
-                      shadowColor: strongYellow
+                      shadowColor: strongShade
                       ),
                     child: Text("CANCEL",
                         style: TextStyle(
@@ -272,7 +272,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
-                        shadowColor: strongYellow
+                        shadowColor: strongPrimary
                     ),
                     child: Text(
                       "SAVE",

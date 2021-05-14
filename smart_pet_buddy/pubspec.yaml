@@ -62,8 +62,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/homepage.jpg
-    - assets/images/landingpage_logo.jpg
-    - assets/images/landing_page_logo.png
+    - assets/images/smart-pet-buddy.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

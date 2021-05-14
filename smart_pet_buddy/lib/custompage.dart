@@ -81,10 +81,10 @@ class _CustomPageState extends State<CustomPage> {
       _initCommandStatusListener();
     });
     return Scaffold(
-      backgroundColor: lightYellow,
+      backgroundColor: lightShade,
         appBar: AppBar(
           title: Text('Automated play sessions'),
-          backgroundColor:  midGreen,
+          backgroundColor:  midPrimary,
         ),
         body: Container(
           //child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

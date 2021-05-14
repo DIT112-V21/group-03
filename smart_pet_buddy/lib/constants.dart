@@ -15,10 +15,12 @@ const colorizeTextStyle = TextStyle(
   fontWeight: FontWeight.bold
 );
 
-const lightGreen = Color(0xFF83CE99);
-const strongGreen = Color(0xFF004B21);
-const midGreen = Color(0xFF408A5A);
-const lightYellow = Color(0xFFFFC65C);
-const strongYellow = Color(0xFFE57F17);
+const lightPrimary = Color(0xFF9FDBE7);
+const strongPrimary = Color(0xFF005263);
+const textColor = Color(0xFF020122);
+const midPrimary = Color(0xFF62A8AC);
+const lightShade = Color(0xFFFFC65C);
+const strongShade = Color(0xFFE57F17);
 
-const primaryTextFont = TextStyle(fontFamily: 'GoodDog New');
+
+const primaryTextFont = TextStyle(fontFamily: 'Nexa Rust');

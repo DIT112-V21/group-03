@@ -38,7 +38,7 @@ class SmartPetBuddy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: lightGreen,
+      backgroundColor: lightPrimary,
       // decoration: BoxDecoration(
       //     image: DecorationImage(
       //       image: AssetImage('assets/images/homepage.jpg'),
@@ -80,12 +80,12 @@ class SmartPetBuddy extends StatelessWidget {
                 ],
               ),
               Container(
-                height: MediaQuery.of(context).size.height / 2,
+                height: MediaQuery.of(context).size.height / 3,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   // image: NetworkImage(
                   //  'https://media1.tenor.com/images/fad0fe04b7ca06b8924bda17af7cf571/tenor.gif')
-                  image: AssetImage("assets/images/landing_page_logo.png"),
+                  image: AssetImage("assets/images/smart-pet-buddy.png"),
                   fit: BoxFit.cover,
                 )),
               ),
@@ -117,17 +117,18 @@ class SmartPetBuddy extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => SignInPageNew(app)));
                     },
-                    color: lightYellow,
+                    color: lightShade,
                     // defining the shape
                     shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.black),
+                        side: BorderSide( color: textColor),
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(
                       "Login",
                       style: TextStyle(
+                        color: textColor,
                           fontWeight: FontWeight.w800,
                           fontSize: 25,
-                          fontFamily: 'GoodDog New'),
+                          fontFamily: 'Nexa Rust'),
                     ),
                   ),
                   // creating the signup button
@@ -141,7 +142,7 @@ class SmartPetBuddy extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => RegisterPageNew(app)));
                     },
-                    color: midGreen,
+                    color: strongPrimary,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(
@@ -150,7 +151,7 @@ class SmartPetBuddy extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
                           fontSize: 25,
-                          fontFamily: 'GoodDog New'),
+                          fontFamily: 'Nexa Rust'),
                     ),
                   )
                 ],

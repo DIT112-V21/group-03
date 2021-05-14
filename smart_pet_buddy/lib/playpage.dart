@@ -15,7 +15,7 @@ class _PlayPageState extends State<PlayPage> {
     return  Scaffold(
       appBar: AppBar(
           title: Text('Play'),
-        backgroundColor: midGreen,
+        backgroundColor: midPrimary,
       ),
       body:Container(
         decoration: BoxDecoration(

@@ -42,8 +42,8 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
       bottomNavigationBar: StyleProvider(
         style: Style(),
         child: ConvexAppBar(
-            backgroundColor: midGreen,
-            activeColor: lightYellow,
+            backgroundColor: midPrimary,
+            activeColor: lightShade,
             height: 50,
             top: -30,
             curveSize: 100,

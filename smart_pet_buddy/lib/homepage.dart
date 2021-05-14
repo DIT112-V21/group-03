@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
         appBar: AppBar(
           title: Text('Home'),
-          backgroundColor: midGreen,
+          backgroundColor: midPrimary,
           actions: <Widget>[
             Builder(builder: (BuildContext context) {
               return TextButton(
