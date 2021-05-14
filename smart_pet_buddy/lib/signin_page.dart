@@ -13,8 +13,6 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:smart_pet_buddy/constants.dart';
-
-//import 'bottomnavbar.dart';
 import 'bottomnavbar_widget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -23,9 +21,6 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 /// Entrypoint example for various sign-in flows with Firebase.
 class SignInPage extends StatefulWidget {
   final FirebaseApp app;
-
-  // /// The page title.
-  // final String title = 'Sign In & Out';
 
   SignInPage(this.app);
 
@@ -37,11 +32,12 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: lightShade,
       appBar: AppBar(
         //title: Text(widget.title),
           elevation: 0,
           brightness: Brightness.light,
-          backgroundColor: Colors.white,
+          backgroundColor: lightShade,
           leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -49,7 +45,7 @@ class _SignInPageState extends State<SignInPage> {
             icon: Icon(
               Icons.arrow_back_ios,
               size: 20,
-              color: Colors.black,
+              color: textColor,
             ),
           )),
       body: Builder(builder: (BuildContext context) {
@@ -61,7 +57,6 @@ class _SignInPageState extends State<SignInPage> {
             //_AnonymouslySignInSection(),
             //_PhoneSignInSection(Scaffold.of(context)),
             _OtherProvidersSignInSection(widget.app),
-            //_ThirdPartySignInSection()
           ],
         );
       }),
@@ -88,6 +83,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     return Form(
         key: _formKey,
         child: Card(
+          color: lightShade,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -98,9 +94,9 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                   child: const Text(
                     'Log in to your account',
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         fontSize: 25,
-                        color: Colors.grey),
+                        color: strongPrimary),
                   ),
                 ),
                 SizedBox(
@@ -125,7 +121,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                         left: 14.0, bottom: 6.0, top: 8.0),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.black,
+                          color: midPrimary,
                         )),
                   ),
                   validator: (String value) {
@@ -142,11 +138,11 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     labelText: 'Password',
                     filled: true,
                     contentPadding: const EdgeInsets.only(
-                        left: 14.0, bottom: 6.0, top: 8.0),
+                        left: 14.0, bottom: 8.0, top: 10.0),
                     fillColor: Colors.white30,
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: Colors.black,
+                          color: midPrimary,
                         )),
                   ),
                   validator: (String value) {
@@ -167,7 +163,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     ),
                     text: 'Sign In',
                     textColor: textColor,
-                    fontSize: 18,
+                    fontSize: 20,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         await _signInWithEmailAndPassword();
@@ -593,36 +589,6 @@ class _PhoneSignInSectionState extends State<_PhoneSignInSection> {
   }
 }
 
-class _ThirdPartySignInSection extends StatefulWidget {
-  @override
-  __ThirdPartySignInSectionState createState() =>
-      __ThirdPartySignInSectionState();
-}
-
-class __ThirdPartySignInSectionState extends State<_ThirdPartySignInSection> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-// class GoogleButton extends StatefulWidget {
-//   @override
-//   _GoogleButtonState createState() => _GoogleButtonState();
-// }
-//
-// class _GoogleButtonState extends State<GoogleButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: TextButton(onPressed: ,)
-//     );
-//   }
-// }
-
-
-
-
-
 
 class _OtherProvidersSignInSection extends StatefulWidget {
 
@@ -645,26 +611,30 @@ class _OtherProvidersSignInSectionState
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: lightShade,
       child: Padding(
+
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
+
                 alignment: Alignment.center,
                 child: const Text('Social Authentication',
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                alignment: Alignment.center,
-                child: kIsWeb
-                    ? const Text(
-                    'When using Flutter Web, API keys are configured through the Firebase Console. The below providers demonstrate how this works')
-                    : const Text(
-                    'We do not provide an API to obtain the token for below providers apart from Google '
-                        'Please use a third party service to obtain token for other providers.'),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.only(top: 16),
+              //   alignment: Alignment.center,
+              //   child:
+              //   kIsWeb
+              //       ? const Text(
+              //       'When using Flutter Web, API keys are configured through the Firebase Console. The below providers demonstrate how this works')
+              //       : const Text(
+              //       'We do not provide an API to obtain the token for below providers apart from Google '
+              //           'Please use a third party service to obtain token for other providers.'),
+              // ),
               Container(
                 padding: const EdgeInsets.only(top: 16),
                 alignment: Alignment.center,
@@ -690,14 +660,14 @@ class _OtherProvidersSignInSectionState
                         ),
                       ),
                     ),
-                    ListTile(
-                      title: const Text('Twitter'),
-                      leading: Radio<int>(
-                        value: 2,
-                        groupValue: _selection,
-                        onChanged: _handleRadioButtonSelected,
-                      ),
-                    ),
+                    // ListTile(
+                    //   title: const Text('Twitter'),
+                    //   leading: Radio<int>(
+                    //     value: 2,
+                    //     groupValue: _selection,
+                    //     onChanged: _handleRadioButtonSelected,
+                    //   ),
+                    // ),
                     ListTile(
                       title: const Text('Google'),
                       leading: Radio<int>(
@@ -709,7 +679,7 @@ class _OtherProvidersSignInSectionState
                   ],
                 ),
               ),
-              Visibility(
+               Visibility(
                 visible: _showProviderTokenField && !kIsWeb,
                 child: TextField(
                   controller: _tokenController,
@@ -768,13 +738,13 @@ class _OtherProvidersSignInSectionState
           }
           break;
 
-        case 2:
-          {
-            _provider = 'Twitter';
-            _showAuthSecretTextField = true;
-            _showProviderTokenField = true;
-          }
-          break;
+        // case 2:
+        //   {
+        //     _provider = 'Twitter';
+        //     _showAuthSecretTextField = true;
+        //     _showProviderTokenField = true;
+        //   }
+        //   break;
 
         default:
           {
@@ -794,8 +764,8 @@ class _OtherProvidersSignInSectionState
       case 1:
         _signInWithFacebook();
         break;
-      case 2:
-        _signInWithTwitter();
+      // case 2:
+      //   _signInWithTwitter();
         break;
       default:
         _signInWithGoogle();
@@ -854,35 +824,35 @@ class _OtherProvidersSignInSectionState
     }
   }
 
-  // Example code of how to sign in with Twitter.
-  Future<void> _signInWithTwitter() async {
-    try {
-      UserCredential userCredential;
-
-      if (kIsWeb) {
-        TwitterAuthProvider twitterProvider = TwitterAuthProvider();
-        await _auth.signInWithPopup(twitterProvider);
-      } else {
-        final AuthCredential credential = TwitterAuthProvider.credential(
-            accessToken: _tokenController.text,
-            secret: _tokenSecretController.text);
-        userCredential = await _auth.signInWithCredential(credential);
-      }
-
-      final user = userCredential.user;
-
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Sign In ${user.uid} with Twitter'),
-      ));
-    } catch (e) {
-      print(e);
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to sign in with Twitter: $e'),
-        ),
-      );
-    }
-  }
+  // // Example code of how to sign in with Twitter.
+  // Future<void> _signInWithTwitter() async {
+  //   try {
+  //     UserCredential userCredential;
+  //
+  //     if (kIsWeb) {
+  //       TwitterAuthProvider twitterProvider = TwitterAuthProvider();
+  //       await _auth.signInWithPopup(twitterProvider);
+  //     } else {
+  //       final AuthCredential credential = TwitterAuthProvider.credential(
+  //           accessToken: _tokenController.text,
+  //           secret: _tokenSecretController.text);
+  //       userCredential = await _auth.signInWithCredential(credential);
+  //     }
+  //
+  //     final user = userCredential.user;
+  //
+  //     Scaffold.of(context).showSnackBar(SnackBar(
+  //       content: Text('Sign In ${user.uid} with Twitter'),
+  //     ));
+  //   } catch (e) {
+  //     print(e);
+  //     Scaffold.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('Failed to sign in with Twitter: $e'),
+  //       ),
+  //     );
+  //   }
+  // }
 
   //Example code of how to sign in with Google.
   Future<void> _signInWithGoogle() async {
@@ -918,29 +888,3 @@ class _OtherProvidersSignInSectionState
     }
   }
 }
-//
-// Future<User> _signInWithGoogle1() async {
-//   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-//   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-//
-//   final GoogleAuthCredential googleAuthCredential =
-//       GoogleAuthProvider.credential(
-//     accessToken: googleAuth.accessToken,
-//     idToken: googleAuth.idToken,
-//   );
-//   final UserCredential userCredential =
-//       await _auth.signInWithCredential(googleAuthCredential);
-//   final User user = userCredential.user;
-//
-//   assert(!user.isAnonymous);
-//   assert(await user.getIdToken() != null);
-//
-//   final User currentUser = await _auth.currentUser;
-//   assert(currentUser.uid == user.uid );
-//
-//   return user;
-// }
-//
-// void signOutGoogle() async {
-//   await googleSignIn.signOut();
-// }
