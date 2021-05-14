@@ -17,15 +17,13 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'convexbottomnavbar_widget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn googleSignIn = GoogleSignIn();
 
 /// Entrypoint example for various sign-in flows with Firebase.
 class SignInPageNew extends StatefulWidget {
   final FirebaseApp app;
 
-
-  // /// The page title.
-  // final String title = 'Sign In & Out';
+  /// The page title.
+  final String title = 'Sign In & Out';
 
   SignInPageNew(this.app);
 
@@ -60,8 +58,7 @@ class _SignInPageNewState extends State<SignInPageNew> {
             //_EmailLinkSignInSection(),
             //_AnonymouslySignInSection(),
             //_PhoneSignInSection(Scaffold.of(context)),
-            _OtherProvidersSignInSection(widget.app),
-            //_ThirdPartySignInSection()
+            //_OtherProvidersSignInSection(),
           ],
         );
       }),
@@ -238,16 +235,10 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         ),
       );
       //added this to navigate to controlpanel when signed in
-
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
-
-      // Navigator.of(context).push(
-      //     //MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
-      //     MaterialPageRoute(
-      //         builder: (BuildContext context) => ConvexBottomBar(widget.app)));
-
+      Navigator.of(context).push(
+          //MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
+          MaterialPageRoute(
+              builder: (BuildContext context) => ConvexBottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -601,40 +592,8 @@ class _PhoneSignInSectionState extends State<_PhoneSignInSection> {
   }
 }
 
-class _ThirdPartySignInSection extends StatefulWidget {
-  @override
-  __ThirdPartySignInSectionState createState() =>
-      __ThirdPartySignInSectionState();
-}
-
-class __ThirdPartySignInSectionState extends State<_ThirdPartySignInSection> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-// class GoogleButton extends StatefulWidget {
-//   @override
-//   _GoogleButtonState createState() => _GoogleButtonState();
-// }
-//
-// class _GoogleButtonState extends State<GoogleButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: TextButton(onPressed: ,)
-//     );
-//   }
-// }
-
-
-
-
-
-
 class _OtherProvidersSignInSection extends StatefulWidget {
-
-  _OtherProvidersSignInSection(FirebaseApp app);
+  _OtherProvidersSignInSection();
 
   @override
   State<StatefulWidget> createState() => _OtherProvidersSignInSectionState();
@@ -926,29 +885,3 @@ class _OtherProvidersSignInSectionState
     }
   }
 }
-//
-// Future<User> _signInWithGoogle1() async {
-//   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-//   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-//
-//   final GoogleAuthCredential googleAuthCredential =
-//       GoogleAuthProvider.credential(
-//     accessToken: googleAuth.accessToken,
-//     idToken: googleAuth.idToken,
-//   );
-//   final UserCredential userCredential =
-//       await _auth.signInWithCredential(googleAuthCredential);
-//   final User user = userCredential.user;
-//
-//   assert(!user.isAnonymous);
-//   assert(await user.getIdToken() != null);
-//
-//   final User currentUser = await _auth.currentUser;
-//   assert(currentUser.uid == user.uid );
-//
-//   return user;
-// }
-//
-// void signOutGoogle() async {
-//   await googleSignIn.signOut();
-// }
