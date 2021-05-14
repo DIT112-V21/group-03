@@ -1,5 +1,7 @@
+import 'package:bitmap/bitmap.dart';
 import 'package:flutter/material.dart';
 //import 'flutter_mqtt_client.dart';
+import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,7 +10,9 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 //ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key,}) : super(key: key);
+  Controlpanel({
+    Key key,
+  }) : super(key: key);
   //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
@@ -19,6 +23,7 @@ class ControlpanelState extends State<Controlpanel> {
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
 
   MqttServerClient client = SpbMqttClient.client;
+  ValueNotifier<Image> imageValueNotifier;
 
   int _counter = 0;
   int currentSpeed = 0;
@@ -192,13 +197,25 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // imageValueNotifier.value = SpbMqttClient.image;
+  }
 
+  @override
+  void dispose() {
+    imageValueNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+
         // Expanded(
         //   flex: 1,
         //   child: Row(
@@ -230,7 +247,46 @@ class ControlpanelState extends State<Controlpanel> {
         //     ],
         //   ),
         // ),
+        Expanded(
+            flex: 2,
+            child: Container(
+                child: ValueListenableBuilder<Bitmap>(
+              valueListenable: SpbMqttClient.bmValueNotifier,
+              builder: (BuildContext context, Bitmap bitmap, Widget child) {
+                if (bitmap == null) {
+                  return const CircularProgressIndicator();
+                }
+                return Center(
+                  child: SafeArea(
+                    top: true,
+                    child: Image.memory(
+                      bitmap.buildHeaded(),
+                    ),
+                  ),
+                );
+              },
+            ))),
+        Expanded(
+          flex: 1,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: TextButton(
+                  child: Text('Try the race mode!'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RaceMode()
+                        //       )
+                        //       ),),
+                        ),
+                  ),
+                ),
+              )
 
+            ],
+          ),
+        ),
         Spacer(),
         Expanded(
           flex: 2,
@@ -397,7 +453,6 @@ class ControlpanelState extends State<Controlpanel> {
               flex: 1,
               child: TextButton(
                 child: Text("+"),
-
                 onPressed: _addSpeed,
               )),
         ])),
