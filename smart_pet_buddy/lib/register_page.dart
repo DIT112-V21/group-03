@@ -12,6 +12,8 @@ import 'package:smart_pet_buddy/convexbottomnavbar_widget.dart';
 
 //import 'bottomnavbar.dart';
 
+
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for registering via Email/Password.
