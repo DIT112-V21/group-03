@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'constants.dart';
 import 'controlpanel.dart';
 
 
@@ -13,15 +15,7 @@ class _PlayPageState extends State<PlayPage> {
     return  Scaffold(
       appBar: AppBar(
           title: Text('Play'),
-        //   actions: [
-        //   IconButton(
-        //       onPressed: () => Navigator.push( context, MaterialPageRoute(builder: (context) => RaceMode()
-        //       )
-        //       ),
-        //       icon: Icon(Icons.speed),
-        //   )
-        // ],
-        backgroundColor:Colors.green.shade400,
+        backgroundColor: midPrimary,
       ),
       body:Container(
         decoration: BoxDecoration(

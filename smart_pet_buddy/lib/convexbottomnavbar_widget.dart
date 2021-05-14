@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_pet_buddy/constants.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
@@ -38,21 +39,46 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
       //   title: Text('Bottom Bar'),
       // ),
       body: tabs[_currentIndex],
-      bottomNavigationBar: ConvexAppBar(
-          backgroundColor: Colors.green,
-          items: [
-            TabItem(icon: Icons.home_outlined, title: 'Home'),
-            TabItem(icon: Icons.directions_car_outlined, title: 'Play'),
-            TabItem(icon: Icons.play_circle_outline, title: 'Custom'),
-            TabItem(icon: Icons.account_circle_outlined, title: 'Profile'),
-          ],
-          initialActiveIndex: 0,
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          }),
+      bottomNavigationBar: StyleProvider(
+        style: Style(),
+        child: ConvexAppBar(
+            backgroundColor: midPrimary,
+            activeColor: lightShade,
+            height: 50,
+            top: -30,
+            curveSize: 100,
+            items: [
+              TabItem(icon: Icons.home_outlined, title: 'Home'),
+              TabItem(icon: Icons.control_camera_outlined, title: 'Play'),
+              TabItem(icon: Icons.pest_control_rodent_outlined, title: 'Auto'),
+              TabItem(icon: Icons.account_circle_outlined, title: 'Profile'),
+            ],
+            //style: TabStyle.fixed,
+            initialActiveIndex: 0,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            }),
+      )
+
     );
   }
 }
 
+
+class Style extends StyleHook {
+  @override
+  double get activeIconSize => 40;
+
+  @override
+  double get activeIconMargin => 10;
+
+  @override
+  double get iconSize => 30;
+
+  @override
+  TextStyle textStyle(Color color) {
+    return TextStyle(fontSize: 20, color: color);
+  }
+}

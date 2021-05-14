@@ -5,7 +5,6 @@ import 'package:smart_pet_buddy/profile_widget.dart';
 import 'package:smart_pet_buddy/user.dart';
 import 'package:smart_pet_buddy/user_preferences.dart';
 import 'appbar_widget.dart';
-import 'package:smart_pet_buddy/settingspage.dart';
 
 
 
@@ -40,20 +39,13 @@ class _ProfilePageState extends State<ProfilePage> {
             },
           ),
           ProfileMenu(text: "Settings",
-            press: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => SettingsPage(widget.app)));
-
-            },
+            press: () {},
           ),
-          ProfileMenu(text: "FAQ & Feedback",
-            press: () {
-
-            },
+          ProfileMenu(text: "Help & Feedback",
+            press: () {},
           ),
           ProfileMenu(text: "More",
-            press: () {
-
-            },
+            press: () {},
           ),
         ],
       ),
@@ -89,6 +81,7 @@ class ProfileMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical:10),
       child: TextButton(
         style: TextButton.styleFrom( padding: EdgeInsets.all(20),

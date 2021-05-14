@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_pet_buddy/constants.dart';
 import 'package:smart_pet_buddy/movementInfo.dart';
 import 'package:smart_pet_buddy/movementWidget.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
@@ -80,9 +81,10 @@ class _CustomPageState extends State<CustomPage> {
       _initCommandStatusListener();
     });
     return Scaffold(
+      backgroundColor: lightPrimary,
         appBar: AppBar(
-          title: Text('Custom'),
-          backgroundColor: Colors.green.shade400,
+          title: Text('Automated play sessions'),
+          backgroundColor:  midPrimary,
         ),
         body: Container(
           //child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

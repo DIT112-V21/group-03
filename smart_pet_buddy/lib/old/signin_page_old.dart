@@ -14,42 +14,31 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 //import 'bottomnavbar.dart';
-import 'convexbottomnavbar_widget.dart';
+import '../convexbottomnavbar_widget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for various sign-in flows with Firebase.
-class SignInPageNew extends StatefulWidget {
+class SignInPage extends StatefulWidget {
   final FirebaseApp app;
 
   /// The page title.
   final String title = 'Sign In & Out';
 
-  SignInPageNew(this.app);
+  SignInPage(this.app);
 
   @override
-  State<StatefulWidget> createState() => _SignInPageNewState();
+  State<StatefulWidget> createState() => _SignInPageState();
 }
 
-class _SignInPageNewState extends State<SignInPageNew> {
+class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          //title: Text(widget.title),
-          elevation: 0,
-          brightness: Brightness.light,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.black,
-            ),
-          )),
+        title: Text(widget.title),
+
+      ),
       body: Builder(builder: (BuildContext context) {
         return ListView(
           padding: const EdgeInsets.all(8),
@@ -93,59 +82,21 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 Container(
                   alignment: Alignment.center,
                   child: const Text(
-                    'Log in to your account',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 25,
-                        color: Colors.grey),
+                    'Sign in with email and password',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(
-                  height: 40,
-                ),
-                // inputFile(label: "Email",),
-                // inputFile(label: "Password", obscureText: true),
                 TextFormField(
-                  // border: OutlineInputBorder(
-                  //   // width: 0.0 produces a thin "hairline" border
-                  //   borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                  //   borderSide: BorderSide.none,
-                  //   //borderSide: const BorderSide(),
-                  // ),
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    // hintText: 'Enter your email',
-                    filled: true,
-                    fillColor: Colors.white30,
-                    contentPadding: const EdgeInsets.only(
-                        left: 14.0, bottom: 6.0, top: 8.0),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Colors.black,
-                    )),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Email'),
                   validator: (String value) {
-                    if (value.isEmpty) return 'Please enter your email';
+                    if (value.isEmpty) return 'Please enter some text';
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 30,
-                ),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    filled: true,
-                    contentPadding: const EdgeInsets.only(
-                        left: 14.0, bottom: 6.0, top: 8.0),
-                    fillColor: Colors.white30,
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: Colors.black,
-                    )),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Password'),
                   validator: (String value) {
                     if (value.isEmpty) return 'Please enter some text';
                     return null;
@@ -158,19 +109,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                   child: SignInButtonBuilder(
                     icon: Icons.email,
                     backgroundColor: Colors.green,
-                    height: 60,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(60),
-                    ),
                     text: 'Sign In',
-                    fontSize: 18,
-                    // child: Text(
-                    //   "Sign up",
-                    //   style: TextStyle(
-                    //       color: Colors.white,
-                    //       fontWeight: FontWeight.w600,
-                    //       fontSize: 18),
-                    // ),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         await _signInWithEmailAndPassword();
@@ -182,35 +121,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
             ),
           ),
         ));
-  }
-
-  Widget inputFile({label, obscureText = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          label,
-          style: TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        TextField(
-          obscureText: obscureText,
-          decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400]),
-              ),
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey[400]))),
-        ),
-        SizedBox(
-          height: 10,
-        )
-      ],
-    );
   }
 
   @override
