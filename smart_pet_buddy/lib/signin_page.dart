@@ -660,14 +660,14 @@ class _OtherProvidersSignInSectionState
                         ),
                       ),
                     ),
-                    // ListTile(
-                    //   title: const Text('Twitter'),
-                    //   leading: Radio<int>(
-                    //     value: 2,
-                    //     groupValue: _selection,
-                    //     onChanged: _handleRadioButtonSelected,
-                    //   ),
-                    // ),
+                    ListTile(
+                      title: const Text('Twitter'),
+                      leading: Radio<int>(
+                        value: 2,
+                        groupValue: _selection,
+                        onChanged: _handleRadioButtonSelected,
+                      ),
+                    ),
                     ListTile(
                       title: const Text('Google'),
                       leading: Radio<int>(
@@ -738,13 +738,13 @@ class _OtherProvidersSignInSectionState
           }
           break;
 
-        // case 2:
-        //   {
-        //     _provider = 'Twitter';
-        //     _showAuthSecretTextField = true;
-        //     _showProviderTokenField = true;
-        //   }
-        //   break;
+        case 2:
+          {
+            _provider = 'Twitter';
+            _showAuthSecretTextField = true;
+            _showProviderTokenField = true;
+          }
+          break;
 
         default:
           {
@@ -764,8 +764,8 @@ class _OtherProvidersSignInSectionState
       case 1:
         _signInWithFacebook();
         break;
-      // case 2:
-      //   _signInWithTwitter();
+      case 2:
+        _signInWithTwitter();
         break;
       default:
         _signInWithGoogle();
@@ -824,35 +824,35 @@ class _OtherProvidersSignInSectionState
     }
   }
 
-  // // Example code of how to sign in with Twitter.
-  // Future<void> _signInWithTwitter() async {
-  //   try {
-  //     UserCredential userCredential;
-  //
-  //     if (kIsWeb) {
-  //       TwitterAuthProvider twitterProvider = TwitterAuthProvider();
-  //       await _auth.signInWithPopup(twitterProvider);
-  //     } else {
-  //       final AuthCredential credential = TwitterAuthProvider.credential(
-  //           accessToken: _tokenController.text,
-  //           secret: _tokenSecretController.text);
-  //       userCredential = await _auth.signInWithCredential(credential);
-  //     }
-  //
-  //     final user = userCredential.user;
-  //
-  //     Scaffold.of(context).showSnackBar(SnackBar(
-  //       content: Text('Sign In ${user.uid} with Twitter'),
-  //     ));
-  //   } catch (e) {
-  //     print(e);
-  //     Scaffold.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Failed to sign in with Twitter: $e'),
-  //       ),
-  //     );
-  //   }
-  // }
+  // Example code of how to sign in with Twitter.
+  Future<void> _signInWithTwitter() async {
+    try {
+      UserCredential userCredential;
+
+      if (kIsWeb) {
+        TwitterAuthProvider twitterProvider = TwitterAuthProvider();
+        await _auth.signInWithPopup(twitterProvider);
+      } else {
+        final AuthCredential credential = TwitterAuthProvider.credential(
+            accessToken: _tokenController.text,
+            secret: _tokenSecretController.text);
+        userCredential = await _auth.signInWithCredential(credential);
+      }
+
+      final user = userCredential.user;
+
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Sign In ${user.uid} with Twitter'),
+      ));
+    } catch (e) {
+      print(e);
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to sign in with Twitter: $e'),
+        ),
+      );
+    }
+  }
 
   //Example code of how to sign in with Google.
   Future<void> _signInWithGoogle() async {
