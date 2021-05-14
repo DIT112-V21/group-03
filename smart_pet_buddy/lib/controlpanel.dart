@@ -22,7 +22,7 @@ class ControlpanelState extends State<Controlpanel> {
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
 
   MqttServerClient client = SpbMqttClient.client;
-  ValueNotifier<Bitmap> imageValueNotifier;
+  ValueNotifier<Image> imageValueNotifier;
 
   int _counter = 0;
   int currentSpeed = 0;
@@ -198,7 +198,7 @@ class ControlpanelState extends State<Controlpanel> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    imageValueNotifier = SpbMqttClient.imageValueNotifier;
+    // imageValueNotifier.value = SpbMqttClient.image;
   }
 
   @override
@@ -213,22 +213,29 @@ class ControlpanelState extends State<Controlpanel> {
       //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
+            flex: 2,
+            child: Flexible(
+                child: ValueListenableBuilder<Bitmap>(
+              valueListenable: SpbMqttClient.bmValueNotifier,
+              builder: (BuildContext context, Bitmap bitmap, Widget child) {
+                if (bitmap == null) {
+                  return const CircularProgressIndicator();
+                }
+                return Center(
+                  child: SafeArea(
+                    top: true,
+                    child: Image.memory(
+                      bitmap.buildHeaded(),
+                    ),
+                  ),
+                );
+              },
+            ))),
+        Expanded(
           flex: 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Flexible(
-                  child: ValueListenableBuilder<Bitmap>(
-                valueListenable: SpbMqttClient.imageValueNotifier,
-                builder: (BuildContext context, Bitmap bitmap, Widget child) {
-                  if (bitmap == null) {
-                    return const CircularProgressIndicator();
-                  }
-                  return Center(
-                    child: Image.memory(bitmap.buildHeaded()),
-                  );
-                },
-              )),
               Flexible(
                   child: SpbMqttClient.isConnected
                       ? TextButton(

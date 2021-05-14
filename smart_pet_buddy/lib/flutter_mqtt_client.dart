@@ -1,6 +1,8 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:bitmap/bitmap.dart';
+import 'package:flutter/src/widgets/image.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'dart:io';
@@ -43,16 +45,24 @@ Future<MqttClient> connect() async {
       final payload =
           MqttPublishPayload.bytesToStringAsString(message.payload.message);
       if (c[0].topic == '/smartcar/group3/camera') {
-        Uint8List incomingData = message.payload.message.toList();
-        Uint8List picData;
+        Uint8List incomingData = Uint8List.view(message.payload.message.buffer);
+        List<int> picData = [];
         for (var i = 0; i < incomingData.length; i++) {
           picData.add(incomingData[i]);
           if (i % 3 == 2) {
             picData.add(255);
           }
         }
-        Bitmap bm = Bitmap.fromHeadful(320, 240, picData);
-        SpbMqttClient.imageValueNotifier.value = bm;
+        Uint8List picBm = Uint8List.fromList(picData);
+        print('payload');
+        print(incomingData);
+        print('result:');
+        print(picBm);
+
+        Bitmap bm = Bitmap.fromHeadless(320, 240, picBm);
+        SpbMqttClient.bmValueNotifier.value = bm;
+        // Image image = Image.memory(bm.buildHeaded());
+        // SpbMqttClient.image = image;
       } else {
         print('Received message:$payload from topic: ${c[0].topic}>');
       }
