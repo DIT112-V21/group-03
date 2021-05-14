@@ -42,7 +42,7 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
       bottomNavigationBar: StyleProvider(
         style: Style(),
         child: ConvexAppBar(
-            backgroundColor: strongPrimary,
+            backgroundColor: midPrimary,
             activeColor: lightShade,
             height: 50,
             top: -30,
@@ -61,6 +61,7 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
               });
             }),
       )
+
     );
   }
 }

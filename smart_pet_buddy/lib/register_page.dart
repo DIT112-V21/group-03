@@ -12,8 +12,6 @@ import 'package:smart_pet_buddy/convexbottomnavbar_widget.dart';
 
 //import 'bottomnavbar.dart';
 
-
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 /// Entrypoint example for registering via Email/Password.
@@ -73,9 +71,7 @@ class _RegisterPageNewState extends State<RegisterPageNew> {
                     height: 40,
                   ),
                   TextFormField(
-
                     controller: _usernameController,
-
                     decoration: const InputDecoration(
                       labelText: 'Name',
                       filled: true,
@@ -87,9 +83,6 @@ class _RegisterPageNewState extends State<RegisterPageNew> {
                         color: Colors.black,
                       )),
                     ),
-
-                  //  decoration: const InputDecoration(labelText: 'Name',),
-
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';

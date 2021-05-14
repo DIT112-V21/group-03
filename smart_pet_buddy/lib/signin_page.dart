@@ -23,7 +23,6 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 class SignInPageNew extends StatefulWidget {
   final FirebaseApp app;
 
-
   // /// The page title.
   // final String title = 'Sign In & Out';
 
@@ -238,7 +237,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         ),
       );
       //added this to navigate to controlpanel when signed in
-
       Navigator.of(context).popUntil((route) => route.isFirst);
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
@@ -247,7 +245,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
       //     //MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
       //     MaterialPageRoute(
       //         builder: (BuildContext context) => ConvexBottomBar(widget.app)));
-
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(

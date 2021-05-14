@@ -30,7 +30,6 @@ Future<void> main() async {
 /// The entry point of the application.
 ///
 /// Returns a [MaterialApp].
-
 class SmartPetBuddy extends StatelessWidget {
   final FirebaseApp app;
 
