@@ -55,8 +55,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextFormField(
+
                     controller: _usernameController,
-                    decoration: const InputDecoration(labelText: 'Name'),
+                    decoration: const InputDecoration(labelText: 'Name',),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';

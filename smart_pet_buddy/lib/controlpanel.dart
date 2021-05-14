@@ -1,5 +1,6 @@
 import 'package:bitmap/bitmap.dart';
 import 'package:flutter/material.dart';
+//import 'flutter_mqtt_client.dart';
 import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -37,6 +38,8 @@ class ControlpanelState extends State<Controlpanel> {
   String throttleNeutral = '0';
   int multiplier = 20;
   int maxGear = 5;
+
+  //ImageView mCameraView;
 
   void _backward() {
     setState(() {
@@ -212,6 +215,38 @@ class ControlpanelState extends State<Controlpanel> {
     return Scaffold(
       //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+        // Expanded(
+        //   flex: 1,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Flexible(
+        //           child: SpbMqttClient.isConnected
+        //               ?
+        //                TextButton(
+        //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
+        //                   onPressed: () => {(){
+        //                     client.disconnect();
+        //                     setState(() {});
+        //
+        //                   }
+        //
+        //                   },
+        //                 ):TextButton(
+        //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
+        //                     onPressed: () => {
+        //                         connect().then((value) {
+        //                           client = value;
+        //                           SpbMqttClient.client = client;
+        //                           setState(() {});
+        //                            })
+        //                             },
+        //                       )
+        //       ),
+        //     ],
+        //   ),
+        // ),
         Expanded(
             flex: 2,
             child: Container(
