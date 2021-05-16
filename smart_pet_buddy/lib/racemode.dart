@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:sensors/sensors.dart';
+import 'package:smart_pet_buddy/controlpanel.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 class RaceMode extends StatefulWidget {
@@ -18,6 +19,8 @@ class _RaceModeState extends State<RaceMode> {
   int currentSpeed;
   int maxGear = 5;
   int minGear = -5;
+  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
+
 
   @override
   void initState() {
@@ -98,8 +101,19 @@ class _RaceModeState extends State<RaceMode> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  void _initRaceModeStatusListener(){
+
+    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    _initRaceModeStatusListener();
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("Race Mode"),
