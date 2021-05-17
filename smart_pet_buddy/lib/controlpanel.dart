@@ -210,7 +210,7 @@ class ControlpanelState extends State<Controlpanel> {
     super.dispose();
   }
 
-  void _initControlPanelStatusListener(){
+  void _initControlPanelStatus(){
 
     if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
     }else{
@@ -222,7 +222,7 @@ class ControlpanelState extends State<Controlpanel> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initControlPanelStatusListener();
+      _initControlPanelStatus();
     });
     return Scaffold(
       //alignment: Alignment.center,

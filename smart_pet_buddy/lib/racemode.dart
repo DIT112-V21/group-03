@@ -101,7 +101,7 @@ class _RaceModeState extends State<RaceMode> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
-  void _initRaceModeStatusListener(){
+  void _initRaceModeStatus(){
 
     if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
     }else{
@@ -112,7 +112,7 @@ class _RaceModeState extends State<RaceMode> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    _initRaceModeStatusListener();
+    _initRaceModeStatus();
     });
     return Scaffold(
       appBar: AppBar(
