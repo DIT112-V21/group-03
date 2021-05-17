@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:sensors/sensors.dart';
-import 'package:smart_pet_buddy/controlpanel.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 class RaceMode extends StatefulWidget {
