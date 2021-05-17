@@ -45,8 +45,8 @@ class _ConvexBottomBarState extends State<ConvexBottomBar> {
               backgroundColor: strongPrimary,
               activeColor: midShade,
               height: 60,
-              top: -30,
-              curveSize: 100,
+              top: -20,
+              curveSize: 20,
               items: [
                 TabItem(icon: Icons.home_outlined, title: 'Home'),
                 TabItem(icon: Icons.control_camera_outlined, title: 'Play'),
