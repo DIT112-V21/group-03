@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-
 //for animated text
 const colorizeColors = [
   Colors.green,
@@ -15,6 +14,8 @@ const colorizeTextStyle = TextStyle(
     fontFamily: 'GoodDog New',
     fontWeight: FontWeight.bold
 );
+
+
 
 //color scheme
 const lightPrimary = Color(0xFF9FDBE7);
