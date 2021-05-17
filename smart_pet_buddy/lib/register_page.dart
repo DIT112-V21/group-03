@@ -8,16 +8,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
+import 'package:smart_pet_buddy/bottomnavbar_widget.dart';
 
-import 'bottomnavbar.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-
-
 
 /// Entrypoint example for registering via Email/Password.
 class RegisterPage extends StatefulWidget {
   final FirebaseApp app;
+
   /// The page title.
   final String title = 'Registration';
 
@@ -27,7 +26,6 @@ class RegisterPage extends StatefulWidget {
   State<StatefulWidget> createState() => _RegisterPageState();
 }
 
-
 class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -35,17 +33,31 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
 
   bool registration = false;
-  //String _userEmail = '';
 
+  //String _userEmail = '';
 
   @override
   Widget build(BuildContext context) {
-    _usernameController.addListener(() {print(_usernameController.text);});
+    _usernameController.addListener(() {
+      print(_usernameController.text);
+    });
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
+        //title: Text(widget.title),
+          elevation: 0,
+          brightness: Brightness.light,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: Colors.black,
+            ),
+          )),
       body: Form(
           key: _formKey,
           child: Card(
@@ -54,20 +66,42 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  SizedBox(
+                    height: 40,
+                  ),
                   TextFormField(
-
                     controller: _usernameController,
-                    decoration: const InputDecoration(labelText: 'Name',),
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                      filled: true,
+                      fillColor: Colors.white30,
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 6.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          )),
+                    ),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';
                       }
                       return null;
                     },
+                  ),
+                  SizedBox(
+                    height: 40,
                   ),
                   TextFormField(
                     controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
+                    decoration: const InputDecoration(labelText: 'Email',filled: true,
+                      fillColor: Colors.white30,
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 6.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          )),),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';
@@ -75,9 +109,19 @@ class _RegisterPageState extends State<RegisterPage> {
                       return null;
                     },
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
+                    decoration: const InputDecoration(labelText: 'Password',filled: true,
+                      fillColor: Colors.white30,
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 6.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.black,
+                          )),),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';
@@ -102,25 +146,34 @@ class _RegisterPageState extends State<RegisterPage> {
                       text: 'Register',
                     ),
                   ),
-                  registration ? FutureBuilder(
+                  registration
+                      ? FutureBuilder(
                       future: _register(),
-                      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) Future.delayed(Duration(milliseconds: 500), () {
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
-                            // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
-                          });
+                      builder: (BuildContext context,
+                          AsyncSnapshot<User> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.done) {
+                          if (snapshot.hasData)
+                            Future.delayed(Duration(milliseconds: 500), () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ConvexBottomBar(widget.app)));
+                              // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
+                            });
 
                           return Container(
                             alignment: Alignment.center,
-                            child: Text(snapshot.hasData ? 'Successfully registered ${snapshot.data.displayName}' : 'Registration failed'),
+                            child: Text(snapshot.hasData
+                                ? 'Successfully registered ${snapshot.data.displayName}'
+                                : 'Registration failed'),
                           );
                         }
-                        return Center(child: CircularProgressIndicator(),);
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                         // : 'Registration failed')),
-                      }
-                  ) : Container(),
+                      })
+                      : Container(),
                 ],
               ),
             ),
@@ -142,7 +195,8 @@ class _RegisterPageState extends State<RegisterPage> {
     User user = (await _auth.createUserWithEmailAndPassword(
       email: _emailController.text,
       password: _passwordController.text,
-    )).user;
+    ))
+        .user;
 
     if (user != null) {
       await user.updateProfile(displayName: _usernameController.text);
@@ -169,6 +223,3 @@ class _RegisterPageState extends State<RegisterPage> {
     //   }
   }
 }
-
-
-
