@@ -6,6 +6,8 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 
+import 'constants.dart';
+
 class CustomPage extends StatefulWidget {
   CustomPage({Key key}) : super(key: key);
 
@@ -80,9 +82,10 @@ class _CustomPageState extends State<CustomPage> {
       _initCommandStatusListener();
     });
     return Scaffold(
+        backgroundColor: lightShade,
         appBar: AppBar(
-          title: Text('Custom'),
-          backgroundColor: Colors.green.shade400,
+          title: Text(''),
+          backgroundColor: strongPrimary,
         ),
         body: Container(
           //child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
