@@ -591,8 +591,9 @@ class _PhoneSignInSectionState extends State<_PhoneSignInSection> {
 
 
 class _OtherProvidersSignInSection extends StatefulWidget {
+  final FirebaseApp app;
 
-  _OtherProvidersSignInSection(FirebaseApp app);
+  _OtherProvidersSignInSection(this.app);
 
   @override
   State<StatefulWidget> createState() => _OtherProvidersSignInSectionState();
@@ -857,27 +858,38 @@ class _OtherProvidersSignInSectionState
   //Example code of how to sign in with Google.
   Future<void> _signInWithGoogle() async {
     try {
-      UserCredential userCredential;
 
-      if (kIsWeb) {
-        GoogleAuthProvider googleProvider = GoogleAuthProvider();
-        userCredential = await _auth.signInWithPopup(googleProvider);
-      } else {
-        final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-        final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-        final GoogleAuthCredential googleAuthCredential =
-        GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        userCredential = await _auth.signInWithCredential(googleAuthCredential);
-      }
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-      final user = userCredential.user;
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      // if (kIsWeb) {
+      //   GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      //   userCredential = await _auth.signInWithPopup(googleProvider);
+      // } else {
+      //   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      //   final GoogleSignInAuthentication googleAuth =
+      //   await googleUser.authentication;
+      //   final GoogleAuthCredential googleAuthCredential =
+      //   GoogleAuthProvider.credential(
+      //     accessToken: googleAuth.accessToken,
+      //     idToken: googleAuth.idToken,
+      //   );
+      //   userCredential = await _auth.signInWithCredential(googleAuthCredential);
+      // }
+
+      final user = FirebaseAuth.instance.currentUser;
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text('Sign In ${user.uid} with Google'),
       ));
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
     } catch (e) {
       print(e);
       Scaffold.of(context).showSnackBar(
