@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 
 
 //for animated text
-// const colorizeColors = [
-//   Colors.green,
-//   Colors.pink,
-//   Colors.yellow,
-//   Colors.white,
-// ];
-// const colorizeTextStyle = TextStyle(
-//     fontSize: 30.0,
-//     fontFamily: 'GoodDog New',
-//     fontWeight: FontWeight.bold
-// );
+const colorizeColors = [
+  Colors.green,
+  Colors.pink,
+  Colors.yellow,
+  Colors.white,
+];
+const colorizeTextStyle = TextStyle(
+    fontSize: 30.0,
+    fontFamily: 'GoodDog New',
+    fontWeight: FontWeight.bold
+);
 
 //color scheme
 const lightPrimary = Color(0xFF9FDBE7);
