@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "785346127254-umtmb4as876h0icra5krvi5fjaiihhcn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.group3.smart_pet_buddy",
+            "certificate_hash": "acfbb5a9ae97436d08406f1eddca15068d3179a0"
+          }
+        },
+        {
           "client_id": "785346127254-0jot1npso1ok7nm5m4sahg1a5uek5h26.apps.googleusercontent.com",
           "client_type": 3
         }
