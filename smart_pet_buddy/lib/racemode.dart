@@ -18,8 +18,8 @@ class _RaceModeState extends State<RaceMode> {
   int currentSpeed;
   int maxGear = 5;
   int minGear = -5;
-  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
-
+  final snackBar =
+      SnackBar(content: Text('Car is not connected! Go to Homepage'));
 
   @override
   void initState() {
@@ -29,15 +29,16 @@ class _RaceModeState extends State<RaceMode> {
         [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
 
     accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        x = event.x;
-        print('X: $x'); //current speed(used for throttle)
-        y = event.y;
-        print('Y: $y'); //current angle(used for steer)
-        z = event.z;
-        print(
-            'Z: $z'); //don't think we need this one, not sure what to use it for
-      });
+      if (mounted)
+        setState(() {
+          x = event.x;
+          print('X: $x'); //current speed(used for throttle)
+          y = event.y;
+          print('Y: $y'); //current angle(used for steer)
+          z = event.z;
+          print(
+              'Z: $z'); //don't think we need this one, not sure what to use it for
+        });
 
       //maybe remove this part and instead do a button, also too sensitive
       // if(x<5 && x > -5){
@@ -66,9 +67,10 @@ class _RaceModeState extends State<RaceMode> {
 
   void _forward() {
     if (speed <= maxGear) {
-      setState(() {
-        speed++;
-      });
+      if (mounted)
+        setState(() {
+          speed++;
+        });
     }
 
     currentSpeed = speed * 20;
@@ -77,9 +79,10 @@ class _RaceModeState extends State<RaceMode> {
 
   void _reverse() {
     if (speed >= minGear) {
-      setState(() {
-        speed--;
-      });
+      if (mounted)
+        setState(() {
+          speed--;
+        });
     }
 
     currentSpeed = speed * 20;
@@ -100,10 +103,10 @@ class _RaceModeState extends State<RaceMode> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
-  void _initRaceModeStatus(){
-
-    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
-    }else{
+  void _initRaceModeStatus() {
+    if (client != null &&
+        client.connectionStatus.state == MqttConnectionState.connected) {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
@@ -111,7 +114,7 @@ class _RaceModeState extends State<RaceMode> {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    _initRaceModeStatus();
+      _initRaceModeStatus();
     });
     return Scaffold(
       appBar: AppBar(
@@ -129,9 +132,12 @@ class _RaceModeState extends State<RaceMode> {
             flex: 1,
             child: Row(
               children: [
-                Text(
-                  "Tilt your phone to steer and use the button to increase/decrease the speed",
-                  style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w900),
+                Flexible(
+                  child: Text(
+                    "Tilt your phone to steer and use the button to increase/decrease the speed",
+                    style:
+                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.w900),
+                  ),
                 ),
               ],
             ),
