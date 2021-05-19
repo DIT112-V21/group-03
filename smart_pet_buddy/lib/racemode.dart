@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:sensors/sensors.dart';
+import 'package:smart_pet_buddy/constants.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 class RaceMode extends StatefulWidget {
@@ -15,7 +16,7 @@ class _RaceModeState extends State<RaceMode> {
   MqttServerClient client = SpbMqttClient.client;
   double x, y, z;
   int speed = 0;
-  int currentSpeed;
+  int currentSpeed = 0;
   int maxGear = 5;
   int minGear = -5;
   final snackBar =
@@ -66,7 +67,7 @@ class _RaceModeState extends State<RaceMode> {
   }
 
   void _forward() {
-    if (speed <= maxGear) {
+    if (speed < maxGear) {
       if (mounted)
         setState(() {
           speed++;
@@ -78,7 +79,7 @@ class _RaceModeState extends State<RaceMode> {
   }
 
   void _reverse() {
-    if (speed >= minGear) {
+    if (speed > minGear) {
       if (mounted)
         setState(() {
           speed--;
@@ -118,60 +119,81 @@ class _RaceModeState extends State<RaceMode> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: Text("Race Mode"),
+        backgroundColor: strongPrimary,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.help),
+            onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Racemode help'),
+                content: const Text(
+                    'Tilt your phone to steer and use the buttons to increase/decrease the speed'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'OK'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
-          Flexible(
-            flex: 1,
-            child: TextButton(
-                child: Text('Try the normal mode!'),
-                onPressed: () => Navigator.pop(context)),
-          ),
-          Flexible(
-            flex: 1,
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    "Tilt your phone to steer and use the button to increase/decrease the speed",
-                    style:
-                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.w900),
-                  ),
-                ),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                flex: 1,
+                child: TextButton(
+                    child: Text('Try the normal mode!'),
+                    onPressed: () => Navigator.pop(context),
+                    style: TextButton.styleFrom(padding: EdgeInsets.all(30))),
+              ),
+              //IconButton(icon: Icon(Icons.help), onPressed: null, color: Colors.red,)
+            ],
           ),
           Flexible(
             flex: 2,
             child: Center(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  TextButton(onPressed: _forward, child: Text('Gas')),
-                  TextButton(onPressed: _reverse, child: Text('Break')),
+                  ElevatedButton(
+                    onPressed: _forward,
+                    child: Text('Gas'),
+                    style: ElevatedButton.styleFrom(
+                      primary: strongShade,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: _reverse,
+                    child: Text('Break'),
+                    style: ElevatedButton.styleFrom(
+                      primary: strongShade,
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
+          Flexible(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Speed: $speed       Angle: ' +
+                    y.toStringAsFixed(0)),
+              ],
+            ),
+          )
         ],
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       Padding(
-      //         padding: const EdgeInsets.all(10.0),
-      //         child: Text(
-      //           "Tilt your phone to steer and use the button to increase/decrease the speed",
-      //           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w900),
-      //         ),
-      //       ),
-      //
-
-      //     ],
-      //   ),
-      // ));
     );
   }
 }
