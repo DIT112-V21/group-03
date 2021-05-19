@@ -259,7 +259,7 @@ class _OtherProvidersSignInSectionState
               Container(
 
                 alignment: Alignment.center,
-                child: const Text('Sign in with google',
+                child: const Text('Sign in with Google',
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               Container(
