@@ -11,6 +11,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/register_page.dart';
 import 'package:smart_pet_buddy/signin_page.dart';
+import 'package:wiredash/wiredash.dart';
+
+//import 'package:flutter_signin_button/button_builder.dart';
 import './register_page.dart';
 import './signin_page.dart';
 import 'constants.dart';
@@ -20,11 +23,31 @@ Future<void> main() async {
   FirebaseApp app = await Firebase.initializeApp();
   // Uncomment this to use the auth emulator for testing
   // await FirebaseAuth.instance.useEmulator('http://localhost:9099');
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: SmartPetBuddy(app),
-  ));
+
+  runApp(MyApp(app));
 }
+
+class MyApp extends StatelessWidget {
+  final navigatorKey = GlobalKey<NavigatorState>();
+  final FirebaseApp app;
+
+  MyApp(this.app);
+
+  @override
+  Widget build(BuildContext context) {
+    return Wiredash(
+      navigatorKey: navigatorKey,
+      projectId: 'smartpetbuddy-0cqv52o',
+      secret: 'gw1n6lba8xkdisjk92zlkat9luge7ju8dqt95hbaaxv1xj2s',
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        home: SmartPetBuddy(app),
+      ),
+    );
+  }
+}
+
 
 /// The entry point of the application.
 ///
