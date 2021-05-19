@@ -4,6 +4,7 @@ import 'package:smart_pet_buddy/edit_profile.dart';
 import 'package:smart_pet_buddy/profile_widget.dart';
 import 'package:smart_pet_buddy/user.dart';
 import 'package:smart_pet_buddy/user_preferences.dart';
+import 'package:wiredash/wiredash.dart';
 import 'appbar_widget.dart';
 import 'package:smart_pet_buddy/settingspage.dart';
 
@@ -47,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           ProfileMenu(text: "FAQ & Feedback",
             press: () {
-
+              Wiredash.of(context).show();
             },
           ),
           ProfileMenu(text: "More",
