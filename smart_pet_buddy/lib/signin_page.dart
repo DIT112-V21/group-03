@@ -12,16 +12,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
-import 'bottomnavbar.dart';
+import 'package:smart_pet_buddy/constants.dart';
+import 'bottomnavbar_widget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn googleSignIn = GoogleSignIn();
 
 /// Entrypoint example for various sign-in flows with Firebase.
 class SignInPage extends StatefulWidget {
   final FirebaseApp app;
-  /// The page title.
-  final String title = 'Sign In & Out';
 
   SignInPage(this.app);
 
@@ -33,10 +32,22 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: lightShade,
       appBar: AppBar(
-        title: Text(widget.title),
-
-      ),
+        //title: Text(widget.title),
+          elevation: 0,
+          brightness: Brightness.light,
+          backgroundColor: lightShade,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+              color: textColor,
+            ),
+          )),
       body: Builder(builder: (BuildContext context) {
         return ListView(
           padding: const EdgeInsets.all(8),
@@ -45,7 +56,7 @@ class _SignInPageState extends State<SignInPage> {
             //_EmailLinkSignInSection(),
             //_AnonymouslySignInSection(),
             //_PhoneSignInSection(Scaffold.of(context)),
-            //_OtherProvidersSignInSection(),
+            _OtherProvidersSignInSection(widget.app),
           ],
         );
       }),
@@ -72,6 +83,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     return Form(
         key: _formKey,
         child: Card(
+          color: lightShade,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -80,21 +92,59 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 Container(
                   alignment: Alignment.center,
                   child: const Text(
-                    'Sign in with email and password',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    'Log in to your account',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 25,
+                        color: strongPrimary),
                   ),
                 ),
+                SizedBox(
+                  height: 40,
+                ),
+                // inputFile(label: "Email",),
+                // inputFile(label: "Password", obscureText: true),
                 TextFormField(
+                  // border: OutlineInputBorder(
+                  //   // width: 0.0 produces a thin "hairline" border
+                  //   borderRadius: BorderRadius.all(Radius.circular(90.0)),
+                  //   borderSide: BorderSide.none,
+                  //   //borderSide: const BorderSide(),
+                  // ),
                   controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    // hintText: 'Enter your email',
+                    filled: true,
+                    fillColor: Colors.white30,
+                    contentPadding: const EdgeInsets.only(
+                        left: 14.0, bottom: 6.0, top: 8.0),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: midPrimary,
+                        )),
+                  ),
                   validator: (String value) {
-                    if (value.isEmpty) return 'Please enter some text';
+                    if (value.isEmpty) return 'Please enter your email';
                     return null;
                   },
                 ),
+                SizedBox(
+                  height: 30,
+                ),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    filled: true,
+                    contentPadding: const EdgeInsets.only(
+                        left: 14.0, bottom: 8.0, top: 10.0),
+                    fillColor: Colors.white30,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: midPrimary,
+                        )),
+                  ),
                   validator: (String value) {
                     if (value.isEmpty) return 'Please enter some text';
                     return null;
@@ -105,9 +155,15 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                   padding: const EdgeInsets.only(top: 16),
                   alignment: Alignment.center,
                   child: SignInButtonBuilder(
-                      icon: Icons.email,
-                     backgroundColor: Colors.green,
+                    icon: Icons.email,
+                    backgroundColor: midPrimary,
+                    height: 60,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(60),
+                    ),
                     text: 'Sign In',
+                    textColor: textColor,
+                    fontSize: 20,
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         await _signInWithEmailAndPassword();
@@ -119,6 +175,35 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
             ),
           ),
         ));
+  }
+
+  Widget inputFile({label, obscureText = false}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        TextField(
+          obscureText: obscureText,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey[400]),
+              ),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey[400]))),
+        ),
+        SizedBox(
+          height: 10,
+        )
+      ],
+    );
   }
 
   @override
@@ -143,8 +228,14 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
         ),
       );
       //added this to navigate to controlpanel when signed in
-      Navigator.of(context).push(
-          MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
+
+      // Navigator.of(context).push(
+      //     //MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
+      //     MaterialPageRoute(
+      //         builder: (BuildContext context) => ConvexBottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -172,40 +263,40 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
         key: _formKey,
         child: Card(
             child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                alignment: Alignment.center,
-                child: const Text(
-                  'Test sign in with email and link',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Test sign in with email and link',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(labelText: 'Email'),
+                    validator: (String value) {
+                      if (value.isEmpty) return 'Please enter your email.';
+                      return null;
+                    },
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 16),
+                    alignment: Alignment.center,
+                    child: SignInButtonBuilder(
+                      icon: Icons.insert_link,
+                      text: 'Sign In',
+                      backgroundColor: Colors.green,
+                      onPressed: () async {
+                        await _signInWithEmailAndLink();
+                      },
+                    ),
+                  ),
+                ],
               ),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (String value) {
-                  if (value.isEmpty) return 'Please enter your email.';
-                  return null;
-                },
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                alignment: Alignment.center,
-                child: SignInButtonBuilder(
-                  icon: Icons.insert_link,
-                  text: 'Sign In',
-                  backgroundColor: Colors.green,
-                  onPressed: () async {
-                    await _signInWithEmailAndLink();
-                  },
-                ),
-              ),
-            ],
-          ),
-        )));
+            )));
   }
 
   @override
@@ -222,7 +313,7 @@ class _EmailLinkSignInSectionState extends State<_EmailLinkSignInSection> {
           email: _userEmail,
           actionCodeSettings: ActionCodeSettings(
               url:
-                  'https://react-native-firebase-testing.firebaseapp.com/emailSignin',
+              'https://react-native-firebase-testing.firebaseapp.com/emailSignin',
               handleCodeInApp: true,
               iOSBundleId: 'io.flutter.plugins.firebaseAuthExample',
               androidPackageName: 'io.flutter.plugins.firebaseauthexample'));
@@ -284,8 +375,8 @@ class _AnonymouslySignInSectionState extends State<_AnonymouslySignInSection> {
                   _success == null
                       ? ''
                       : (_success
-                          ? 'Successfully signed in, uid: $_userID'
-                          : 'Sign in failed'),
+                      ? 'Successfully signed in, uid: $_userID'
+                      : 'Sign in failed'),
                   style: const TextStyle(color: Colors.red),
                 ),
               ),
@@ -443,7 +534,7 @@ class _PhoneSignInSectionState extends State<_PhoneSignInSection> {
         (FirebaseAuthException authException) {
       setState(() {
         _message =
-            'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}';
+        'Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}';
       });
     };
 
@@ -498,8 +589,11 @@ class _PhoneSignInSectionState extends State<_PhoneSignInSection> {
   }
 }
 
+
 class _OtherProvidersSignInSection extends StatefulWidget {
-  _OtherProvidersSignInSection();
+  final FirebaseApp app;
+
+  _OtherProvidersSignInSection(this.app);
 
   @override
   State<StatefulWidget> createState() => _OtherProvidersSignInSectionState();
@@ -518,26 +612,30 @@ class _OtherProvidersSignInSectionState
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: lightShade,
       child: Padding(
+
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
+
                 alignment: Alignment.center,
                 child: const Text('Social Authentication',
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                alignment: Alignment.center,
-                child: kIsWeb
-                    ? const Text(
-                        'When using Flutter Web, API keys are configured through the Firebase Console. The below providers demonstrate how this works')
-                    : const Text(
-                        'We do not provide an API to obtain the token for below providers apart from Google '
-                        'Please use a third party service to obtain token for other providers.'),
-              ),
+              // Container(
+              //   padding: const EdgeInsets.only(top: 16),
+              //   alignment: Alignment.center,
+              //   child:
+              //   kIsWeb
+              //       ? const Text(
+              //       'When using Flutter Web, API keys are configured through the Firebase Console. The below providers demonstrate how this works')
+              //       : const Text(
+              //       'We do not provide an API to obtain the token for below providers apart from Google '
+              //           'Please use a third party service to obtain token for other providers.'),
+              // ),
               Container(
                 padding: const EdgeInsets.only(top: 16),
                 alignment: Alignment.center,
@@ -582,7 +680,7 @@ class _OtherProvidersSignInSectionState
                   ],
                 ),
               ),
-              Visibility(
+               Visibility(
                 visible: _showProviderTokenField && !kIsWeb,
                 child: TextField(
                   controller: _tokenController,
@@ -605,10 +703,10 @@ class _OtherProvidersSignInSectionState
                   _provider == 'GitHub'
                       ? Buttons.GitHub
                       : (_provider == 'Facebook'
-                          ? Buttons.Facebook
-                          : (_provider == 'Twitter'
-                              ? Buttons.Twitter
-                              : Buttons.GoogleDark)),
+                      ? Buttons.Facebook
+                      : (_provider == 'Twitter'
+                      ? Buttons.Twitter
+                      : Buttons.GoogleDark)),
                   text: 'Sign In',
                   onPressed: () async {
                     _signInWithOtherProvider();
@@ -760,27 +858,38 @@ class _OtherProvidersSignInSectionState
   //Example code of how to sign in with Google.
   Future<void> _signInWithGoogle() async {
     try {
-      UserCredential userCredential;
 
-      if (kIsWeb) {
-        GoogleAuthProvider googleProvider = GoogleAuthProvider();
-        userCredential = await _auth.signInWithPopup(googleProvider);
-      } else {
-        final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-        final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-        final GoogleAuthCredential googleAuthCredential =
-        GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-        userCredential = await _auth.signInWithCredential(googleAuthCredential);
-      }
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-      final user = userCredential.user;
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      // if (kIsWeb) {
+      //   GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      //   userCredential = await _auth.signInWithPopup(googleProvider);
+      // } else {
+      //   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      //   final GoogleSignInAuthentication googleAuth =
+      //   await googleUser.authentication;
+      //   final GoogleAuthCredential googleAuthCredential =
+      //   GoogleAuthProvider.credential(
+      //     accessToken: googleAuth.accessToken,
+      //     idToken: googleAuth.idToken,
+      //   );
+      //   userCredential = await _auth.signInWithCredential(googleAuthCredential);
+      // }
+
+      final user = FirebaseAuth.instance.currentUser;
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text('Sign In ${user.uid} with Google'),
       ));
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
     } catch (e) {
       print(e);
       Scaffold.of(context).showSnackBar(

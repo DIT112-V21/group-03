@@ -1,5 +1,7 @@
+import 'package:bitmap/bitmap.dart';
 import 'package:flutter/material.dart';
-import 'flutter_mqtt_client.dart';
+//import 'flutter_mqtt_client.dart';
+import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,7 +10,9 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 //ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
-  Controlpanel({Key key,}) : super(key: key);
+  Controlpanel({
+    Key key,
+  }) : super(key: key);
   //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
@@ -19,6 +23,7 @@ class ControlpanelState extends State<Controlpanel> {
   //     MqttClientConnection("aerostun.dev", "group3App", 1883);
 
   MqttServerClient client = SpbMqttClient.client;
+  ValueNotifier<Image> imageValueNotifier;
 
   int _counter = 0;
   int currentSpeed = 0;
@@ -33,6 +38,8 @@ class ControlpanelState extends State<Controlpanel> {
   String throttleNeutral = '0';
   int multiplier = 20;
   int maxGear = 5;
+  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
+  //ImageView mCameraView;
 
   void _backward() {
     setState(() {
@@ -191,38 +198,104 @@ class ControlpanelState extends State<Controlpanel> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // imageValueNotifier.value = SpbMqttClient.image;
+  }
+
+  @override
+  void dispose() {
+    imageValueNotifier.dispose();
+    super.dispose();
+  }
+
+  void _initControlPanelStatus(){
+
+    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initControlPanelStatus();
+    });
     return Scaffold(
       //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+        // Expanded(
+        //   flex: 1,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Flexible(
+        //           child: SpbMqttClient.isConnected
+        //               ?
+        //                TextButton(
+        //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
+        //                   onPressed: () => {(){
+        //                     client.disconnect();
+        //                     setState(() {});
+        //
+        //                   }
+        //
+        //                   },
+        //                 ):TextButton(
+        //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
+        //                     onPressed: () => {
+        //                         connect().then((value) {
+        //                           client = value;
+        //                           SpbMqttClient.client = client;
+        //                           setState(() {});
+        //                            })
+        //                             },
+        //                       )
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        Expanded(
+            flex: 2,
+            child: Container(
+                child: ValueListenableBuilder<Bitmap>(
+              valueListenable: SpbMqttClient.bmValueNotifier,
+              builder: (BuildContext context, Bitmap bitmap, Widget child) {
+                if (bitmap == null) {
+                  return const CircularProgressIndicator();
+                }
+                return Center(
+                  child: SafeArea(
+                    top: true,
+                    child: Image.memory(
+                      bitmap.buildHeaded(),
+                    ),
+                  ),
+                );
+              },
+            ))),
         Expanded(
           flex: 1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                  child: SpbMqttClient.isConnected
-                      ?
-                       TextButton(
-                          child: Text('Disconnect',style: TextStyle(color: Colors.red)),
-                          onPressed: () => {(){
-                            client.disconnect();
-                            setState(() {});
+                child: TextButton(
+                  child: Text('Try the race mode!'),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RaceMode()
+                        //       )
+                        //       ),),
+                        ),
+                  ),
+                ),
+              )
 
-                          }
-
-                          },
-                        ):TextButton(
-                            child: Text('Connect',style: TextStyle(color: Colors.green)),
-                            onPressed: () => {
-                                connect().then((value) {
-                                  client = value;
-                                  SpbMqttClient.client = client;
-                                  setState(() {});
-                                   })
-                                    },
-                              )
-              ),
             ],
           ),
         ),
