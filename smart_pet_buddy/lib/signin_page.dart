@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:smart_pet_buddy/constants.dart';
 import 'bottomnavbar_widget.dart';
 
@@ -99,15 +98,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                 SizedBox(
                   height: 40,
                 ),
-                // inputFile(label: "Email",),
-                // inputFile(label: "Password", obscureText: true),
                 TextFormField(
-                  // border: OutlineInputBorder(
-                  //   // width: 0.0 produces a thin "hairline" border
-                  //   borderRadius: BorderRadius.all(Radius.circular(90.0)),
-                  //   borderSide: BorderSide.none,
-                  //   //borderSide: const BorderSide(),
-                  // ),
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
@@ -229,10 +220,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
 
-      // Navigator.of(context).push(
-      //     //MaterialPageRoute(builder: (BuildContext context) => BottomBar(widget.app)));
-      //     MaterialPageRoute(
-      //         builder: (BuildContext context) => ConvexBottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -255,12 +242,8 @@ class _OtherProvidersSignInSection extends StatefulWidget {
 
 class _OtherProvidersSignInSectionState
     extends State<_OtherProvidersSignInSection> {
-  final TextEditingController _tokenController = TextEditingController();
-  final TextEditingController _tokenSecretController = TextEditingController();
 
   int _selection = 0;
-  bool _showAuthSecretTextField = false;
-  bool _showProviderTokenField = true;
   String _provider = '';
 
   @override
@@ -308,6 +291,9 @@ class _OtherProvidersSignInSectionState
                       ? Buttons.Twitter
                       : Buttons.Google)),
                   text: 'Sign In',
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(60),
+                  ),
                   onPressed: () async {
                     _signInWithOtherProvider();
                   },
@@ -325,33 +311,25 @@ class _OtherProvidersSignInSectionState
       switch (_selection) {
         case 0:
           {
-            _provider = 'GitHub';
-            _showAuthSecretTextField = false;
-            _showProviderTokenField = true;
+            // _provider = 'GitHub';
           }
           break;
 
         case 1:
           {
-            _provider = 'Facebook';
-            _showAuthSecretTextField = false;
-            _showProviderTokenField = true;
+            // _provider = 'Facebook';
           }
           break;
 
         case 2:
           {
-            _provider = 'Twitter';
-            _showAuthSecretTextField = true;
-            _showProviderTokenField = true;
+            // _provider = 'Twitter';
           }
           break;
 
         default:
           {
             _provider = 'Google';
-            _showAuthSecretTextField = false;
-            _showProviderTokenField = false;
           }
       }
     });
