@@ -26,7 +26,7 @@ class RaceModeDialog extends StatelessWidget {
                       color: textColor,
                       fontWeight: FontWeight.normal)),
               TextSpan(
-                  text: 'GAS ',
+                  text: 'GAS. ',
                   style: TextStyle(
                       color: textColor, fontWeight: FontWeight.bold)),
               TextSpan(
@@ -35,7 +35,7 @@ class RaceModeDialog extends StatelessWidget {
                       color: textColor,
                       fontWeight: FontWeight.normal)),
               TextSpan(
-                  text: 'BREAK ',
+                  text: 'BREAK. ',
                   style: TextStyle(
                       color: textColor, fontWeight: FontWeight.bold)),
               TextSpan(
@@ -50,7 +50,7 @@ class RaceModeDialog extends StatelessWidget {
                   style: TextStyle(
                       color: textColor, fontWeight: FontWeight.bold)),
               TextSpan(
-                  text: 'to the left and right',
+                  text: 'to the left and right.',
                   style: TextStyle(
                       color: textColor,
                       fontWeight: FontWeight.normal)),
