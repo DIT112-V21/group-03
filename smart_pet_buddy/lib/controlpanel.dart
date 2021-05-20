@@ -1,6 +1,7 @@
 import 'package:bitmap/bitmap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smart_pet_buddy/constants.dart';
 //import 'flutter_mqtt_client.dart';
 import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -200,7 +201,6 @@ class ControlpanelState extends State<Controlpanel> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitDown,
@@ -296,7 +296,7 @@ class ControlpanelState extends State<Controlpanel> {
             children: [
               Flexible(
                 child: TextButton(
-                  child: Text('Try the race mode!'),
+                  child: Text('Try the race mode!', style: TextStyle(color: textColor),),
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => RaceMode()

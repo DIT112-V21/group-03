@@ -152,7 +152,7 @@ class _RaceModeState extends State<RaceMode> {
               Flexible(
                 flex: 1,
                 child: TextButton(
-                    child: Text('Try the normal mode!'),
+                    child: Text('Try the normal mode!', style: TextStyle(color: textColor),),
                     onPressed: () => Navigator.pop(context),
                     style: TextButton.styleFrom(padding: EdgeInsets.all(30))),
               ),
@@ -191,8 +191,21 @@ class _RaceModeState extends State<RaceMode> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Speed: $speed       Angle: ' +
-                    y.toStringAsFixed(0)),
+                RichText(text: TextSpan(
+                    text: 'Speed: ', style: TextStyle(color: textColor),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '$speed ', style: TextStyle(color: textColor, fontWeight: FontWeight.bold)
+                      ),
+                    TextSpan(text: '    '),
+                    TextSpan(
+                        text: 'Angle: ', style: TextStyle(color: textColor)
+                    ),
+                      TextSpan(
+                          text: y.toStringAsFixed(0), style: TextStyle(color: textColor, fontWeight: FontWeight.bold)
+                      ),
+                    ]
+                )),
               ],
             ),
           )
