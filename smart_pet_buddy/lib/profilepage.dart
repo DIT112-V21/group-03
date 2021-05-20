@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/edit_profile.dart';
-import 'package:smart_pet_buddy/profile_widget.dart';
-import 'package:smart_pet_buddy/user.dart';
-import 'package:smart_pet_buddy/user_preferences.dart';
 import 'appbar_widget.dart';
 import 'package:smart_pet_buddy/settingspage.dart';
 
@@ -21,18 +18,22 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.myUser;
     return Scaffold(
       appBar: buildAppBar(context),
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
-          ProfileWidget(
-            imagePath: user.imagePath,
-            onClicked: () async {},
-          ),
           const SizedBox(height: 24),
-          buildName(user),
+      Container(
+        padding: EdgeInsets.only(left: 40, top: 30, right: 15),
+        child: Text(
+          'Hello!',
+          style: TextStyle(color: Colors.grey[700],
+            fontSize: 35,
+            fontWeight: FontWeight.bold,),
+
+        ),
+      ),
           SizedBox(height:20),
           ProfileMenu(text: "My Account",
             press: () {
@@ -59,20 +60,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
-  Widget buildName(User user) => Column(
-    children: [
-      Text(
-        user.name,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize:22),
-      ),
-      const SizedBox(height: 4),
-      Text(
-        user.email,
-        style: TextStyle(color: Colors.grey),
-      )
-    ],
-  );
 
 }
 

@@ -42,6 +42,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   hexcolor: ^2.0.3
+  font_awesome_flutter: '>= 4.7.0'
 
 
 dev_dependencies:
@@ -60,6 +61,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/homepage.jpg
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
