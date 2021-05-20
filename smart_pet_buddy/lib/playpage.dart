@@ -18,7 +18,7 @@ void initState() {
 }
 
 @override
-void dispose() {;
+void dispose() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeRight,
     DeviceOrientation.landscapeLeft,
