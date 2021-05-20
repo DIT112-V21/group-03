@@ -126,9 +126,11 @@ class _RaceModeState extends State<RaceMode> {
             onPressed: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                title: const Text('Racemode help'),
+                title: const Text('Help'),
                 content: const Text(
-                    'Tilt your phone to steer and use the buttons to increase/decrease the speed'),
+                    'Make sure you have connect to the car. (You can do so on the homepage!) '
+                        'To increase the speed you press GAS. To slow down or reverse you press BREAK '
+                        'To steer the car tilt your phone to the left and right '),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => Navigator.pop(context, 'OK'),
@@ -163,7 +165,7 @@ class _RaceModeState extends State<RaceMode> {
                 children: [
                   ElevatedButton(
                     onPressed: _forward,
-                    child: Text('Gas'),
+                    child: Text('GAS'),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
                       shape: new RoundedRectangleBorder(
@@ -172,7 +174,7 @@ class _RaceModeState extends State<RaceMode> {
                   ),
                   ElevatedButton(
                     onPressed: _reverse,
-                    child: Text('Break'),
+                    child: Text('BREAK'),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
                       shape: new RoundedRectangleBorder(
