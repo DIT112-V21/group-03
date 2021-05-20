@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:smart_pet_buddy/controlpage_dialog.dart';
 import 'constants.dart';
 import 'controlpanel.dart';
 
@@ -38,19 +39,7 @@ class _PlayPageState extends State<PlayPage> {
               icon: Icon(Icons.help),
               onPressed: () => showDialog<String>(
                 context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Help'),
-                  content: const Text(
-                      'Before you start make sure that you are connected to the car. (You can do so on the homepage) '
-                          'You control the car by using the arrow buttons. '
-                          'To control the speed press the + or - at the bottom of the page.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
+                builder: (BuildContext context) => ControlpageDialog()
               ),
             )
           ],
