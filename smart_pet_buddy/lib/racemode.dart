@@ -128,8 +128,10 @@ class _RaceModeState extends State<RaceMode> {
               builder: (BuildContext context) => AlertDialog(
                 title: const Text('Help'),
                 content: const Text(
-                    'Make sure you have connect to the car. (You can do so on the homepage!) '
+                    'Make sure you are connected to the car. (You can do so on the homepage) '
                         'To increase the speed you press GAS. To slow down or reverse you press BREAK '
+                        'At the bottom of the page the current speed is displayed. '
+                        'When the it is positive the car will move forward and when negative it will reverse. '
                         'To steer the car tilt your phone to the left and right '),
                 actions: <Widget>[
                   TextButton(

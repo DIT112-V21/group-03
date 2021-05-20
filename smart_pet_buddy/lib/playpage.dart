@@ -41,9 +41,9 @@ class _PlayPageState extends State<PlayPage> {
                 builder: (BuildContext context) => AlertDialog(
                   title: const Text('Help'),
                   content: const Text(
-                      'Make sure you have connect to the car. (You can do so on the homepage!) '
-                          'Control the car by pressing the arrow buttons. There are five different gears that you can use. '
-                          'To control the speed press the + or - at the buttom of the page '),
+                      'Before you start make sure that you are connected to the car. (You can do so on the homepage) '
+                          'You control the car by using the arrow buttons. '
+                          'To control the speed press the + or - at the bottom of the page.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'OK'),
