@@ -33,7 +33,6 @@ class _PlayPageState extends State<PlayPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: strongPrimary,
-          title: Text(''),
           actions: [
             IconButton(
               icon: Icon(Icons.help),
