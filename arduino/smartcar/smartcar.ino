@@ -1,3 +1,5 @@
+#include <Smartcar.h>
+
 #include <vector>
 
 #include <MQTT.h>
@@ -21,6 +23,8 @@ const auto oneSecond = 1000UL;
 const auto triggerPin = 6;
 const auto echoPin = 7;
 const auto maxDistance = 400;
+const long distanceToTravel = 40;
+const char noop = 'x';
 
 ArduinoRuntime arduinoRuntime;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
@@ -29,12 +33,26 @@ DifferentialControl control(leftMotor, rightMotor);
 SR04 sensor(arduinoRuntime, triggerPin, echoPin);
 SR04 front(arduinoRuntime, triggerPin, echoPin, maxDistance);
 
+const auto pulsesPerMeter = 600;
+
+DirectionlessOdometer leftOdometer(
+    arduinoRuntime,
+    smartcarlib::pins::v2::leftOdometerPin,
+    []() { leftOdometer.update(); },
+    pulsesPerMeter);
+DirectionlessOdometer rightOdometer(
+    arduinoRuntime,
+    smartcarlib::pins::v2::rightOdometerPin,
+    []() { rightOdometer.update(); },
+    pulsesPerMeter);
+
 const int GYROSCOPE_OFFSET = 37;
 GY50 gyro(arduinoRuntime, GYROSCOPE_OFFSET);
 
 std::vector<char> frameBuffer;
 
-SimpleCar car(control);
+SmartCar car(arduinoRuntime, control, gyro, leftOdometer, rightOdometer);
+char carOp = noop;
 
 void setup()
 {
@@ -57,31 +75,17 @@ void setup()
         mqtt.onMessage([](String topic, String message) {
             if (topic == "/smartcar/group3/control/throttle")
             {
+                carOp = noop;
                 car.setSpeed(message.toInt());
             }
             else if (topic == "/smartcar/group3/control/steering")
             {
+                carOp = noop;
                 car.setAngle(message.toInt());
             }
             else if (topic == "/smartcar/group3/control/automove")
             {
-                switch (message.charAt(0))
-                {
-                case 'b':
-                    beeDance();
-                    break;
-                case 'c':
-                    moveCircle(60, 60, true);
-                    break;
-                case 'z':
-                    snake();
-                    break;
-                case 's':
-                    car.setSpeed(0);
-                    break;
-                default:
-                    break;
-                }
+                carOp = message.charAt(0);
             }
             else
             {
@@ -91,10 +95,35 @@ void setup()
     }
 }
 
+void handleCarOp()
+{
+    switch (carOp)
+    {
+    case 'b':
+        beeDance();
+        break;
+    case 'c':
+        moveCircle();
+        break;
+    case 'z':
+        snake();
+        break;
+    case 's':
+        car.setSpeed(0);
+        break;
+    case 'f':
+        backAndForth();
+        break;
+    default:
+        break;
+    }
+}
+
 void loop()
 {
     handleInput();
     avoidObstacles();
+    handleCarOp();
 
     if (mqtt.connected())
     {
@@ -154,7 +183,7 @@ void handleInput()
             car.setAngle(0);
             break;
         case 'c': // cicrle
-            moveCircle(50, 50, true);
+            moveCircle();
             break;
         case 's':
             snake();
@@ -183,55 +212,150 @@ void avoidObstacles()
     }
 }
 
-void moveCircle(int speed, int angle, bool direction)
+int circleState = 0;
+bool circleBusy = false;
+int circleStartTime = 0;
+int circleStepTime = 3000;
+int degreesToTurnCircle = 45;
+
+void moveCircle()
 {
-
-    gyro.update();
-    const int startingHeading = gyro.getHeading();
-    int currentHeading = -1;
-
-    if (!direction)
+    if (!circleBusy)
     {
-        angle = -angle;
+        circleStartTime = millis();
+        circleState = 0;
+        circleBusy = true;
     }
-    car.setAngle(angle);
-    car.setSpeed(speed);
-    delay(1000);
-    do
+
+    circleState = nextDelayedRotateState(circleStartTime, 0, circleState, 0, degreesToTurnCircle, 50, &rotate);
+    circleState = nextDelayedRotateState(circleStartTime, circleStepTime * 3, circleState, 1, 0, 0, &rotate);
+
+    if (circleState == 2)
     {
-
-        gyro.update();
-        currentHeading = gyro.getHeading();
-
-    } while (currentHeading != startingHeading);
-
-    car.setSpeed(0);
+        car.setSpeed(0);
+        circleBusy = false;
+        circleState = 0;
+        carOp = noop;
+        mqtt.publish("/smartcar/group3/control/automove/complete", "circle");
+    }
 }
+
+int beeState = 0;
+bool beeBusy = false;
+int beeStartTime = 0;
+int beeStepTime = 3000;
+int degreesToTurnBee = 45;
 
 void beeDance()
 {
-
-    moveCircle(50, 100, true);
-    moveCircle(50, 100, false);
-}
-
-void snake()
-{
-
-    int angle = 100;
-    int counter = 0;
-    car.setSpeed(100);
-
-    while (counter < 8)
+    if (!beeBusy)
     {
-
-        car.setAngle(angle);
-        delay(1000);
-        car.setAngle(0);
-        delay(1000);
-        counter++;
-        angle = -angle;
+        beeStartTime = millis();
+        beeState = 0;
+        beeBusy = true;
     }
 
-    car.setSpeed(0);
+    beeState = nextDelayedRotateState(beeStartTime, 0, beeState, 0, degreesToTurnBee, 50, &rotate);
+    beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 3, beeState, 1, -degreesToTurnBee, 50, &rotate);
+    beeState = nextDelayedRotateState(beeStartTime, beeStepTime * 5, beeState, 2, 0, 0, &rotate);
+
+    if (beeState == 3)
+    {
+        car.setSpeed(0);
+        beeBusy = false;
+        beeState = 0;
+        carOp = noop;
+        mqtt.publish("/smartcar/group3/control/automove/complete", "beeDancing");
+    }
+}
+
+int snakeState = 0;
+bool snakeBusy = false;
+int snakeStartTime = 0;
+int snakeStepTime = 3000;
+int degreesToTurn = 45;
+void snake()
+{
+    if (!snakeBusy)
+    {
+        snakeStartTime = millis();
+        snakeState = 0;
+        snakeBusy = true;
+    }
+    snakeState = nextDelayedGoState(snakeStartTime, 0, snakeState, 0, 50, &go);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime / 2, snakeState, 1, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 1, snakeState, 2, -degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 2, snakeState, 3, degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 3, snakeState, 4, -degreesToTurn, 50, &rotate);
+    snakeState = nextDelayedRotateState(snakeStartTime, snakeStepTime * 4, snakeState, 5, degreesToTurn, 50, &rotate);
+
+    if (snakeState == 6)
+    {
+        car.setSpeed(0);
+        snakeBusy = false;
+        snakeState = 0;
+        carOp = noop;
+        mqtt.publish("/smartcar/group3/control/automove/complete", "snake");
+    }
+}
+
+void rotate(int degrees, int fSpeed)
+{
+    car.setSpeed(fSpeed);
+    car.setAngle(degrees);
+}
+
+void go(int fSpeed)
+{
+    car.setAngle(0);
+    car.setSpeed(fSpeed);
+}
+
+int backAndForthState = 0;
+bool backAndForthBusy = false;
+int backAndForthStartTime = 0;
+int backAndForthStepTime = 3000;
+void backAndForth()
+{
+    if (!backAndForthBusy)
+    {
+        backAndForthStartTime = millis();
+        backAndForthState = 0;
+        backAndForthBusy = true;
+    }
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, 0, backAndForthState, 0, 50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime, backAndForthState, 1, -50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 2, backAndForthState, 2, 50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 3, backAndForthState, 3, -50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 4, backAndForthState, 4, 50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 5, backAndForthState, 5, -50, &go);
+    backAndForthState = nextDelayedGoState(backAndForthStartTime, backAndForthStepTime * 6, backAndForthState, 6, 50, &go);
+    if (backAndForthState == 7)
+    {
+        car.setSpeed(0);
+        backAndForthState = 0;
+        backAndForthBusy = false;
+        carOp = noop;
+        mqtt.publish("/smartcar/group3/control/automove/complete", "forthBack");
+    }
+}
+
+int nextDelayedGoState(int startTime, int delay, int currentState, int targetState, int speed, void (*callback)(int))
+{
+    if (millis() - startTime >= delay && currentState == targetState)
+    {
+        callback(speed);
+        return currentState + 1;
+    }
+    return currentState;
+}
+
+int nextDelayedRotateState(int startTime, int delay, int currentState, int targetState, int angle, int speed, void (*callback)(int, int))
+{
+    if (millis() - startTime >= delay && currentState == targetState)
+    {
+        callback(angle, speed);
+        return currentState + 1;
+    }
+    return currentState;
 }
