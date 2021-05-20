@@ -18,6 +18,8 @@ class _RaceModeState extends State<RaceMode> {
   int currentSpeed;
   int maxGear = 5;
   int minGear = -5;
+  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
+
 
   @override
   void initState() {
@@ -98,8 +100,19 @@ class _RaceModeState extends State<RaceMode> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
+  void _initRaceModeStatus(){
+
+    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    _initRaceModeStatus();
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text("Race Mode"),

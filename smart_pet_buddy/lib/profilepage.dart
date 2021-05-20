@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           ProfileMenu(text: "FAQ & Feedback",
             press: () {
-
+              Wiredash.of(context).show();
             },
           ),
           ProfileMenu(text: "More",

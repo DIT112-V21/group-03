@@ -38,7 +38,7 @@ class ControlpanelState extends State<Controlpanel> {
   String throttleNeutral = '0';
   int multiplier = 20;
   int maxGear = 5;
-
+  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
   //ImageView mCameraView;
 
   void _backward() {
@@ -210,8 +210,20 @@ class ControlpanelState extends State<Controlpanel> {
     super.dispose();
   }
 
+  void _initControlPanelStatus(){
+
+    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initControlPanelStatus();
+    });
     return Scaffold(
       //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
