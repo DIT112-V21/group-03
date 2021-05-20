@@ -12,7 +12,7 @@ void main() {
     await tester.tap(homeButton);
     await tester.pump();
 
-    expect(find.byIcon(Icons.home_outlined), findsOneWidget);
+    expect(homeButton, findsOneWidget);
   });
 
   testWidgets("Play button", (WidgetTester tester) async {
@@ -22,7 +22,7 @@ void main() {
     await tester.tap(playButton);
     await tester.pump();
 
-    expect(find.byIcon(Icons.control_camera_outlined), findsOneWidget);
+    expect(playButton, findsOneWidget);
 
   });
 
@@ -33,7 +33,7 @@ void main() {
     await tester.tap(autoButton);
     await tester.pump();
 
-    expect(find.byIcon(Icons.pest_control_rodent_outlined), findsOneWidget);
+    expect(autoButton, findsOneWidget);
 
   });
 
@@ -44,7 +44,7 @@ void main() {
     await tester.tap(profileButton);
     await tester.pump();
 
-    expect(find.byIcon(Icons.account_circle_outlined), findsOneWidget);
+    expect(profileButton, findsOneWidget);
 
   });
   }
