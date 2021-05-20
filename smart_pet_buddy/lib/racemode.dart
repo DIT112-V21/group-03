@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:sensors/sensors.dart';
@@ -132,15 +134,29 @@ class _RaceModeState extends State<RaceMode> {
             children: [
               Flexible(
                 flex: 1,
-                child: TextButton(
-                    child: Text(
-                      'Try the normal mode!',
-                      style: TextStyle(color: textColor),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    style: TextButton.styleFrom(padding: EdgeInsets.all(30))),
+                child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Center(
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Try the',
+                                style: TextStyle(
+                                    color: textColor, fontSize: 15),
+                                children: <TextSpan>[
+                                  TextSpan(text: ' normal mode',
+                                      style: TextStyle(
+                                          color: HexColor("0c06c6")),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.pop(context);
+                                        }
+                                  )
+                                ]
+                            ),
+                          ),
+                        )
+                    )
               ),
-              //IconButton(icon: Icon(Icons.help), onPressed: null, color: Colors.red,)
             ],
           ),
           Flexible(

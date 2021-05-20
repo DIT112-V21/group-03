@@ -1,4 +1,5 @@
 import 'package:bitmap/bitmap.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_pet_buddy/constants.dart';
@@ -295,16 +296,30 @@ class ControlpanelState extends State<Controlpanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: TextButton(
-                  child: Text('Try the race mode!', style: TextStyle(color: textColor),),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RaceMode()
-                        //       )
-                        //       ),),
+                child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Try the',
+                            style: TextStyle(
+                                color: textColor, fontSize: 15),
+                            children: <TextSpan>[
+                              TextSpan(text: ' race mode',
+                                  style: TextStyle(
+                                      color: HexColor("0c06c6")),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.push(
+                                             context,
+                                             MaterialPageRoute(builder: (context) => RaceMode()));
+                                    }
+                              )
+                            ]
                         ),
-                  ),
-                ),
+                      ),
+                    )
+                )
               )
 
             ],
