@@ -10,14 +10,13 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 class ConvexBottomBar extends StatefulWidget {
   final FirebaseApp app;
-
   ConvexBottomBar(this.app);
 
   @override
-  _ConvexBottomBarState createState() => _ConvexBottomBarState();
+  ConvexBottomBarState createState() => ConvexBottomBarState();
 }
 
-class _ConvexBottomBarState extends State<ConvexBottomBar> {
+class ConvexBottomBarState extends State<ConvexBottomBar> {
   int _currentIndex = 0;
   MqttServerClient client;
 
