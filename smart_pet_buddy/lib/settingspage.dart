@@ -1,9 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:smart_pet_buddy/constants.dart';
+import 'package:smart_pet_buddy/dialogs.dart';
+import 'package:smart_pet_buddy/playReminders.dart';
+import 'package:smart_pet_buddy/privacyPage.dart';
+
+
+import 'constants.dart';
 
 class SettingsPage extends StatefulWidget {
-  SettingsPage(FirebaseApp app);
+  final FirebaseApp app;
+
+  SettingsPage(this.app);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -13,8 +22,9 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF6F6F6),
       appBar: AppBar(
-          backgroundColor: Colors.green.shade400,
+          backgroundColor: Color(0xFF005263),
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
@@ -33,7 +43,7 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(height: 40,),
             Row(
               children: [
-                Icon(Icons.person_outlined, color: Colors.green,),
+                Icon(Icons.person_outlined, color: midPrimary,),
                 SizedBox(width: 8,),
                 Text(
                   "Account",
@@ -48,79 +58,83 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 20,
             ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Content settings", style: TextStyle(
-                    fontSize: 18, fontWeight: FontWeight.w500, color: Colors.grey[600], ),
-                  ),
-                  Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey
-                  ),
-                ]
-            ),
+    Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+    TextButton(
+    child: Text("Reminders"),
+    style: TextButton.styleFrom(
+    primary: Colors.grey[600],
+    textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+
+    onPressed: () async {  Navigator.of(context).push(MaterialPageRoute(builder: (_) => RemindersPage(widget.app)));
+
+    },
+    ),
+    Icon(
+    Icons.arrow_forward_ios,
+    color: Colors.grey
+    ),
+    ]
+    ),
+    SizedBox(
+    height: 10,
+    ),
+    Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children:[
+    TextButton(
+    child: Text("Language"),
+    style: TextButton.styleFrom(
+    primary: Colors.grey[600],
+    textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+
+    onPressed: () async {
+    await Dialogs.yesAbortDialog(context, " Select language", "Body");
+    },
+    ),
+
+
+    Icon(
+    Icons.arrow_forward_ios,
+    color: Colors.grey
+    ),
+    ],
+    ),
+
+    SizedBox(
+    height: 10,
+    ),
+    Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+    TextButton(
+    child: Text("Privacy & security",
+    style: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: Colors.grey[600])
+    ),
+      onPressed: () async {
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => PrivacyPage(widget.app)));
+
+      },
+    ),
+
+
+      Icon(
+          Icons.arrow_forward_ios,
+          color: Colors.grey
+      ),
+    ],
+    ),
+
             SizedBox(
-              height: 20,
+              height: 40,
             ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Language",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[600]),
-                  ),
-                  Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey
-                  ),
-                ]
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Privacy & security",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[600]),
-                  ),
-                  Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey
-                  ),
-                ]
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Feedback",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey[600]),
-                  ),
-                  Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey
-                  ),
-                ]
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            SizedBox(height: 40,),
             Row(
               children: [
-                Icon(Icons.volume_up_outlined, color: Colors.green,),
+                Icon(Icons.volume_up_outlined, color: Color(0xFF62A8AC)),
                 SizedBox(width: 8,),
                 Text(
                   "Notifications",

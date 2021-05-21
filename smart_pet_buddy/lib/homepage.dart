@@ -91,10 +91,8 @@ class _HomePageState extends State<HomePage> {
                 child: SpbMqttClient.isConnected
                     ? ElevatedButton(
                   onPressed: () => {
-                        () {
-                      client.disconnect();
-                      setState(() {});
-                    }
+                      client.disconnect(),
+                      setState(() {})
                   },
                   child: Icon(
                     Icons.stop,

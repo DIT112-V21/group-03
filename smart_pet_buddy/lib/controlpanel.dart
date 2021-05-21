@@ -1,5 +1,6 @@
 import 'package:bitmap/bitmap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 //import 'flutter_mqtt_client.dart';
 import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -201,12 +202,22 @@ class ControlpanelState extends State<Controlpanel> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
     // imageValueNotifier.value = SpbMqttClient.image;
   }
 
   @override
   void dispose() {
     imageValueNotifier.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
   }
 
