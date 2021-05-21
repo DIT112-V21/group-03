@@ -45,13 +45,13 @@ void main() {
 
   testWidgets("Finds profile page", (WidgetTester tester) async {
     final profileButton = find.byIcon(Icons.account_circle_outlined);
-    final Profilepage = ProfilePage(Firebase.app());
+    final profilepage = ProfilePage(Firebase.app());
 
     await tester.pumpWidget(MaterialApp(home: ConvexBottomBar(Firebase.app())));
     await tester.tap(profileButton);
     await tester.pump();
 
-    expect(Profilepage, findsOneWidget);
+    expect(profilepage, findsOneWidget);
 
    });
   }
