@@ -5,11 +5,11 @@ import 'package:smart_pet_buddy/bottomnavbar_widget.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
-import 'package:smart_pet_buddy/profile_widget.dart';
+import 'package:smart_pet_buddy/profilepage.dart';
 
 
 void main() {
-  testWidgets("Finds a Home button", (WidgetTester tester) async {
+  testWidgets("Finds home page", (WidgetTester tester) async {
     final homeButton = find.byIcon(Icons.home_outlined);
     final homepage = HomePage();
 
@@ -20,7 +20,7 @@ void main() {
     expect(homepage, findsOneWidget);
   });
 
-  testWidgets("Finds a Play button", (WidgetTester tester) async {
+  testWidgets("Finds play page", (WidgetTester tester) async {
     final playButton = find.byIcon(Icons.control_camera_outlined);
     final playpage = PlayPage();
 
@@ -31,7 +31,7 @@ void main() {
     expect(playpage, findsOneWidget);
   });
 
-  testWidgets("Finds a Automated play button", (WidgetTester tester) async {
+  testWidgets("Finds custom page", (WidgetTester tester) async {
     final autoButton = find.byIcon(Icons.pest_control_rodent_outlined);
     final autopage = CustomPage();
 
@@ -43,15 +43,15 @@ void main() {
 
   });
 
-  testWidgets("Finds a Profile button", (WidgetTester tester) async {
+  testWidgets("Finds profile page", (WidgetTester tester) async {
     final profileButton = find.byIcon(Icons.account_circle_outlined);
-    final profilepage = ProfileWidget();
+    final Profilepage = ProfilePage(Firebase.app());
 
     await tester.pumpWidget(MaterialApp(home: ConvexBottomBar(Firebase.app())));
     await tester.tap(profileButton);
     await tester.pump();
 
-    expect(profilepage, findsOneWidget);
+    expect(Profilepage, findsOneWidget);
 
    });
   }
