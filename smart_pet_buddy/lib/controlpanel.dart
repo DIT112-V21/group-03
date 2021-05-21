@@ -226,6 +226,8 @@ class ControlpanelState extends State<Controlpanel> {
                     top: true,
                     child: Image.memory(
                       bitmap.buildHeaded(),
+                      width: 320,
+                      height: 240,
                     ),
                   ),
                 );
@@ -248,7 +250,6 @@ class ControlpanelState extends State<Controlpanel> {
                   ),
                 ),
               )
-
             ],
           ),
         ),
