@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:smart_pet_buddy/password_input.dart';
+import 'constants.dart';
+
 
 class EditProfilePage extends StatefulWidget {
   final FirebaseApp app;
@@ -40,13 +41,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
         .then((value) => locationController.text = value.data()['location']);
 
     return Scaffold(
+      backgroundColor: lightShade,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: strongPrimary,
         elevation: 1,
         leading: IconButton(
+          padding: EdgeInsets.all(10),
           icon: Icon(
-            Icons.arrow_back,
-            color: Colors.green,
+            Icons.arrow_back_outlined,
+            size: 40,
+            color: lightShade,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -63,7 +67,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
               Text(
                 "Edit Profile",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500, fontFamily: 'Nexa Rust',color: textColor),
               ),
               SizedBox(
                 height: 15,
@@ -72,11 +76,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Stack(
                   children: [
                     Container(
-                        width: 130,
-                        height: 130,
+                        width: 180,
+                        height: 180,
                         decoration: BoxDecoration(
                           border: Border.all(
-                              width: 4,
+                              width: 6,
                               color: Theme.of(context).scaffoldBackgroundColor),
                           boxShadow: [
                             BoxShadow(
@@ -127,7 +131,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 color:
                                     Theme.of(context).scaffoldBackgroundColor,
                               ),
-                              color: Colors.green,
+                              color: strongPrimary,
                             ),
                             child: Icon(
                               Icons.edit,
@@ -141,7 +145,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", "", nameController),
+              buildTextField("Full Name", "", nameController,),
               buildTextField("E-mail", "", emailController),
               PasswordInput(
                 labelText: "Password",
@@ -158,77 +162,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                    }
-                    ,
+                    },
                     style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 50),
+                      primary: strongShade,
+                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))
-                      ),
+                            borderRadius: BorderRadius.circular(30.0))),
                     child: Text("CANCEL",
                         style: TextStyle(
-                            fontSize: 14,
-                            letterSpacing: 2.2,
-                            color: Colors.black)),
-                    ),
-                  // OutlineButton(
-                  //   padding: EdgeInsets.symmetric(horizontal: 50),
-                  //   shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(20)),
-                  //   onPressed: () {
-                  //     Navigator.of(context).pop();
-                  //   },
-                  //   child: Text("CANCEL",
-                  //       style: TextStyle(
-                  //           fontSize: 14,
-                  //           letterSpacing: 2.2,
-                  //           color: Colors.black)),
-                  // ),
-                  // RaisedButton(
-                  //   onPressed: () async {
-                  //     if (user.displayName != nameController.text) {
-                  //       await user
-                  //           .updateProfile(displayName: nameController.text)
-                  //           .whenComplete(() => print('success name change'));
-                  //     }
-                  //     if (user.email != emailController.text) {
-                  //       await user
-                  //           .updateEmail(emailController.text)
-                  //           .whenComplete(() => print('success email change'));
-                  //     }
-                  //     if (passwordController.text.length >= 8) {
-                  //       await user
-                  //           .updatePassword(passwordController.text)
-                  //           .whenComplete(() => print('success pass change'));
-                  //     }
-                  //     if (userLocation != locationController.text) {
-                  //       //   FirebaseDatabase(app: widget.app).reference().child('users').once().then((value) => print(value.value));
-                  //       // .push().set({'data':'data'});
-                  //       await FirebaseFirestore.instance
-                  //           .collection('users')
-                  //           .doc(user.uid)
-                  //           .set({'location': locationController.text});
-                  //       // await FirebaseDatabase.instance.reference()
-                  //       //     .child('users').child(user.uid).push().set({'location': locationController.text}).whenComplete(() => print('complete'));
-                  //
-                  //       print('success location change');
-                  //     }
-                  //
-                  //     user = FirebaseAuth.instance.currentUser;
-                  //   },
-                  //   color: Colors.green,
-                  //   padding: EdgeInsets.symmetric(horizontal: 50),
-                  //   elevation: 2,
-                  //   shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(20)),
-                  //   child: Text(
-                  //     "SAVE",
-                  //     style: TextStyle(
-                  //         fontSize: 14,
-                  //         letterSpacing: 2.2,
-                  //         color: Colors.white),
-                  //   ),
-                  // ),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                            color: textColor)),
+                  ),
                   ElevatedButton(
                     onPressed: () async {
                       if (user.displayName != nameController.text) {
@@ -247,23 +193,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             .whenComplete(() => print('success pass change'));
                       }
                       if (userLocation != locationController.text) {
-                        //   FirebaseDatabase(app: widget.app).reference().child('users').once().then((value) => print(value.value));
-                        // .push().set({'data':'data'});
                         await FirebaseFirestore.instance
                             .collection('users')
                             .doc(user.uid)
                             .set({'location': locationController.text});
-                        // await FirebaseDatabase.instance.reference()
-                        //     .child('users').child(user.uid).push().set({'location': locationController.text}).whenComplete(() => print('complete'));
-
                         print('success location change');
                       }
 
                       user = FirebaseAuth.instance.currentUser;
                     },
                     style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50),
+
+                      primary: strongPrimary,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
@@ -271,9 +213,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child: Text(
                       "SAVE",
                       style: TextStyle(
-                          fontSize: 14,
-                          letterSpacing: 2.2,
-                          color: Colors.white),
+                          fontSize: 18,
+                          fontFamily: 'Nexa Rust',
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.bold,
+                          color: midShade),
                     ),
                   )
                 ],
@@ -297,9 +241,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: placeholder,
             hintStyle: TextStyle(
-              fontSize: 16,
+              fontSize: 25,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              fontFamily: 'Nexa Rust',
+              color: midPrimary,
             )),
       ),
     );
