@@ -7,20 +7,15 @@ import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
-//ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
   Controlpanel({
     Key key,
   }) : super(key: key);
-  //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
 }
 
 class ControlpanelState extends State<Controlpanel> {
-  // MqttClientConnection connection =
-  //     MqttClientConnection("aerostun.dev", "group3App", 1883);
-
   MqttServerClient client = SpbMqttClient.client;
   ValueNotifier<Image> imageValueNotifier;
 
@@ -171,22 +166,6 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
-  // ignore: unused_element
-  void _moreSpeed(String message) {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/moreSpeed',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
-  // ignore: unused_element
-  void _lessSpeed(String message) {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/lessSpeed',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
   void _steer(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
@@ -198,7 +177,6 @@ class ControlpanelState extends State<Controlpanel> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // imageValueNotifier.value = SpbMqttClient.image;
   }
 
   @override
@@ -241,14 +219,10 @@ class ControlpanelState extends State<Controlpanel> {
                   child: Text('Try the race mode!'),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RaceMode()
-                        //       )
-                        //       ),),
-                        ),
+                    MaterialPageRoute(builder: (context) => RaceMode()),
                   ),
                 ),
               )
-
             ],
           ),
         ),

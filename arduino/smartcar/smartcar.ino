@@ -62,8 +62,8 @@ void setup()
 #ifdef __SMCE__
     Camera.begin(QVGA, RGB888, 15);
     frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
-    //  mqtt.begin("127.0.0.1", 1883, WiFi);
-    mqtt.begin("aerostun.dev", 1883, WiFi);
+      mqtt.begin("127.0.0.1", 1883, WiFi);
+//    mqtt.begin("aerostun.dev", 1883, WiFi);
 
     // mqtt.begin(WiFi); // Will connect to localhost
 #else

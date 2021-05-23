@@ -8,8 +8,8 @@ import 'dart:io';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 Future<MqttClient> connect() async {
-  // MqttServerClient client = MqttServerClient('127.0.0.1', 'group3');
-  MqttServerClient client = MqttServerClient('aerostun.dev', 'group3');
+  MqttServerClient client = MqttServerClient('127.0.0.1', 'group3');
+  // MqttServerClient client = MqttServerClient('aerostun.dev', 'group3');
 
   client.setProtocolV311();
   client.logging(on: true);
