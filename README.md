@@ -1,5 +1,8 @@
 # Smart Pet Buddy
 
+![landing_logo (1) (1)](https://user-images.githubusercontent.com/59511737/119528453-79fd3400-bd81-11eb-962a-f8f90888ebec.png)
+
+
 ## Product description 
 
 ### What you are going to make? 
@@ -34,6 +37,12 @@ One of the team members kindly proposed to use his own Arduino compatible camera
 For the Arduino car, we are going to create an Arduino sketch that holds all car's functions we require.
 Communication between car and application will go through a MQTT server.
 
-## [User Manual](https://github.com/DIT112-V21/group-03/wiki/User-manual)
+## Get started
+* [Installation guide](https://github.com/DIT112-V21/group-03/wiki/Installation-guide)
+* [Developer guide](https://github.com/DIT112-V21/group-03/wiki/Developer-Guide)
+
+
+## How to use Smart Pet Buddy
+* [User Manual](https://github.com/DIT112-V21/group-03/wiki/User-manual)
 
 
