@@ -34,6 +34,6 @@ One of the team members kindly proposed to use his own Arduino compatible camera
 For the Arduino car, we are going to create an Arduino sketch that holds all car's functions we require.
 Communication between car and application will go through a MQTT server.
 
-
+## [User Manual](https://github.com/DIT112-V21/group-03/wiki/User-manual)
 
 
