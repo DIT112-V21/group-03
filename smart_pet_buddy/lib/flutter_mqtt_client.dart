@@ -68,6 +68,8 @@ Future<MqttClient> connect() async {
   return client;
 }
 
+
+
 void onConnected() {
   SpbMqttClient.isConnected = true;
 
