@@ -1,11 +1,15 @@
-import 'dart:io';
 import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/edit_profile.dart';
 import 'package:wiredash/wiredash.dart';
 import 'package:smart_pet_buddy/settingspage.dart';
 import 'constants.dart';
+import 'main.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
 class ProfilePage extends StatefulWidget {
   final FirebaseApp app;
@@ -17,6 +21,14 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => SmartPetBuddy(widget.app)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +42,22 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.all(10),
               iconSize: 40,
               color: lightShade,
-              onPressed: () => exit(0))
+              onPressed: () async {
+                final User user = _auth.currentUser;
+                if (user == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('No one has signed in.'),
+                  ));
+                  return;
+                }
+                await signOut();
+
+                final String uid = user.uid;
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('$uid has successfully signed out.'),
+                ));
+              }
+          ),
         ],
       ),
       body: ListView(
