@@ -7,6 +7,7 @@ class RaceModeDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: lightShade,
       title: const Text('Race Mode'),
       content: SingleChildScrollView(
         child: RichText(
@@ -61,7 +62,7 @@ class RaceModeDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('OK'),
+          child: const Text('OK',style: TextStyle(color: midPrimary, fontSize: 20),),
         ),
       ],
     );

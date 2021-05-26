@@ -42,8 +42,8 @@ class _SignInPageState extends State<SignInPage> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
+              Icons.arrow_back_rounded,
+              size: 30,
               color: textColor,
             ),
           )),
