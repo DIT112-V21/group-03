@@ -1,13 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 import 'constants.dart';
 import 'flutter_mqtt_client.dart';
-import 'main.dart';
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
 
 //ignore: must_be_immutable
 class HomePage extends StatefulWidget {
@@ -28,31 +24,6 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: Text(''),
           backgroundColor: strongPrimary,
-          actions: <Widget>[
-            Builder(builder: (BuildContext context) {
-              return TextButton(
-                style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).buttonColor)),
-                onPressed: () async {
-                  final User user = _auth.currentUser;
-                  if (user == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('No one has signed in.'),
-                    ));
-                    return;
-                  }
-                  await signOut();
-
-                  final String uid = user.uid;
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('$uid has successfully signed out.'),
-                  ));
-                },
-                child: const Text('Sign out'),
-              );
-            })
-          ],
         ),
         body: Container(
           decoration: BoxDecoration(
@@ -156,9 +127,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> signOut() async {
-    await _auth.signOut();
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => SmartPetBuddy(widget.app)));
-  }
 }
