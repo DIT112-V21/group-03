@@ -30,19 +30,39 @@ Smart Pet Buddy offers a solution for pet owners who want to increase the physic
 
 ### How you are going to make it? What kind of technology you are going to use?
 
-We are going to develop Flutter based application with a simple UI that will allow us to control the car and avoiding obstacles. 
-We will store all information in Google firebase from Flutter (user credentials, etc).
-For implementing video streaming we will be using the camera provided in the SMCE emulator. 
-For the Arduino car, we are going to create an Arduino sketch that holds all car's functions we require.
-Communication between car and application will go through a MQTT server. 
-The feedback funtction will be built using Wiredash.
+We are going to develop Flutter based application with a simple UI that will allow us to control the car and avoiding obstacles. We will store all information in Google firebase from Flutter (user credentials, etc). For implementing video streaming we will be using the camera provided in the SMCE emulator. For the Arduino car, we are going to create an Arduino sketch that holds all car's functions we require. Communication between car and application will go through a MQTT server. The feedback funtction will be built using Wiredash.
+
+### Resources
+
+* [Arduino IDE](https://www.arduino.cc/en/software)
+* [Android Studio](https://developer.android.com/studio)
+* [SmartCar Library](https://www.arduinolibraries.info/libraries/smartcar-shield)
+* [SMCE-gd](https://github.com/ItJustWorksTM/smce-gd/)
+* [MQTT](https://mqtt.org/)
+* [Firebase](https://firebase.google.com/?gclid=CjwKCAjw47eFBhA9EiwAy8kzNPHuhBY3D1n3qz7MAT2gOn2biy8dzt6PrTEZwdkofRtbyu7IHiuoOBoCVWcQAvD_BwE&gclsrc=aw.ds)
+* [Flutter](https://flutter.dev/docs/get-started/install)
+* [Wiredash](https://wiredash.io/)
+
 
 ## Get started
+
+### Installation
 * [Installation guide](https://github.com/DIT112-V21/group-03/wiki/Installation-guide)
+
+### How to contribute
 * [Developer guide](https://github.com/DIT112-V21/group-03/wiki/Developer-Guide)
 
 
 ## How to use Smart Pet Buddy
 * [User Manual](https://github.com/DIT112-V21/group-03/wiki/User-manual)
+
+## Developers
+- [Astrid Berntsson](https://github.com/AstridBer)
+- [Ann-Sofie Eriksson](https://github.com/sofie-a)
+- [Emilie Anthony](https://github.com/emilieanthony)
+- [Ina Johnson](https://github.com/InaJ123)
+- [Olga Ratushniak](https://github.com/olgaratu)
+- [Renyuan Huang](https://github.com/hry625)
+
 
 
