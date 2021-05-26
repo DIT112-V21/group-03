@@ -24,7 +24,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFFF6F6F6),
+        backgroundColor: Color(0xFFFFFCD5),
         appBar: AppBar(
           backgroundColor: Color(0xFF005263),
           title: Text("Privacy & security",
