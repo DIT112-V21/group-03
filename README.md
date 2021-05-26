@@ -31,11 +31,11 @@ Smart Pet Buddy offers a solution for pet owners who want to increase the physic
 ### How you are going to make it? What kind of technology you are going to use?
 
 We are going to develop Flutter based application with a simple UI that will allow us to control the car and avoiding obstacles. 
-We will store all information in Google firebase from Flutter (user credentials, pattern sequences, etc).
-For implementing video streaming we will need to use one additional server. 
-One of the team members kindly proposed to use his own Arduino compatible camera.
+We will store all information in Google firebase from Flutter (user credentials, etc).
+For implementing video streaming we will be using the camera provided in the SMCE emulator. 
 For the Arduino car, we are going to create an Arduino sketch that holds all car's functions we require.
-Communication between car and application will go through a MQTT server.
+Communication between car and application will go through a MQTT server. 
+The feedback funtction will be built using Wiredash.
 
 ## Get started
 * [Installation guide](https://github.com/DIT112-V21/group-03/wiki/Installation-guide)
