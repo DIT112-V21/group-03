@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_pet_buddy/constants.dart';
+
 //import 'flutter_mqtt_client.dart';
 import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -11,11 +12,15 @@ import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
+import 'constants.dart';
+
+
 //ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
   Controlpanel({
     Key key,
   }) : super(key: key);
+
   //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
@@ -41,7 +46,9 @@ class ControlpanelState extends State<Controlpanel> {
   String throttleNeutral = '0';
   int multiplier = 20;
   int maxGear = 5;
-  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
+  final snackBar =
+      SnackBar(content: Text('Car is not connected! Go to Homepage'));
+
   //ImageView mCameraView;
 
   void _backward() {
@@ -222,14 +229,13 @@ class ControlpanelState extends State<Controlpanel> {
     super.dispose();
   }
 
-  void _initControlPanelStatus(){
-
-    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
-    }else{
+  void _initControlPanelStatus() {
+    if (client != null &&
+        client.connectionStatus.state == MqttConnectionState.connected) {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -237,264 +243,308 @@ class ControlpanelState extends State<Controlpanel> {
       _initControlPanelStatus();
     });
     return Scaffold(
-      //alignment: Alignment.center,
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-        // Expanded(
-        //   flex: 1,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Flexible(
-        //           child: SpbMqttClient.isConnected
-        //               ?
-        //                TextButton(
-        //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
-        //                   onPressed: () => {(){
-        //                     client.disconnect();
-        //                     setState(() {});
-        //
-        //                   }
-        //
-        //                   },
-        //                 ):TextButton(
-        //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
-        //                     onPressed: () => {
-        //                         connect().then((value) {
-        //                           client = value;
-        //                           SpbMqttClient.client = client;
-        //                           setState(() {});
-        //                            })
-        //                             },
-        //                       )
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        Expanded(
-            flex: 2,
-            child: Container(
-                child: ValueListenableBuilder<Bitmap>(
-              valueListenable: SpbMqttClient.bmValueNotifier,
-              builder: (BuildContext context, Bitmap bitmap, Widget child) {
-                if (bitmap == null) {
-                  return const CircularProgressIndicator();
-                }
-                return Center(
-                  child: SafeArea(
-                    top: true,
-                    child: Image.memory(
-                      bitmap.buildHeaded(),
-                    ),
-                  ),
-                );
-              },
-            ))),
-        Expanded(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
+        backgroundColor: lightPrimary,
+        //alignment: Alignment.center,
+        body: new Container(
+          margin: EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 30),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            // Expanded(
+            //   flex: 1,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Flexible(
+            //           child: SpbMqttClient.isConnected
+            //               ?
+            //                TextButton(
+            //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
+            //                   onPressed: () => {(){
+            //                     client.disconnect();
+            //                     setState(() {});
+            //
+            //                   }
+            //
+            //                   },
+            //                 ):TextButton(
+            //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
+            //                     onPressed: () => {
+            //                         connect().then((value) {
+            //                           client = value;
+            //                           SpbMqttClient.client = client;
+            //                           setState(() {});
+            //                            })
+            //                             },
+            //                       )
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Expanded(
+                flex: 2,
                 child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: Center(
-                      child: RichText(
-                        text: TextSpan(
-                            text: 'Try the',
-                            style: TextStyle(
-                                color: textColor, fontSize: 15),
-                            children: <TextSpan>[
-                              TextSpan(text: ' race mode',
-                                  style: TextStyle(
-                                      color: HexColor("0c06c6")),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                             context,
-                                             MaterialPageRoute(builder: (context) => RaceMode()));
-                                    }
-                              )
-                            ]
+                    child: ValueListenableBuilder<Bitmap>(
+                  valueListenable: SpbMqttClient.bmValueNotifier,
+                  builder: (BuildContext context, Bitmap bitmap, Widget child) {
+                    if (bitmap == null) {
+                      return const CircularProgressIndicator();
+                    }
+                    return Center(
+                      child: SafeArea(
+                        top: true,
+                        child: Image.memory(
+                          bitmap.buildHeaded(),
                         ),
                       ),
-                    )
-                )
-              )
-
-            ],
-          ),
-        ),
-        Spacer(),
-        Expanded(
-          flex: 2,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                child: Container(),
+                    );
+                  },
+                ))),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                      child: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(
+                                  text: 'Try the',
+                                  style: TextStyle(
+                                      color: textColor,
+                                      fontSize: 20,
+                                      letterSpacing: 1,
+                                      fontFamily: 'Nexa Rust',
+                                      fontWeight: FontWeight.bold),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: ' RACE MODE',
+                                        style: TextStyle(
+                                            color: HexColor("cc3300"),
+                                            letterSpacing: 1,
+                                            fontSize: 20,
+                                            fontFamily: 'Nexa Rust',
+                                            fontWeight: FontWeight.bold),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        RaceMode()));
+                                          })
+                                  ]),
+                            ),
+                          )))
+                ],
               ),
-              Flexible(
-                flex: 1,
-                child: Container(
-                  height: 120,
-                  child: Transform.rotate(
-                    angle: 270 * pi / 180,
-                    child: IconButton(
-                      key: Key('forwards'),
-                      onPressed: _forward,
-                      splashRadius: 1.0,
-                      iconSize: 90,
-                      color:
-                          isForward ? HexColor("809ec2") : HexColor("aebccb"),
-                      icon: Icon(
-                        Icons.play_circle_fill,
-                      ),
-                    ),
+            ),
+            //Spacer(),
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Container(),
                   ),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: Container(),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                flex: 1,
-                child: Transform.rotate(
-                  angle: 180 * pi / 180,
-                  child: Container(
-                    key: Key('left'),
-                    margin: EdgeInsetsDirectional.only(start: 15),
-                    child: Listener(
-                      //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
-                      onPointerDown: (details) {
-                        _left();
-                      },
-                      onPointerUp: (details) {
-                        _cancelLeft();
-                      },
-                      child: Icon(
-                        Icons.play_circle_fill,
-                        color: isLeft ? HexColor("809ec2") : HexColor("aebccb"),
-                        size: 90,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: TextButton(
-                  onPressed: _stop,
-                  child: Text(
-                    "S",
-                    style: TextStyle(color: Colors.white, fontSize: 30),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
-                    shape: MaterialStateProperty.all<CircleBorder>(
-                      CircleBorder(
-                          //borderRadius: BorderRadius.circular(18.0),
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                      height: 120,
+                      child: Transform.rotate(
+                        angle: 270 * pi / 180,
+                        child: IconButton(
+                          key: Key('forwards'),
+                          onPressed: _forward,
+                          splashRadius: 1.0,
+                          iconSize: 90,
+                          color: isForward ? strongShade : strongPrimary,
+                          icon: Icon(
+                            Icons.play_circle_fill,
                           ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Flexible(
+                    flex: 1,
+                    child: Container(),
+                  ),
+                ],
               ),
-              Flexible(
-                flex: 1,
-                child: Transform.rotate(
-                  angle: 0 * pi / 180,
+            ),
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: Transform.rotate(
+                      angle: 180 * pi / 180,
+                      child: Container(
+                        key: Key('left'),
+                        margin: EdgeInsetsDirectional.only(start: 15),
+                        child: Listener(
+                          //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
+                          onPointerDown: (details) {
+                            _left();
+                          },
+                          onPointerUp: (details) {
+                            _cancelLeft();
+                          },
+                          child: Icon(
+                            Icons.play_circle_fill,
+                            color: isLeft ? midShade : strongPrimary,
+                            size: 90,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: TextButton(
+                      onPressed: _stop,
+                      child: Text(
+                        "S",
+                        style: TextStyle(color: Colors.white, fontSize: 40),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Colors.red.shade700),
+                        shape: MaterialStateProperty.all<CircleBorder>(
+                          CircleBorder(
+                              //borderRadius: BorderRadius.circular(18.0),
+                              ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Transform.rotate(
+                      angle: 0 * pi / 180,
+                      child: Container(
+                        key: Key('right'),
+                        margin: EdgeInsetsDirectional.only(start: 15),
+                        child: Listener(
+                          //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
+                          onPointerDown: (details) {
+                            _right();
+                          },
+                          onPointerUp: (details) {
+                            _cancelRight();
+                          },
+                          child: Icon(
+                            Icons.play_circle_fill,
+                            color: isRight ? midShade : strongPrimary,
+                            size: 90,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Flexible(
+                  flex: 1,
+                  child: Container(),
+                ),
+                Flexible(
+                  flex: 1,
                   child: Container(
-                    key: Key('right'),
-                    margin: EdgeInsetsDirectional.only(start: 15),
-                    child: Listener(
-                      //Left and right button will be holded when turn, when they are released the smart car will keep on with it previse direction.
-                      onPointerDown: (details) {
-                        _right();
-                      },
-                      onPointerUp: (details) {
-                        _cancelRight();
-                      },
-                      child: Icon(
-                        Icons.play_circle_fill,
-                        color:
-                            isRight ? HexColor("809ec2") : HexColor("aebccb"),
-                        size: 90,
+                    child: Transform.rotate(
+                      angle: 90 * pi / 180,
+                      child: IconButton(
+                        key: Key('backwards'),
+                        onPressed: _backward,
+                        splashRadius: 1.0,
+                        iconSize: 90,
+                        color: isReversed ? strongShade : strongPrimary,
+                        icon: Icon(
+                          Icons.play_circle_fill,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Flexible(
-              flex: 1,
-              child: Container(),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(
-                child: Transform.rotate(
-                  angle: 90 * pi / 180,
-                  child: IconButton(
-                    key: Key('backwards'),
-                    onPressed: _backward,
-                    splashRadius: 1.0,
-                    iconSize: 90,
-                    color: isReversed ? HexColor("809ec2") : HexColor("aebccb"),
-                    icon: Icon(
-                      Icons.play_circle_fill,
-                    ),
-                  ),
+                Flexible(
+                  flex: 1,
+                  child: Container(),
                 ),
+              ]),
+            ),
+          //  Spacer(),
+            Expanded(
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                Flexible(
+                    flex: 1,
+                    child: Text("Current speed",
+                        style: TextStyle(
+                            color: strongPrimary,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w900,
+                            fontFamily: 'Nexa Rust'))),
+              ]),
+            ),
+            Expanded(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Flexible(
+                  flex: 1,
+                  child: TextButton(
+                    child: Text("-"),
+                    style: TextButton.styleFrom(
+                      primary: textColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius. circular(15.0),
+                            side: BorderSide(color: midPrimary)
+                        ),
+                        textStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nexa Rust')),
+                    onPressed: _reduceSpeed,
+                  )),
+              Flexible(
+                flex: 1,
+                child: Text("   "+"$_counter"+"   ",
+                    style: TextStyle(
+                      letterSpacing: 4,
+                        color: textColor,
+                        //backgroundColor: lightShade,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nexa Rust')),
               ),
-            ),
-            Flexible(
-              flex: 1,
-              child: Container(),
-            ),
+              Flexible(
+                  flex: 1,
+                  child: TextButton(
+                    child: Text("+"),
+                    style: TextButton.styleFrom(
+                        primary: textColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius. circular(15.0),
+                            side: BorderSide(color: midPrimary)
+                        ),
+                        textStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nexa Rust')),
+                    onPressed: _addSpeed,
+                  )),
+            ])),
           ]),
-        ),
-        Spacer(),
-        Expanded(
-          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Flexible(flex: 1, child: Text("Current speed")),
-          ]),
-        ),
-        Expanded(
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Flexible(
-              flex: 1,
-              child: TextButton(
-                child: Text("-"),
-                onPressed: _reduceSpeed,
-              )),
-          Flexible(
-            flex: 1,
-            child: Text("$_counter"),
-          ),
-          Flexible(
-              flex: 1,
-              child: TextButton(
-                child: Text("+"),
-                onPressed: _addSpeed,
-              )),
-        ])),
-      ]),
-    );
+        ));
   }
 }

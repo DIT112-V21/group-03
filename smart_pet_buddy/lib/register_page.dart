@@ -10,6 +10,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
 import 'package:smart_pet_buddy/bottomnavbar_widget.dart';
 
+import 'constants.dart';
+
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -53,9 +55,9 @@ class _RegisterPageState extends State<RegisterPage> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.black,
+              Icons.arrow_back_rounded,
+              size: 30,
+              color: textColor,
             ),
           )),
       body: Form(
@@ -135,7 +137,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     alignment: Alignment.center,
                     child: SignInButtonBuilder(
                       icon: Icons.person_add,
-                      backgroundColor: Colors.green.shade300,
+                      backgroundColor: midPrimary,
+                      height: 60,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60),
+                      ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           setState(() {
@@ -143,7 +149,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         }
                       },
-                      text: 'Register',
+                      text: '    Register',
+                      textColor: textColor,
+                      fontSize: 20,
                     ),
                   ),
                   registration

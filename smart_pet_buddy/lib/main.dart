@@ -73,7 +73,7 @@ class SmartPetBuddy extends StatelessWidget {
               Column(
                 children: <Widget>[
                   SizedBox(
-                    height: 50,
+                    height: 0,
                   ),
                 ],
               ),
