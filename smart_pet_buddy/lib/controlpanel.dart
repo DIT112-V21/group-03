@@ -1,5 +1,9 @@
 import 'package:bitmap/bitmap.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:smart_pet_buddy/constants.dart';
+//import 'flutter_mqtt_client.dart';
 import 'package:smart_pet_buddy/racemode.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
@@ -32,6 +36,9 @@ class ControlpanelState extends State<Controlpanel> {
   String throttleNeutral = '0';
   int multiplier = 20;
   int maxGear = 5;
+  final snackBar =
+      SnackBar(content: Text('Car is not connected! Go to Homepage'));
+  //ImageView mCameraView;
 
   void _backward() {
     setState(() {
@@ -175,21 +182,73 @@ class ControlpanelState extends State<Controlpanel> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
+    // imageValueNotifier.value = SpbMqttClient.image;
   }
 
   @override
   void dispose() {
     imageValueNotifier.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.dispose();
+  }
+
+  void _initControlPanelStatus() {
+    if (client != null &&
+        client.connectionStatus.state == MqttConnectionState.connected) {
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initControlPanelStatus();
+    });
     return Scaffold(
       //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        // Expanded(
+        //   flex: 1,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: [
+        //       Flexible(
+        //           child: SpbMqttClient.isConnected
+        //               ?
+        //                TextButton(
+        //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
+        //                   onPressed: () => {(){
+        //                     client.disconnect();
+        //                     setState(() {});
+        //
+        //                   }
+        //
+        //                   },
+        //                 ):TextButton(
+        //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
+        //                     onPressed: () => {
+        //                         connect().then((value) {
+        //                           client = value;
+        //                           SpbMqttClient.client = client;
+        //                           setState(() {});
+        //                            })
+        //                             },
+        //                       )
+        //       ),
+        //     ],
+        //   ),
+        // ),
         Expanded(
             flex: 2,
             child: Container(
@@ -215,14 +274,28 @@ class ControlpanelState extends State<Controlpanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: TextButton(
-                  child: Text('Try the race mode!'),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RaceMode()),
-                  ),
-                ),
-              )
+                  child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Try the',
+                              style: TextStyle(color: textColor, fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: ' race mode',
+                                    style: TextStyle(color: HexColor("0c06c6")),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RaceMode()));
+                                      })
+                              ]),
+                        ),
+                      )))
             ],
           ),
         ),

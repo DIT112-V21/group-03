@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "785346127254",
+    "firebase_url": "https://smartpetbuddy-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "smartpetbuddy",
     "storage_bucket": "smartpetbuddy.appspot.com"
   },
@@ -14,11 +15,27 @@
       },
       "oauth_client": [
         {
-          "client_id": "785346127254-hea76nodofshk2fd0v6oqpsab42027dh.apps.googleusercontent.com",
+          "client_id": "785346127254-5kcv324ff979i69cm4tqgatlogvdveqm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.group3.smart_pet_buddy",
-            "certificate_hash": "772cda468318883f523c16c1538d37d6abcfe41f"
+            "certificate_hash": "798ea2851bdddebcc4684bb898686cac70c5520e"
+          }
+        },
+        {
+          "client_id": "785346127254-o6idrfpqpb994mg19uavfq43v40rkova.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.group3.smart_pet_buddy",
+            "certificate_hash": "084d3fa7711d534847dc00465d8edbe034c705ae"
+          }
+        },
+        {
+          "client_id": "785346127254-umtmb4as876h0icra5krvi5fjaiihhcn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.group3.smart_pet_buddy",
+            "certificate_hash": "acfbb5a9ae97436d08406f1eddca15068d3179a0"
           }
         },
         {
@@ -37,6 +54,13 @@
             {
               "client_id": "785346127254-0jot1npso1ok7nm5m4sahg1a5uek5h26.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "785346127254-lv8lf5j09sth90fkarl35uq5jf7uqr1k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.group3.smartPetBuddy"
+              }
             }
           ]
         }
