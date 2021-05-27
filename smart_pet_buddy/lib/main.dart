@@ -9,13 +9,13 @@
 //import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_pet_buddy/register_page.dart';
-import 'package:smart_pet_buddy/signin_page.dart';
+import 'package:smart_pet_buddy/registerPage.dart';
+import 'package:smart_pet_buddy/signinPage.dart';
 import 'package:wiredash/wiredash.dart';
 
 //import 'package:flutter_signin_button/button_builder.dart';
-import './register_page.dart';
-import './signin_page.dart';
+import './registerPage.dart';
+import './signinPage.dart';
 import 'constants.dart';
 
 Future<void> main() async {
@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 /// The entry point of the application.
 ///

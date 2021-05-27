@@ -7,7 +7,7 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:sensors/sensors.dart';
 import 'package:smart_pet_buddy/constants.dart';
-import 'package:smart_pet_buddy/raceMode_dialog.dart';
+import 'package:smart_pet_buddy/raceModeDialog.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 class RaceMode extends StatefulWidget {
@@ -121,9 +121,8 @@ class _RaceModeState extends State<RaceMode> {
           IconButton(
             icon: Icon(Icons.help),
             onPressed: () => showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => RaceModeDialog()
-            ),
+                context: context,
+                builder: (BuildContext context) => RaceModeDialog()),
           )
         ],
       ),
@@ -133,30 +132,25 @@ class _RaceModeState extends State<RaceMode> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                flex: 1,
-                child: Container(
-                        padding: EdgeInsets.all(10),
-                        child: Center(
-                          child: RichText(
-                            text: TextSpan(
-                                text: 'Try the',
-                                style: TextStyle(
-                                    color: textColor, fontSize: 15),
-                                children: <TextSpan>[
-                                  TextSpan(text: ' normal mode',
-                                      style: TextStyle(
-                                          color: HexColor("0c06c6")),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          Navigator.pop(context);
-                                        }
-                                  )
-                                ]
-                            ),
-                          ),
-                        )
-                    )
-              ),
+                  flex: 1,
+                  child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Try the',
+                              style: TextStyle(color: textColor, fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: ' normal mode',
+                                    style: TextStyle(color: HexColor("0c06c6")),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pop(context);
+                                      })
+                              ]),
+                        ),
+                      ))),
             ],
           ),
           Flexible(

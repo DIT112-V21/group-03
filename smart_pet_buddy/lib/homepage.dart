@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 import 'constants.dart';
-import 'flutter_mqtt_client.dart';
+import 'flutterMqttClient.dart';
 import 'main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
