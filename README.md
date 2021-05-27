@@ -23,24 +23,28 @@ We have developed a Flutter based application with a simple UI that will allows 
 
 * [Arduino IDE](https://www.arduino.cc/en/software)
 * [Android Studio](https://developer.android.com/studio)
+* [Visual Studio Code](https://code.visualstudio.com/)
 * [SmartCar Library](https://www.arduinolibraries.info/libraries/smartcar-shield)
+* [Smartcar Shield Library Documentation](https://platisd.github.io/smartcar_shield/index.html)
 * [SMCE-gd](https://github.com/ItJustWorksTM/smce-gd/)
 * [MQTT](https://mqtt.org/)
 * [Firebase](https://firebase.google.com/?gclid=CjwKCAjw47eFBhA9EiwAy8kzNPHuhBY3D1n3qz7MAT2gOn2biy8dzt6PrTEZwdkofRtbyu7IHiuoOBoCVWcQAvD_BwE&gclsrc=aw.ds)
 * [Flutter](https://flutter.dev/docs/get-started/install)
+* [Dart](https://dart.dev/)
 * [Wiredash](https://wiredash.io/)
 
 
 ## Get started
 
-### Installation
-* [Installation guide](https://github.com/DIT112-V21/group-03/wiki/Installation-guide)
+### Installation and how to contribute
 
-### How to contribute
-* [Developer guide](https://github.com/DIT112-V21/group-03/wiki/Developer-Guide)
+Follow the link below to our wiki page to find all information on how to install and develop the application.
 
+* [Installation and Developer Guide](https://github.com/DIT112-V21/group-03/wiki/Installation-and-Developer-Guide)
 
-## How to use Smart Pet Buddy
+## How to use Smart Pet Buddy App
+
+The user manual provides step-by-step instructions on how to use and navigate the app. Follow the link below to our wiki page.
 * [User Manual](https://github.com/DIT112-V21/group-03/wiki/User-manual)
 
 ## Developers
