@@ -7,5 +7,6 @@ class SpbMqttClient {
   static bool isConnected = false;
   static ValueNotifier<Bitmap> bmValueNotifier =
       ValueNotifier(Bitmap.blank(320, 240));
+  static var mqttError;
   // static Image image = Image.asset('homepage.jpg');
 }

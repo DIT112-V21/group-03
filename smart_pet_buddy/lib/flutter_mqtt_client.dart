@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:bitmap/bitmap.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'dart:io';
 
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
@@ -32,10 +31,12 @@ Future<MqttClient> connect() async {
     await client.connect();
   } catch (e) {
     print('Exception: $e');
+    SpbMqttClient.mqttError = e;
     client.disconnect();
   }
 
   if (client.connectionStatus.state == MqttConnectionState.connected) {
+    SpbMqttClient.isConnected = true;
     print('EMQX client connected');
     client.subscribe("/smartcar/group3/camera", MqttQos.atMostOnce);
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
@@ -61,8 +62,9 @@ Future<MqttClient> connect() async {
       }
     });
   } else {
+    SpbMqttClient.isConnected = false;
     client.disconnect();
-    exit(-1);
+    // exit(-1);
   }
 
   return client;
