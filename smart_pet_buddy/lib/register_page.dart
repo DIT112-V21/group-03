@@ -65,6 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -184,6 +185,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       : Container(),
                 ],
               ),
+            ),
             ),
           )),
     );
