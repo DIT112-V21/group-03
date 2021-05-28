@@ -142,39 +142,38 @@ class _HomePageState extends State<HomePage> {
                               },
                             ),
                             ElevatedButton(
-                              onPressed: () => {
-                                if (_formKey.currentState.validate())
-                                  {
-                                    SpbMqttClient.address =
-                                        _controller.text.isEmpty
-                                            ? '127.0.0.1'
-                                            : _controller.text,
-                                    connect().then((value) {
-                                      if (SpbMqttClient.isConnected) {
-                                        client = value;
-                                        SpbMqttClient.client = client;
-                                        setState(() {});
-                                      } else {
-                                        showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                                  title: const Text('Error'),
-                                                  content: Text(SpbMqttClient
-                                                      .mqttError
-                                                      .toString()),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context, 'OK'),
-                                                      child: const Text('OK'),
-                                                    ),
-                                                  ],
-                                                ));
-                                      }
-                                    })
-                                  }
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  SpbMqttClient.address =
+                                      _controller.text.isEmpty
+                                          ? '127.0.0.1'
+                                          : _controller.text;
+                                  connect().then((value) {
+                                    if (SpbMqttClient.isConnected) {
+                                      client = value;
+                                      SpbMqttClient.client = client;
+                                      setState(() {});
+                                    } else {
+                                      showDialog<String>(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              AlertDialog(
+                                                title: const Text('Error'),
+                                                content: Text(SpbMqttClient
+                                                    .mqttError
+                                                    .toString()),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context, 'OK'),
+                                                    child: const Text('OK'),
+                                                  ),
+                                                ],
+                                              ));
+                                    }
+                                  });
+                                }
                               },
                               child: Icon(
                                 Icons.online_prediction_outlined,
