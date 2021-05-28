@@ -21,7 +21,6 @@ class Controlpanel extends StatefulWidget {
 
 class ControlpanelState extends State<Controlpanel> {
   MqttServerClient client = SpbMqttClient.client;
-  ValueNotifier<Image> imageValueNotifier;
 
   int _counter = 0;
   int currentSpeed = 0;
@@ -38,7 +37,6 @@ class ControlpanelState extends State<Controlpanel> {
   int maxGear = 5;
   final snackBar =
       SnackBar(content: Text('Car is not connected! Go to Homepage'));
-  //ImageView mCameraView;
 
   void _backward() {
     setState(() {
@@ -187,12 +185,10 @@ class ControlpanelState extends State<Controlpanel> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
-    // imageValueNotifier.value = SpbMqttClient.image;
   }
 
   @override
   void dispose() {
-    imageValueNotifier.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -216,39 +212,7 @@ class ControlpanelState extends State<Controlpanel> {
       _initControlPanelStatus();
     });
     return Scaffold(
-      //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        // Expanded(
-        //   flex: 1,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Flexible(
-        //           child: SpbMqttClient.isConnected
-        //               ?
-        //                TextButton(
-        //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
-        //                   onPressed: () => {(){
-        //                     client.disconnect();
-        //                     setState(() {});
-        //
-        //                   }
-        //
-        //                   },
-        //                 ):TextButton(
-        //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
-        //                     onPressed: () => {
-        //                         connect().then((value) {
-        //                           client = value;
-        //                           SpbMqttClient.client = client;
-        //                           setState(() {});
-        //                            })
-        //                             },
-        //                       )
-        //       ),
-        //     ],
-        //   ),
-        // ),
         Expanded(
             flex: 2,
             child: Container(
@@ -377,9 +341,7 @@ class ControlpanelState extends State<Controlpanel> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red),
                     shape: MaterialStateProperty.all<CircleBorder>(
-                      CircleBorder(
-                          //borderRadius: BorderRadius.circular(18.0),
-                          ),
+                      CircleBorder(),
                     ),
                   ),
                 ),
