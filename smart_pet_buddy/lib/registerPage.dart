@@ -35,8 +35,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   bool registration = false;
 
-  //String _userEmail = '';
-
   @override
   Widget build(BuildContext context) {
     _usernameController.addListener(() {
@@ -45,7 +43,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       appBar: AppBar(
-          //title: Text(widget.title),
           elevation: 0,
           brightness: Brightness.light,
           backgroundColor: Colors.white,
@@ -174,7 +171,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                         MaterialPageRoute(
                                             builder: (BuildContext context) =>
                                                 ConvexBottomBar(widget.app)));
-                                    // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
                                   });
 
                                 return Container(
@@ -187,7 +183,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               return Center(
                                 child: CircularProgressIndicator(),
                               );
-                              // : 'Registration failed')),
                             })
                         : Container(),
                   ],
@@ -222,21 +217,5 @@ class _RegisterPageState extends State<RegisterPage> {
 
     print(user.toString());
     return user;
-    //   final User user = (await _auth.createUserWithEmailAndPassword(
-    //     email: _emailController.text,
-    //     password: _passwordController.text,
-    //   )).user;
-    //   if (user != null) {
-    //     await user.updateProfile(displayName: _usernameController.text);
-    //
-    //     // print('${user.displayName}');
-    //     setState(() {
-    //       _success = true;
-    //       _userEmail = user.displayName;
-    //     });
-    //
-    //   } else {
-    //     _success = false;
-    //   }
   }
 }

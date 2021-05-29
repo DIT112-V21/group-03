@@ -32,7 +32,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     nameController.text = user.displayName;
     emailController.text = user.email;
-    // FirebaseDatabase.instance.reference().child('users').child(user.uid).once().then((value) => locationController.text = value.value['location']);
     FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)

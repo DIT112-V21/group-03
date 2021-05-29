@@ -8,7 +8,6 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 Future<MqttClient> connect() async {
   MqttServerClient client = MqttServerClient(SpbMqttClient.address, 'group3');
-  // MqttServerClient client = MqttServerClient('aerostun.dev', 'group3');
 
   client.setProtocolV311();
   client.logging(on: true);
@@ -45,16 +44,6 @@ Future<MqttClient> connect() async {
           MqttPublishPayload.bytesToStringAsString(message.payload.message);
       if (c[0].topic == '/smartcar/group3/camera') {
         Uint8List incomingData = Uint8List.view(message.payload.message.buffer);
-        // List<int> picData = [];
-
-        // for (var i = 0; i < incomingData.length; i++) {
-        //   picData.add(incomingData[i]);
-        //   if (i % 3 == 2) {
-        //     picData.add(255);
-        //   }
-        // }
-
-        // Uint8List picBm = Uint8List.fromList(picData);
         Uint8List picBM = new Uint8List(307200);
         int helper = 0;
         for (var i = 0; i < 230400; i++) {
@@ -78,8 +67,6 @@ Future<MqttClient> connect() async {
 
   return client;
 }
-
-
 
 void onConnected() {
   SpbMqttClient.isConnected = true;
