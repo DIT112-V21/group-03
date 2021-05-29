@@ -278,14 +278,8 @@ class _OtherProvidersSignInSectionState
                 padding: const EdgeInsets.only(top: 16),
                 alignment: Alignment.center,
                 child: SignInButton(
-                  _provider == 'GitHub'
-                      ? Buttons.GitHub
-                      : (_provider == 'Facebook'
-                          ? Buttons.Facebook
-                          : (_provider == 'Twitter'
-                              ? Buttons.Twitter
-                              : Buttons.Google)),
-                  text: 'Sign In',
+                  Buttons.Google,
+                  text: 'Sign In With Google',
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(60),
                   ),
