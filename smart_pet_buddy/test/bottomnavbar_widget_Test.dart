@@ -5,7 +5,7 @@ import 'package:smart_pet_buddy/bottomnavbarWidget.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
-import 'package:smart_pet_buddy/profilepage.dart';
+import 'package:smart_pet_buddy/profile_page.dart';
 
 void main() {
   testWidgets("Finds home page", (WidgetTester tester) async {

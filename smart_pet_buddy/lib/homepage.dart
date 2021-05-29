@@ -1,11 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 import 'constants.dart';
 import 'flutterMqttClient.dart';
-import 'main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -193,11 +192,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  Future<void> signOut() async {
-    await _auth.signOut();
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => SmartPetBuddy(widget.app)));
   }
 }

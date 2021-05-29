@@ -22,15 +22,17 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF6F6F6),
+      backgroundColor: Color(0xFFFFFCD5),
       appBar: AppBar(
-          backgroundColor: Color(0xFF005263),
+          backgroundColor: strongPrimary,
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            icon: Icon(Icons.arrow_back,
-              color: Colors.white,),
+            icon: Icon(Icons.arrow_back_outlined,
+              color: lightShade,
+            size: 40,),
+
           )
       ),
       body: Container(

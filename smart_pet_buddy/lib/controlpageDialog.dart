@@ -7,7 +7,8 @@ class ControlpageDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Normal Mode'),
+      backgroundColor: lightShade,
+      title: const Text('Welcome to Manual mode'),
       content: SingleChildScrollView(
         child: RichText(
           text: TextSpan(
@@ -47,7 +48,7 @@ class ControlpageDialog extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'OK'),
-          child: const Text('OK'),
+          child: const Text('OK',style: TextStyle(color: strongPrimary, fontSize: 20),),
         ),
       ],
     );

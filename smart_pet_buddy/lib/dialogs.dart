@@ -17,6 +17,7 @@ class Dialogs {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Color(0xFFFFFCD5),
           actionsPadding: EdgeInsets.all(0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

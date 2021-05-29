@@ -37,6 +37,9 @@ class _PlayPageState extends State<PlayPage> {
           actions: [
             IconButton(
               icon: Icon(Icons.help),
+              padding: EdgeInsets.all(10),
+              iconSize: 30,
+              color: lightShade,
               onPressed: () => showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => ControlpageDialog()),

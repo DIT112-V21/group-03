@@ -65,77 +65,79 @@ class SmartPetBuddy extends StatelessWidget {
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 50,
-                  ),
-                ],
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 2,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                  image: AssetImage("assets/images/landing_logo.png"),
-                  fit: BoxFit.cover,
-                )),
-              ),
-              Column(
-                children: <Widget>[
-                  // the login button
-                  MaterialButton(
-                    minWidth: double.infinity,
-                    height: 60,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignInPage(app)));
-                    },
-                    color: midShade,
-                    // defining the shape
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(color: textColor),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                          color: textColor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 25,
-                          fontFamily: 'Nexa Rust'),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 0,
                     ),
-                  ),
-                  // creating the sign-up button
-                  SizedBox(height: 20),
-                  MaterialButton(
-                    minWidth: double.infinity,
-                    height: 60,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage(app)));
-                    },
-                    color: strongPrimary,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      "Sign up",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 25,
-                          fontFamily: 'Nexa Rust'),
+                  ],
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    image: AssetImage("assets/images/landing_logo.png"),
+                    fit: BoxFit.cover,
+                  )),
+                ),
+                Column(
+                  children: <Widget>[
+                    // the login button
+                    MaterialButton(
+                      minWidth: double.infinity,
+                      height: 60,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignInPage(app)));
+                      },
+                      color: midShade,
+                      // defining the shape
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: textColor),
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        "Sign in",
+                        style: TextStyle(
+                            color: textColor,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 25,
+                            fontFamily: 'Nexa Rust'),
+                      ),
                     ),
-                  )
-                ],
-              )
-            ],
+                    // creating the sign-up button
+                    SizedBox(height: 20),
+                    MaterialButton(
+                      minWidth: double.infinity,
+                      height: 60,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage(app)));
+                      },
+                      color: strongPrimary,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Text(
+                        "Sign up",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 25,
+                            fontFamily: 'Nexa Rust'),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

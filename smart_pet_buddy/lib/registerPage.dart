@@ -8,7 +8,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
+<<<<<<< HEAD:smart_pet_buddy/lib/registerPage.dart
 import 'package:smart_pet_buddy/bottomnavbarWidget.dart';
+=======
+import 'package:smart_pet_buddy/bottomnavbar_widget.dart';
+
+import 'constants.dart';
+
+>>>>>>> c396b4b75524055bcd2b0e760b2f456a7d98d1ea:smart_pet_buddy/lib/register_page.dart
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -52,9 +59,9 @@ class _RegisterPageState extends State<RegisterPage> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.black,
+              Icons.arrow_back_rounded,
+              size: 30,
+              color: textColor,
             ),
           )),
       body: Form(
@@ -62,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -140,7 +148,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     alignment: Alignment.center,
                     child: SignInButtonBuilder(
                       icon: Icons.person_add,
-                      backgroundColor: Colors.green.shade300,
+                      backgroundColor: midPrimary,
+                      height: 60,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(60),
+                      ),
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
                           setState(() {
@@ -148,7 +160,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         }
                       },
-                      text: 'Register',
+                      text: '    Register',
+                      textColor: textColor,
+                      fontSize: 20,
                     ),
                   ),
                   registration
@@ -181,6 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       : Container(),
                 ],
               ),
+            ),
             ),
           )),
     );
