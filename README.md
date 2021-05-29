@@ -19,6 +19,10 @@ Read more about the idea and the background in our [Product Description Wiki](ht
 
 We have developed a Flutter based application with a simple UI that will allows the user to control the car and avoiding obstacles. We store all information in Google firebase from Flutter (user credentials, etc). For implementing video streaming, we use the camera provided in the SMCE emulator. For the Arduino car, we are  creating an Arduino sketch that holds all the car's functions we require. Communication between car and application go through an MQTT server. The feedback funtction is built using Wiredash.
 
+### Architecture
+
+More information about the structure of Smart Pet Buddy can be found in our [Component Diagram](https://github.com/DIT112-V21/group-03/wiki/Component-diagram).
+
 ### Resources
 
 * [Arduino IDE](https://www.arduino.cc/en/software)
