@@ -1,9 +1,14 @@
+import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/editProfile.dart';
 import 'package:wiredash/wiredash.dart';
-import 'appbarWidget.dart';
 import 'package:smart_pet_buddy/settingspage.dart';
+import 'constants.dart';
+import 'main.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class ProfilePage extends StatefulWidget {
   final FirebaseApp app;
@@ -15,32 +20,68 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Future<void> signOut() async {
+    await _auth.signOut();
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => SmartPetBuddy(widget.app)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      backgroundColor: lightPrimary,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: strongPrimary,
+        actions: [
+          IconButton(
+              icon: Icon(Icons.exit_to_app_outlined),
+              padding: EdgeInsets.all(10),
+              iconSize: 40,
+              color: lightShade,
+              onPressed: () async {
+                final User user = _auth.currentUser;
+                if (user == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('No one has signed in.'),
+                  ));
+                  return;
+                }
+                await signOut();
+
+                final String uid = user.uid;
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('$uid has successfully signed out.'),
+                ));
+              }),
+        ],
+      ),
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
+          SizedBox(height: 25),
           Container(
             padding: EdgeInsets.only(left: 40, top: 30, right: 15),
             child: Text(
-              'Hello!',
+              'Hello, Smart Pet Owner!',
               style: TextStyle(
-                color: Colors.grey[700],
-                fontSize: 35,
+                color: textColor,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Nexa Rust',
               ),
             ),
           ),
-          const SizedBox(height: 24),
-          ProfileMenu(
-            text: "My Account",
-            press: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => EditProfilePage(widget.app)));
-            },
+          SizedBox(
+            height: 30,
           ),
+          ProfileMenu(
+              text: "Edit profile",
+              press: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => EditProfilePage(widget.app)));
+              }),
+          SizedBox(height: 20),
           ProfileMenu(
             text: "Settings",
             press: () {
@@ -48,16 +89,17 @@ class _ProfilePageState extends State<ProfilePage> {
                   MaterialPageRoute(builder: (_) => SettingsPage(widget.app)));
             },
           ),
+          SizedBox(height: 20),
           ProfileMenu(
             text: "FAQ & Feedback",
             press: () {
               Wiredash.of(context).show();
             },
           ),
-          ProfileMenu(
-            text: "More",
-            press: () {},
-          ),
+          // ProfileMenu(
+          //   text: "More",
+          //   press: () {},
+          // ),
         ],
       ),
     );
@@ -83,7 +125,7 @@ class ProfileMenu extends StatelessWidget {
             padding: EdgeInsets.all(20),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            backgroundColor: Color(0xFFF5F6F9)),
+            backgroundColor: lightShade),
         onPressed: press,
         child: Row(
           children: [
@@ -91,10 +133,18 @@ class ProfileMenu extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: TextStyle(
+                    color: strongPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontFamily: 'Nexa Rust'),
               ),
             ),
-            Icon(Icons.arrow_forward_ios)
+            Icon(
+              Icons.arrow_forward_ios,
+              color: strongPrimary,
+              size: 25,
+            )
           ],
         ),
       ),

@@ -142,13 +142,6 @@ class _RaceModeState extends State<RaceMode> {
                         child: RichText(
                           text: TextSpan(
                               text: 'Try the',
-<<<<<<< HEAD
-                              style: TextStyle(color: textColor, fontSize: 15),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: ' normal mode',
-                                    style: TextStyle(color: HexColor("0c06c6")),
-=======
                               style: TextStyle(
                                   color: textColor,
                                   fontSize: 20,
@@ -164,7 +157,6 @@ class _RaceModeState extends State<RaceMode> {
                                         fontSize: 20,
                                         fontFamily: 'Nexa Rust',
                                         fontWeight: FontWeight.bold),
->>>>>>> c396b4b75524055bcd2b0e760b2f456a7d98d1ea
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.pop(context);
@@ -185,7 +177,10 @@ class _RaceModeState extends State<RaceMode> {
                     child: Text(
                       'GAS',
                       style: TextStyle(
-                          fontSize: 20, letterSpacing: 2, color: Colors.white, fontFamily: 'Nexa Rust'),
+                          fontSize: 20,
+                          letterSpacing: 2,
+                          color: Colors.white,
+                          fontFamily: 'Nexa Rust'),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
@@ -197,7 +192,11 @@ class _RaceModeState extends State<RaceMode> {
                     onPressed: _reverse,
                     child: Text(
                       'BREAK',
-                      style: TextStyle(fontSize: 20, letterSpacing: 2, color: Colors.white, fontFamily: 'Nexa Rust'),
+                      style: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: 2,
+                          color: Colors.white,
+                          fontFamily: 'Nexa Rust'),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
@@ -216,19 +215,24 @@ class _RaceModeState extends State<RaceMode> {
                 RichText(
                     text: TextSpan(
                         text: 'Speed: ',
-                        style: TextStyle(color: textColor,fontSize: 20),
+                        style: TextStyle(color: textColor, fontSize: 20),
                         children: <TextSpan>[
                       TextSpan(
                           text: '$speed ',
                           style: TextStyle(
-                              color: textColor, fontWeight: FontWeight.bold,fontSize: 20)),
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                       TextSpan(text: '    '),
                       TextSpan(
-                          text: 'Angle: ', style: TextStyle(color: textColor,fontSize: 20)),
+                          text: 'Angle: ',
+                          style: TextStyle(color: textColor, fontSize: 20)),
                       TextSpan(
                           text: y.toStringAsFixed(0),
                           style: TextStyle(
-                              color: textColor, fontWeight: FontWeight.bold,fontSize: 20)),
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                     ])),
               ],
             ),
