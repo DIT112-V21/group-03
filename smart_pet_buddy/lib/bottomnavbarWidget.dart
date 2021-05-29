@@ -4,7 +4,7 @@ import 'package:smart_pet_buddy/constants.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
-import 'package:smart_pet_buddy/profilepage.dart';
+import 'package:smart_pet_buddy/profilePage.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 

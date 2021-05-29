@@ -42,8 +42,8 @@ class _SignInPageState extends State<SignInPage> {
               Navigator.pop(context);
             },
             icon: Icon(
-              Icons.arrow_back_ios,
-              size: 20,
+              Icons.arrow_back_rounded,
+              size: 30,
               color: textColor,
             ),
           )),
@@ -149,7 +149,7 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(60),
                     ),
-                    text: 'Sign In',
+                    text: 'Sign in',
                     textColor: textColor,
                     fontSize: 20,
                     onPressed: () async {
@@ -361,7 +361,7 @@ class _OtherProvidersSignInSectionState
 
       final user = FirebaseAuth.instance.currentUser;
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('Sign In ${user.uid} with Google'),
+        content: Text('Sign in ${user.uid} with Google'),
       ));
 
       Navigator.of(context).popUntil((route) => route.isFirst);

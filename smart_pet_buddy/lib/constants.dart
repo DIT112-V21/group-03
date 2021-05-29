@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 
 //for animated text
 const colorizeColors = [
-  Colors.green,
-  Colors.pink,
+  Colors.purple,
+  Colors.blue,
   Colors.yellow,
-  Colors.white,
+  Colors.red,
 ];
 const colorizeTextStyle = TextStyle(
     fontSize: 30.0,
-    fontFamily: 'GoodDog New',
+    fontFamily: 'Nexa Rust',
     fontWeight: FontWeight.bold
 );
-
 
 
 //color scheme

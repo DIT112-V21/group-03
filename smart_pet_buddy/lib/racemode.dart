@@ -120,6 +120,9 @@ class _RaceModeState extends State<RaceMode> {
         actions: [
           IconButton(
             icon: Icon(Icons.help),
+            padding: EdgeInsets.all(10),
+            iconSize: 30,
+            color: lightShade,
             onPressed: () => showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => RaceModeDialog()),
@@ -139,11 +142,21 @@ class _RaceModeState extends State<RaceMode> {
                         child: RichText(
                           text: TextSpan(
                               text: 'Try the',
-                              style: TextStyle(color: textColor, fontSize: 15),
+                              style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 20,
+                                  letterSpacing: 1,
+                                  fontFamily: 'Nexa Rust',
+                                  fontWeight: FontWeight.bold),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: ' normal mode',
-                                    style: TextStyle(color: HexColor("0c06c6")),
+                                    text: ' MANUAL MODE',
+                                    style: TextStyle(
+                                        color: HexColor("cc3300"),
+                                        letterSpacing: 1,
+                                        fontSize: 20,
+                                        fontFamily: 'Nexa Rust',
+                                        fontWeight: FontWeight.bold),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.pop(context);
@@ -161,7 +174,14 @@ class _RaceModeState extends State<RaceMode> {
                 children: [
                   ElevatedButton(
                     onPressed: _forward,
-                    child: Text('GAS'),
+                    child: Text(
+                      'GAS',
+                      style: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: 2,
+                          color: Colors.white,
+                          fontFamily: 'Nexa Rust'),
+                    ),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
                       shape: new RoundedRectangleBorder(
@@ -170,7 +190,14 @@ class _RaceModeState extends State<RaceMode> {
                   ),
                   ElevatedButton(
                     onPressed: _reverse,
-                    child: Text('BREAK'),
+                    child: Text(
+                      'BREAK',
+                      style: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: 2,
+                          color: Colors.white,
+                          fontFamily: 'Nexa Rust'),
+                    ),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
                       shape: new RoundedRectangleBorder(
@@ -188,19 +215,24 @@ class _RaceModeState extends State<RaceMode> {
                 RichText(
                     text: TextSpan(
                         text: 'Speed: ',
-                        style: TextStyle(color: textColor),
+                        style: TextStyle(color: textColor, fontSize: 20),
                         children: <TextSpan>[
                       TextSpan(
                           text: '$speed ',
                           style: TextStyle(
-                              color: textColor, fontWeight: FontWeight.bold)),
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                       TextSpan(text: '    '),
                       TextSpan(
-                          text: 'Angle: ', style: TextStyle(color: textColor)),
+                          text: 'Angle: ',
+                          style: TextStyle(color: textColor, fontSize: 20)),
                       TextSpan(
                           text: y.toStringAsFixed(0),
                           style: TextStyle(
-                              color: textColor, fontWeight: FontWeight.bold)),
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                     ])),
               ],
             ),
