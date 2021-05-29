@@ -281,19 +281,11 @@ class _OtherProvidersSignInSectionState
                   _provider == 'GitHub'
                       ? Buttons.GitHub
                       : (_provider == 'Facebook'
-<<<<<<< HEAD:smart_pet_buddy/lib/signinPage.dart
                           ? Buttons.Facebook
                           : (_provider == 'Twitter'
                               ? Buttons.Twitter
                               : Buttons.Google)),
                   text: 'Sign In',
-=======
-                      ? Buttons.Facebook
-                      : (_provider == 'Twitter'
-                      ? Buttons.Twitter
-                      : Buttons.Google)),
-                  text: 'Sign in',
->>>>>>> c396b4b75524055bcd2b0e760b2f456a7d98d1ea:smart_pet_buddy/lib/signin_page.dart
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(60),
                   ),
