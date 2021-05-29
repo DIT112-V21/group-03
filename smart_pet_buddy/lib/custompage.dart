@@ -31,9 +31,16 @@ class _CustomPageState extends State<CustomPage> {
       MovementInfo('BeeDance', imageUrlBee, 'beeDance');
   static MovementInfo circle = MovementInfo('Circle', imageUrlCircle, 'circle');
   static MovementInfo zigzag = MovementInfo('Zigzag', imageUrlZigzag, 'zigzag');
-  static MovementInfo backForth = MovementInfo('BackForth', imageUrlBackForth, 'forthBack');
-  List<MovementInfo> movementList = <MovementInfo>[beeDance, circle, zigzag, backForth];
-  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
+  static MovementInfo backForth =
+      MovementInfo('BackForth', imageUrlBackForth, 'forthBack');
+  List<MovementInfo> movementList = <MovementInfo>[
+    beeDance,
+    circle,
+    zigzag,
+    backForth
+  ];
+  final snackBar =
+      SnackBar(content: Text('Car is not connected! Go to Homepage'));
 
   @override
   void initState() {
@@ -42,7 +49,7 @@ class _CustomPageState extends State<CustomPage> {
 
   void _command(String command) {
     final builder = MqttClientPayloadBuilder();
-    if (commandRunning != ""){
+    if (commandRunning != "") {
       setState(() {
         commandRunning = "";
       });
@@ -60,18 +67,20 @@ class _CustomPageState extends State<CustomPage> {
   }
 
   void _initCommandStatusListener() {
-    if (client != null && client.connectionStatus.state == MqttConnectionState.connected){
-      client?.subscribe("/smartcar/group3/control/automove/complete", MqttQos.atLeastOnce);
+    if (client != null &&
+        client.connectionStatus.state == MqttConnectionState.connected) {
+      client?.subscribe(
+          "/smartcar/group3/control/automove/complete", MqttQos.atLeastOnce);
       client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
         // only care about the first message
-        if(c[0].topic == "/smartcar/group3/control/automove/complete") {
+        if (c[0].topic == "/smartcar/group3/control/automove/complete") {
           setState(() {
             // reset commandRunning when auto car movement is complete
             commandRunning = "";
           });
         }
       });
-    }else{
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
@@ -88,18 +97,12 @@ class _CustomPageState extends State<CustomPage> {
           backgroundColor: strongPrimary,
         ),
         body: Container(
-          //child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           child: ListView.separated(
             padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
             itemCount: movementList.length,
             itemBuilder: (BuildContext context, int index) {
-              return MovementWidget(
-                  movementList[index],
-                  commandRunning,
-                  () => {
-                    _command(movementList[index].command)
-                  }
-              );
+              return MovementWidget(movementList[index], commandRunning,
+                  () => {_command(movementList[index].command)});
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(),

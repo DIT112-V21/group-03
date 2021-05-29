@@ -4,16 +4,11 @@
 
 // @dart=2.9
 
-//import 'package:firebase_auth/firebase_auth.dart';
-// Only needed if you configure the Auth Emulator below
-//import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_pet_buddy/registerPage.dart';
 import 'package:smart_pet_buddy/signinPage.dart';
 import 'package:wiredash/wiredash.dart';
-
-//import 'package:flutter_signin_button/button_builder.dart';
 import './registerPage.dart';
 import './signinPage.dart';
 import 'constants.dart';
@@ -21,8 +16,6 @@ import 'constants.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseApp app = await Firebase.initializeApp();
-  // Uncomment this to use the auth emulator for testing
-  // await FirebaseAuth.instance.useEmulator('http://localhost:9099');
 
   runApp(MyApp(app));
 }

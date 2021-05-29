@@ -301,49 +301,12 @@ class _OtherProvidersSignInSectionState
 
   void _handleRadioButtonSelected(int value) {
     setState(() {
-      _selection = value;
-
-      switch (_selection) {
-        case 0:
-          {
-            // _provider = 'GitHub';
-          }
-          break;
-
-        case 1:
-          {
-            // _provider = 'Facebook';
-          }
-          break;
-
-        case 2:
-          {
-            // _provider = 'Twitter';
-          }
-          break;
-
-        default:
-          {
-            _provider = 'Google';
-          }
-      }
+      _provider = 'Google';
     });
   }
 
   void _signInWithOtherProvider() {
-    switch (_selection) {
-      case 0:
-        // _signInWithGithub();
-        break;
-      case 1:
-        // _signInWithFacebook();
-        break;
-      case 2:
-        // _signInWithTwitter();
-        break;
-      default:
-        _signInWithGoogle();
-    }
+    _signInWithGoogle();
   }
 
   //Example code of how to sign in with Google.
