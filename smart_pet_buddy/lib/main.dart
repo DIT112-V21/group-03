@@ -96,7 +96,7 @@ class SmartPetBuddy extends StatelessWidget {
                           side: BorderSide(color: textColor),
                           borderRadius: BorderRadius.circular(50)),
                       child: Text(
-                        "Sign in",
+                        "Log in",
                         style: TextStyle(
                             color: textColor,
                             fontWeight: FontWeight.w800,
@@ -105,7 +105,7 @@ class SmartPetBuddy extends StatelessWidget {
                       ),
                     ),
                     // creating the sign-up button
-                    SizedBox(height: 20),
+                    SizedBox(height: 40),
                     MaterialButton(
                       minWidth: double.infinity,
                       height: 60,

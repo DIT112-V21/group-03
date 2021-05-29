@@ -441,7 +441,7 @@ class ControlpanelState extends State<Controlpanel> {
                             side: BorderSide(color: midPrimary)
                         ),
                         textStyle: TextStyle(
-                            fontSize: 40,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Nexa Rust')),
                     onPressed: _reduceSpeed,
@@ -468,12 +468,13 @@ class ControlpanelState extends State<Controlpanel> {
                             side: BorderSide(color: midPrimary)
                         ),
                         textStyle: TextStyle(
-                            fontSize: 40,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Nexa Rust')),
                     onPressed: _addSpeed,
                   )),
         ])),
+        Spacer(),
       ]),
     );
   }

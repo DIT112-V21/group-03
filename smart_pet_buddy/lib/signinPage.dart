@@ -257,9 +257,8 @@ class _OtherProvidersSignInSectionState
                 alignment: Alignment.center,
                 child: SignInButton(
                   Buttons.Google,
-                  text: 'Sign In With Google',
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   onPressed: () async {
                     _signInWithOtherProvider();
