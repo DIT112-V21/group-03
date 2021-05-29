@@ -2,14 +2,13 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_pet_buddy/edit_profile.dart';
+import 'package:smart_pet_buddy/editProfile.dart';
 import 'package:wiredash/wiredash.dart';
 import 'package:smart_pet_buddy/settingspage.dart';
 import 'constants.dart';
 import 'main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
 class ProfilePage extends StatefulWidget {
   final FirebaseApp app;
@@ -21,8 +20,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-
   Future<void> signOut() async {
     await _auth.signOut();
     Navigator.of(context).push(MaterialPageRoute(
@@ -56,8 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('$uid has successfully signed out.'),
                 ));
-              }
-          ),
+              }),
         ],
       ),
       body: ListView(
@@ -76,14 +72,15 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          SizedBox(height: 30,),
-          ProfileMenu(
-            text: "Edit profile",
-            press: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => EditProfilePage(widget.app)));
-            }
+          SizedBox(
+            height: 30,
           ),
+          ProfileMenu(
+              text: "Edit profile",
+              press: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => EditProfilePage(widget.app)));
+              }),
           SizedBox(height: 20),
           ProfileMenu(
             text: "Settings",
@@ -92,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   MaterialPageRoute(builder: (_) => SettingsPage(widget.app)));
             },
           ),
-          SizedBox(height:20),
+          SizedBox(height: 20),
           ProfileMenu(
             text: "FAQ & Feedback",
             press: () {
@@ -136,8 +133,11 @@ class ProfileMenu extends StatelessWidget {
             Expanded(
               child: Text(
                 text,
-                style: TextStyle(color: strongPrimary, fontWeight: FontWeight.bold, fontSize: 18,
-                fontFamily: 'Nexa Rust'),
+                style: TextStyle(
+                    color: strongPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontFamily: 'Nexa Rust'),
               ),
             ),
             Icon(

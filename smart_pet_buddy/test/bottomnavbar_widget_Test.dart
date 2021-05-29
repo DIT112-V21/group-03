@@ -1,12 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:smart_pet_buddy/bottomnavbar_widget.dart';
+import 'package:smart_pet_buddy/bottomnavbarWidget.dart';
 import 'package:smart_pet_buddy/custompage.dart';
 import 'package:smart_pet_buddy/homepage.dart';
 import 'package:smart_pet_buddy/playpage.dart';
-import 'package:smart_pet_buddy/profile_page.dart';
-
+import 'package:smart_pet_buddy/profilePage.dart';
 
 void main() {
   testWidgets("Finds home page", (WidgetTester tester) async {
@@ -40,7 +39,6 @@ void main() {
     await tester.pump();
 
     expect(autopage, findsOneWidget);
-
   });
 
   testWidgets("Finds profile page", (WidgetTester tester) async {
@@ -52,6 +50,5 @@ void main() {
     await tester.pump();
 
     expect(profilepage, findsOneWidget);
-
-   });
-  }
+  });
+}

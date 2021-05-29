@@ -12,7 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smart_pet_buddy/constants.dart';
-import 'bottomnavbar_widget.dart';
+import 'bottomnavbarWidget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -33,7 +33,7 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       backgroundColor: lightShade,
       appBar: AppBar(
-        //title: Text(widget.title),
+          //title: Text(widget.title),
           elevation: 0,
           brightness: Brightness.light,
           backgroundColor: lightShade,
@@ -109,8 +109,8 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                         left: 14.0, bottom: 6.0, top: 8.0),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: midPrimary,
-                        )),
+                      color: midPrimary,
+                    )),
                   ),
                   validator: (String value) {
                     if (value.isEmpty) return 'Please enter your email';
@@ -130,8 +130,8 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
                     fillColor: Colors.white30,
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: midPrimary,
-                        )),
+                      color: midPrimary,
+                    )),
                   ),
                   validator: (String value) {
                     if (value.isEmpty) return 'Please enter some text';
@@ -217,9 +217,8 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
       );
       //added this to navigate to controlpanel when signed in
       Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
-
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
     } catch (e) {
       Scaffold.of(context).showSnackBar(
         const SnackBar(
@@ -229,7 +228,6 @@ class _EmailPasswordFormState extends State<_EmailPasswordForm> {
     }
   }
 }
-
 
 class _OtherProvidersSignInSection extends StatefulWidget {
   final FirebaseApp app;
@@ -242,7 +240,6 @@ class _OtherProvidersSignInSection extends StatefulWidget {
 
 class _OtherProvidersSignInSectionState
     extends State<_OtherProvidersSignInSection> {
-
   int _selection = 0;
   String _provider = '';
 
@@ -251,13 +248,11 @@ class _OtherProvidersSignInSectionState
     return Card(
       color: lightPrimary,
       child: Padding(
-
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-
                 alignment: Alignment.center,
                 child: const Text('Sign in with Google',
                     style: TextStyle(fontWeight: FontWeight.bold)),
@@ -286,11 +281,11 @@ class _OtherProvidersSignInSectionState
                   _provider == 'GitHub'
                       ? Buttons.GitHub
                       : (_provider == 'Facebook'
-                      ? Buttons.Facebook
-                      : (_provider == 'Twitter'
-                      ? Buttons.Twitter
-                      : Buttons.Google)),
-                  text: 'Sign in',
+                          ? Buttons.Facebook
+                          : (_provider == 'Twitter'
+                              ? Buttons.Twitter
+                              : Buttons.Google)),
+                  text: 'Sign In',
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(60),
                   ),
@@ -351,13 +346,12 @@ class _OtherProvidersSignInSectionState
     }
   }
 
-
   //Example code of how to sign in with Google.
   Future<void> _signInWithGoogle() async {
     try {
-
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -371,8 +365,8 @@ class _OtherProvidersSignInSectionState
       ));
 
       Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => new ConvexBottomBar(widget.app)));
     } catch (e) {
       print(e);
       Scaffold.of(context).showSnackBar(

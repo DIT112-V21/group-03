@@ -7,7 +7,7 @@ import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
 import 'package:sensors/sensors.dart';
 import 'package:smart_pet_buddy/constants.dart';
-import 'package:smart_pet_buddy/raceMode_dialog.dart';
+import 'package:smart_pet_buddy/raceModeDialog.dart';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 class RaceMode extends StatefulWidget {
@@ -177,7 +177,10 @@ class _RaceModeState extends State<RaceMode> {
                     child: Text(
                       'GAS',
                       style: TextStyle(
-                          fontSize: 20, letterSpacing: 2, color: Colors.white, fontFamily: 'Nexa Rust'),
+                          fontSize: 20,
+                          letterSpacing: 2,
+                          color: Colors.white,
+                          fontFamily: 'Nexa Rust'),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
@@ -189,7 +192,11 @@ class _RaceModeState extends State<RaceMode> {
                     onPressed: _reverse,
                     child: Text(
                       'BREAK',
-                      style: TextStyle(fontSize: 20, letterSpacing: 2, color: Colors.white, fontFamily: 'Nexa Rust'),
+                      style: TextStyle(
+                          fontSize: 20,
+                          letterSpacing: 2,
+                          color: Colors.white,
+                          fontFamily: 'Nexa Rust'),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: strongShade,
@@ -208,19 +215,24 @@ class _RaceModeState extends State<RaceMode> {
                 RichText(
                     text: TextSpan(
                         text: 'Speed: ',
-                        style: TextStyle(color: textColor,fontSize: 20),
+                        style: TextStyle(color: textColor, fontSize: 20),
                         children: <TextSpan>[
                       TextSpan(
                           text: '$speed ',
                           style: TextStyle(
-                              color: textColor, fontWeight: FontWeight.bold,fontSize: 20)),
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                       TextSpan(text: '    '),
                       TextSpan(
-                          text: 'Angle: ', style: TextStyle(color: textColor,fontSize: 20)),
+                          text: 'Angle: ',
+                          style: TextStyle(color: textColor, fontSize: 20)),
                       TextSpan(
                           text: y.toStringAsFixed(0),
                           style: TextStyle(
-                              color: textColor, fontWeight: FontWeight.bold,fontSize: 20)),
+                              color: textColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                     ])),
               ],
             ),

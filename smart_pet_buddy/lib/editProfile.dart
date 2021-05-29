@@ -6,9 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:smart_pet_buddy/password_input.dart';
+import 'package:smart_pet_buddy/passwordInput.dart';
 import 'constants.dart';
-
 
 class EditProfilePage extends StatefulWidget {
   final FirebaseApp app;
@@ -67,7 +66,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
             children: [
               Text(
                 "Edit Profile",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500, fontFamily: 'Nexa Rust',color: textColor),
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Nexa Rust',
+                    color: textColor),
               ),
               SizedBox(
                 height: 15,
@@ -145,7 +148,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField("Full Name", "", nameController,),
+              buildTextField(
+                "Full Name",
+                "",
+                nameController,
+              ),
               buildTextField("E-mail", "", emailController),
               PasswordInput(
                 labelText: "Password",
@@ -164,8 +171,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: strongShade,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                        primary: strongShade,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30.0))),
                     child: Text("CANCEL",
@@ -203,9 +211,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       user = FirebaseAuth.instance.currentUser;
                     },
                     style: ElevatedButton.styleFrom(
-
                       primary: strongPrimary,
-                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
