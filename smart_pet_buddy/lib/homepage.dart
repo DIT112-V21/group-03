@@ -5,7 +5,6 @@ import 'package:smart_pet_buddy/spbMqttClient.dart';
 import 'constants.dart';
 import 'flutterMqttClient.dart';
 
-//ignore: must_be_immutable
 class HomePage extends StatefulWidget {
   final FirebaseApp app;
 

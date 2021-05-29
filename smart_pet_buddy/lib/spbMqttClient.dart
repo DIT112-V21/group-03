@@ -9,5 +9,4 @@ class SpbMqttClient {
       ValueNotifier(Bitmap.blank(320, 240));
   static var mqttError;
   static String address = '127.0.0.1';
-  // static Image image = Image.asset('homepage.jpg');
 }

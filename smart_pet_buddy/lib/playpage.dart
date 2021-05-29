@@ -15,7 +15,6 @@ void initState() {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
-  // imageValueNotifier.value = SpbMqttClient.image;
 }
 
 @override
