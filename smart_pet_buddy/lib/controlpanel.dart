@@ -212,6 +212,7 @@ class ControlpanelState extends State<Controlpanel> {
       _initControlPanelStatus();
     });
     return Scaffold(
+      backgroundColor: lightPrimary,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Expanded(
             flex: 2,
@@ -244,11 +245,21 @@ class ControlpanelState extends State<Controlpanel> {
                         child: RichText(
                           text: TextSpan(
                               text: 'Try the',
-                              style: TextStyle(color: textColor, fontSize: 15),
+                              style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 20,
+                                  letterSpacing: 1,
+                                  fontFamily: 'Nexa Rust',
+                                  fontWeight: FontWeight.bold),
                               children: <TextSpan>[
                                 TextSpan(
-                                    text: ' race mode',
-                                    style: TextStyle(color: HexColor("0c06c6")),
+                                    text: ' RACE MODE',
+                                    style: TextStyle(
+                                        color: HexColor("cc3300"),
+                                        letterSpacing: 1,
+                                        fontSize: 20,
+                                        fontFamily: 'Nexa Rust',
+                                        fontWeight: FontWeight.bold),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Navigator.push(
@@ -285,7 +296,7 @@ class ControlpanelState extends State<Controlpanel> {
                       splashRadius: 1.0,
                       iconSize: 90,
                       color:
-                          isForward ? HexColor("809ec2") : HexColor("aebccb"),
+                          isForward ? strongShade : strongPrimary,
                       icon: Icon(
                         Icons.play_circle_fill,
                       ),
@@ -322,7 +333,7 @@ class ControlpanelState extends State<Controlpanel> {
                       },
                       child: Icon(
                         Icons.play_circle_fill,
-                        color: isLeft ? HexColor("809ec2") : HexColor("aebccb"),
+                        color: isLeft ? midShade : strongPrimary,
                         size: 90,
                       ),
                     ),
@@ -339,7 +350,7 @@ class ControlpanelState extends State<Controlpanel> {
                   ),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
+                        MaterialStateProperty.all<Color>(Colors.red.shade700),
                     shape: MaterialStateProperty.all<CircleBorder>(
                       CircleBorder(),
                     ),
@@ -364,7 +375,7 @@ class ControlpanelState extends State<Controlpanel> {
                       child: Icon(
                         Icons.play_circle_fill,
                         color:
-                            isRight ? HexColor("809ec2") : HexColor("aebccb"),
+                            isRight ? midShade : strongPrimary,
                         size: 90,
                       ),
                     ),
@@ -391,7 +402,7 @@ class ControlpanelState extends State<Controlpanel> {
                     onPressed: _backward,
                     splashRadius: 1.0,
                     iconSize: 90,
-                    color: isReversed ? HexColor("809ec2") : HexColor("aebccb"),
+                    color: isReversed ? strongShade : strongPrimary,
                     icon: Icon(
                       Icons.play_circle_fill,
                     ),
@@ -408,27 +419,61 @@ class ControlpanelState extends State<Controlpanel> {
         Spacer(),
         Expanded(
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Flexible(flex: 1, child: Text("Current speed")),
+            Flexible(
+                flex: 1,
+                child: Text("Current speed",
+                    style: TextStyle(
+                        color: strongPrimary,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'Nexa Rust'))),
           ]),
         ),
         Expanded(
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Flexible(
-              flex: 1,
-              child: TextButton(
-                child: Text("-"),
-                onPressed: _reduceSpeed,
-              )),
-          Flexible(
-            flex: 1,
-            child: Text("$_counter"),
-          ),
-          Flexible(
-              flex: 1,
-              child: TextButton(
-                child: Text("+"),
-                onPressed: _addSpeed,
-              )),
+              Flexible(
+                  flex: 1,
+                  child: TextButton(
+                    child: Text("-"),
+                    style: TextButton.styleFrom(
+                        primary: textColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius. circular(15.0),
+                            side: BorderSide(color: midPrimary)
+                        ),
+                        textStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nexa Rust')),
+                    onPressed: _reduceSpeed,
+                  )),
+              Flexible(
+                flex: 1,
+                child: Text("   "+"$_counter"+"   ",
+                    style: TextStyle(
+                        letterSpacing: 4,
+                        color: textColor,
+                        //backgroundColor: lightShade,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Nexa Rust')),
+              ),
+              Flexible(
+                  flex: 1,
+                  child: TextButton(
+                    child: Text("+"),
+                    style: TextButton.styleFrom(
+                        primary: textColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius. circular(15.0),
+                            side: BorderSide(color: midPrimary)
+                        ),
+                        textStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Nexa Rust')),
+                    onPressed: _addSpeed,
+                  )),
         ])),
       ]),
     );
