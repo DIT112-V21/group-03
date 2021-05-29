@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smart_pet_buddy/controlpage_dialog.dart';
+import 'package:smart_pet_buddy/controlpageDialog.dart';
 import 'constants.dart';
 import 'controlpanel.dart';
 
@@ -38,9 +38,8 @@ class _PlayPageState extends State<PlayPage> {
             IconButton(
               icon: Icon(Icons.help),
               onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => ControlpageDialog()
-              ),
+                  context: context,
+                  builder: (BuildContext context) => ControlpageDialog()),
             )
           ],
         ),

@@ -11,22 +11,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
-//ignore: must_be_immutable
 class Controlpanel extends StatefulWidget {
   Controlpanel({
     Key key,
   }) : super(key: key);
-  //MqttServerClient client;
   @override
   ControlpanelState createState() => ControlpanelState();
 }
 
 class ControlpanelState extends State<Controlpanel> {
-  // MqttClientConnection connection =
-  //     MqttClientConnection("aerostun.dev", "group3App", 1883);
-
   MqttServerClient client = SpbMqttClient.client;
-  ValueNotifier<Image> imageValueNotifier;
 
   int _counter = 0;
   int currentSpeed = 0;
@@ -41,8 +35,8 @@ class ControlpanelState extends State<Controlpanel> {
   String throttleNeutral = '0';
   int multiplier = 20;
   int maxGear = 5;
-  final snackBar = SnackBar(content: Text('Car is not connected! Go to Homepage'));
-  //ImageView mCameraView;
+  final snackBar =
+      SnackBar(content: Text('Car is not connected! Go to Homepage'));
 
   void _backward() {
     setState(() {
@@ -177,22 +171,6 @@ class ControlpanelState extends State<Controlpanel> {
         MqttQos.atLeastOnce, builder.payload);
   }
 
-  // ignore: unused_element
-  void _moreSpeed(String message) {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/moreSpeed',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
-  // ignore: unused_element
-  void _lessSpeed(String message) {
-    final builder = MqttClientPayloadBuilder();
-    builder.addString(message);
-    client?.publishMessage('/smartcar/group3/control/lessSpeed',
-        MqttQos.atLeastOnce, builder.payload);
-  }
-
   void _steer(String message) {
     final builder = MqttClientPayloadBuilder();
     builder.addString(message);
@@ -207,12 +185,10 @@ class ControlpanelState extends State<Controlpanel> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
-    // imageValueNotifier.value = SpbMqttClient.image;
   }
 
   @override
   void dispose() {
-    imageValueNotifier.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
@@ -222,14 +198,13 @@ class ControlpanelState extends State<Controlpanel> {
     super.dispose();
   }
 
-  void _initControlPanelStatus(){
-
-    if(client != null && client.connectionStatus.state == MqttConnectionState.connected){
-    }else{
+  void _initControlPanelStatus() {
+    if (client != null &&
+        client.connectionStatus.state == MqttConnectionState.connected) {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -237,40 +212,7 @@ class ControlpanelState extends State<Controlpanel> {
       _initControlPanelStatus();
     });
     return Scaffold(
-      //alignment: Alignment.center,
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-        // Expanded(
-        //   flex: 1,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Flexible(
-        //           child: SpbMqttClient.isConnected
-        //               ?
-        //                TextButton(
-        //                   child: Text('Disconnect',style: TextStyle(color: Colors.red)),
-        //                   onPressed: () => {(){
-        //                     client.disconnect();
-        //                     setState(() {});
-        //
-        //                   }
-        //
-        //                   },
-        //                 ):TextButton(
-        //                     child: Text('Connect',style: TextStyle(color: Colors.green)),
-        //                     onPressed: () => {
-        //                         connect().then((value) {
-        //                           client = value;
-        //                           SpbMqttClient.client = client;
-        //                           setState(() {});
-        //                            })
-        //                             },
-        //                       )
-        //       ),
-        //     ],
-        //   ),
-        // ),
         Expanded(
             flex: 2,
             child: Container(
@@ -296,32 +238,28 @@ class ControlpanelState extends State<Controlpanel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
-                child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: Center(
-                      child: RichText(
-                        text: TextSpan(
-                            text: 'Try the',
-                            style: TextStyle(
-                                color: textColor, fontSize: 15),
-                            children: <TextSpan>[
-                              TextSpan(text: ' race mode',
-                                  style: TextStyle(
-                                      color: HexColor("0c06c6")),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                             context,
-                                             MaterialPageRoute(builder: (context) => RaceMode()));
-                                    }
-                              )
-                            ]
+                  child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Center(
+                        child: RichText(
+                          text: TextSpan(
+                              text: 'Try the',
+                              style: TextStyle(color: textColor, fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: ' race mode',
+                                    style: TextStyle(color: HexColor("0c06c6")),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    RaceMode()));
+                                      })
+                              ]),
                         ),
-                      ),
-                    )
-                )
-              )
-
+                      )))
             ],
           ),
         ),
@@ -403,9 +341,7 @@ class ControlpanelState extends State<Controlpanel> {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.red),
                     shape: MaterialStateProperty.all<CircleBorder>(
-                      CircleBorder(
-                          //borderRadius: BorderRadius.circular(18.0),
-                          ),
+                      CircleBorder(),
                     ),
                   ),
                 ),

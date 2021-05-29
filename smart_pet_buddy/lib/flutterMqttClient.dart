@@ -3,13 +3,12 @@ import 'dart:typed_data';
 import 'package:bitmap/bitmap.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'dart:io';
 
 import 'package:smart_pet_buddy/spbMqttClient.dart';
 
 Future<MqttClient> connect() async {
-  // MqttServerClient client = MqttServerClient('127.0.0.1', 'group3');
-  MqttServerClient client = MqttServerClient('aerostun.dev', 'group3');
+  MqttServerClient client = MqttServerClient(SpbMqttClient.address, 'group3');
+  // MqttServerClient client = MqttServerClient('aerostun.dev', 'group3');
 
   client.setProtocolV311();
   client.logging(on: true);
@@ -32,10 +31,12 @@ Future<MqttClient> connect() async {
     await client.connect();
   } catch (e) {
     print('Exception: $e');
+    SpbMqttClient.mqttError = e;
     client.disconnect();
   }
 
   if (client.connectionStatus.state == MqttConnectionState.connected) {
+    SpbMqttClient.isConnected = true;
     print('EMQX client connected');
     client.subscribe("/smartcar/group3/camera", MqttQos.atMostOnce);
     client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
@@ -44,25 +45,35 @@ Future<MqttClient> connect() async {
           MqttPublishPayload.bytesToStringAsString(message.payload.message);
       if (c[0].topic == '/smartcar/group3/camera') {
         Uint8List incomingData = Uint8List.view(message.payload.message.buffer);
-        List<int> picData = [];
-        for (var i = 0; i < incomingData.length; i++) {
-          picData.add(incomingData[i]);
+        // List<int> picData = [];
+
+        // for (var i = 0; i < incomingData.length; i++) {
+        //   picData.add(incomingData[i]);
+        //   if (i % 3 == 2) {
+        //     picData.add(255);
+        //   }
+        // }
+
+        // Uint8List picBm = Uint8List.fromList(picData);
+        Uint8List picBM = new Uint8List(307200);
+        int helper = 0;
+        for (var i = 0; i < 230400; i++) {
+          picBM[i + helper] = incomingData[i];
           if (i % 3 == 2) {
-            picData.add(255);
+            helper++;
+            picBM[i + helper] = 255;
           }
         }
-        Uint8List picBm = Uint8List.fromList(picData);
-        Bitmap bm = Bitmap.fromHeadless(320, 240, picBm);
+        Bitmap bm = Bitmap.fromHeadless(320, 240, picBM);
         SpbMqttClient.bmValueNotifier.value = bm;
-        // Image image = Image.memory(bm.buildHeaded());
-        // SpbMqttClient.image = image;
       } else {
         print('Received message:$payload from topic: ${c[0].topic}>');
       }
     });
   } else {
+    SpbMqttClient.isConnected = false;
     client.disconnect();
-    exit(-1);
+    // exit(-1);
   }
 
   return client;

@@ -25,18 +25,12 @@ class ConvexBottomBarState extends State<ConvexBottomBar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    //connect().then((value) {
-    //client = value;
-    //});
     tabs = [HomePage(), PlayPage(), CustomPage(), ProfilePage(widget.app)];
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Bottom Bar'),
-      // ),
         body: tabs[_currentIndex],
         bottomNavigationBar: StyleProvider(
           style: Style(),
@@ -49,7 +43,8 @@ class ConvexBottomBarState extends State<ConvexBottomBar> {
               items: [
                 TabItem(icon: Icons.home_outlined, title: 'Home'),
                 TabItem(icon: Icons.control_camera_outlined, title: 'Play'),
-                TabItem(icon: Icons.pest_control_rodent_outlined, title: 'Auto'),
+                TabItem(
+                    icon: Icons.pest_control_rodent_outlined, title: 'Auto'),
                 TabItem(icon: Icons.account_circle_outlined, title: 'Profile'),
               ],
               //style: TabStyle.fixed,
@@ -59,12 +54,9 @@ class ConvexBottomBarState extends State<ConvexBottomBar> {
                   _currentIndex = index;
                 });
               }),
-        )
-
-    );
+        ));
   }
 }
-
 
 class Style extends StyleHook {
   @override

@@ -8,8 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_signin_button/button_builder.dart';
-import 'package:smart_pet_buddy/bottomnavbar_widget.dart';
-
+import 'package:smart_pet_buddy/bottomnavbarWidget.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -44,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       appBar: AppBar(
-        //title: Text(widget.title),
+          //title: Text(widget.title),
           elevation: 0,
           brightness: Brightness.light,
           backgroundColor: Colors.white,
@@ -79,8 +78,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           left: 14.0, bottom: 6.0, top: 8.0),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.black,
-                          )),
+                        color: Colors.black,
+                      )),
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
@@ -94,14 +93,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   TextFormField(
                     controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email',filled: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                      filled: true,
                       fillColor: Colors.white30,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 6.0, top: 8.0),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.black,
-                          )),),
+                        color: Colors.black,
+                      )),
+                    ),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';
@@ -114,14 +116,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password',filled: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                      filled: true,
                       fillColor: Colors.white30,
                       contentPadding: const EdgeInsets.only(
                           left: 14.0, bottom: 6.0, top: 8.0),
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Colors.black,
-                          )),),
+                        color: Colors.black,
+                      )),
+                    ),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Please enter some text';
@@ -148,31 +153,31 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   registration
                       ? FutureBuilder(
-                      future: _register(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<User> snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (snapshot.hasData)
-                            Future.delayed(Duration(milliseconds: 500), () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      ConvexBottomBar(widget.app)));
-                              // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
-                            });
+                          future: _register(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<User> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              if (snapshot.hasData)
+                                Future.delayed(Duration(milliseconds: 500), () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          ConvexBottomBar(widget.app)));
+                                  // Navigator.of(context).push(MaterialPageRoute(builder: (_) => ));
+                                });
 
-                          return Container(
-                            alignment: Alignment.center,
-                            child: Text(snapshot.hasData
-                                ? 'Successfully registered ${snapshot.data.displayName}'
-                                : 'Registration failed'),
-                          );
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                        // : 'Registration failed')),
-                      })
+                              return Container(
+                                alignment: Alignment.center,
+                                child: Text(snapshot.hasData
+                                    ? 'Successfully registered ${snapshot.data.displayName}'
+                                    : 'Registration failed'),
+                              );
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                            // : 'Registration failed')),
+                          })
                       : Container(),
                 ],
               ),

@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:smart_pet_buddy/password_input.dart';
+import 'package:smart_pet_buddy/passwordInput.dart';
 
 class EditProfilePage extends StatefulWidget {
   final FirebaseApp app;
@@ -158,19 +158,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                    }
-                    ,
+                    },
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))
-                      ),
+                            borderRadius: BorderRadius.circular(20))),
                     child: Text("CANCEL",
                         style: TextStyle(
                             fontSize: 14,
                             letterSpacing: 2.2,
                             color: Colors.black)),
-                    ),
+                  ),
                   // OutlineButton(
                   //   padding: EdgeInsets.symmetric(horizontal: 50),
                   //   shape: RoundedRectangleBorder(
@@ -262,8 +260,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       user = FirebaseAuth.instance.currentUser;
                     },
                     style: ElevatedButton.styleFrom(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 50),
+                      padding: EdgeInsets.symmetric(horizontal: 50),
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
