@@ -240,8 +240,6 @@ class _OtherProvidersSignInSection extends StatefulWidget {
 
 class _OtherProvidersSignInSectionState
     extends State<_OtherProvidersSignInSection> {
-  int _selection = 0;
-  String _provider = '';
 
   @override
   Widget build(BuildContext context) {
@@ -268,12 +266,6 @@ class _OtherProvidersSignInSectionState
             ],
           )),
     );
-  }
-
-  void _handleRadioButtonSelected(int value) {
-    setState(() {
-      _provider = 'Google';
-    });
   }
 
   void _signInWithOtherProvider() {
