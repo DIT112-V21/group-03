@@ -13,6 +13,8 @@ We are making this product because we want to improve the quality of lives for b
 
 Read more about the idea and the background in our [Product Description Wiki](https://github.com/DIT112-V21/group-03/wiki/Product-information).
 
+[<img width="945" alt="Screenshot 2021-05-30 at 15 55 09" src="https://user-images.githubusercontent.com/71220945/120107118-ff0c9280-c15f-11eb-9fe9-cbdbebbf19f5.png">](https://youtu.be/InxB552KhAI)
+
 ## Technical information
 
 ### How we built Smart Pet Buddy
